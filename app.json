@@ -1,0 +1,14 @@
+{
+	"name": "Imbibo",
+	"displayName": "Imbibo",
+	"icon": "./assets/icon.png",
+	"splash": {
+		"image": "./assets/splash.png",
+		"resizeMode": "contain",
+		"backgroundColor": "#2EB872"
+	},
+	"updates": {
+		"fallbackToCacheTimeout": 0
+	},
+	"assetBundlePatterns": [ "**/*" ]
+}
