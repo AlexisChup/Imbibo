@@ -13,6 +13,8 @@ import * as audioEN from './getAudioEN';
 */
 export function randomSipFolder(mod, nbActionsUser, langage, groupAction) {
 	let audio;
+	//proba for user's actions
+	let actionUser;
 	if (langage == 'FR') {
 		audio = audioFR;
 	} else if (langage == 'EN') {
@@ -21,16 +23,31 @@ export function randomSipFolder(mod, nbActionsUser, langage, groupAction) {
 
 	// 10% of groupAction
 	if (groupAction) {
-		const randomIndex = Math.floor(Math.random() * audio.ebyAction.length);
-		// console.log('Every body action ' + randomIndex);
-		return audio.ebyAction[randomIndex];
+		//if he has actions
+		if (nbActionsUser) {
+			//to put user's action on 10% proba
+			const randomProba = Math.random() * 100;
+			if (randomProba < 10) {
+				actionUser = 1;
+			} else {
+				actionUser = 0;
+			}
+		} else {
+			actionUser = 0;
+		}
+
+		if (actionUser) {
+			console.log('USER ACTION');
+			return 'UserAction';
+		} else {
+			const randomIndex = Math.floor(Math.random() * audio.ebyAction.length);
+			// console.log('Every body action ' + randomIndex);
+			return audio.ebyAction[randomIndex];
+		}
 	} else {
 		// individual action
 		//proba for folder according to mods
 		const sipFolderRandom = Math.random() * 100;
-
-		//proba for user's actions
-		let actionUser;
 
 		//if he has actions
 		if (nbActionsUser) {

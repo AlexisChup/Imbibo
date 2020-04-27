@@ -5,6 +5,7 @@ import { green, red, blue, white } from '../assets/colors';
 import BackgroundTimer from 'react-native-background-timer';
 import { MultiArcCircle } from 'react-native-circles';
 import * as random from '../assets/randomSipFolder';
+import { clockRunning } from 'react-native-reanimated';
 const maxSeconds = 240;
 const { width, height } = Dimensions.get('window');
 const SIZE = width * 0.9;
@@ -39,6 +40,7 @@ export default class Chronometer extends React.Component {
 		this.actualName = '';
 		this.actualAction = '';
 		this.groupAction = false;
+		this.originAudioRecorded = 'name';
 		this.state = {
 			//Pour les animations du début
 			scales: [ ...Array(5).keys() ].map(() => new Animated.Value(0.01)),
@@ -192,6 +194,7 @@ export default class Chronometer extends React.Component {
 			const random = Math.random() * 100;
 			// 90% that is individual action
 			if (random < 90) {
+				this.originAudioRecorded = 'name';
 				// to choose an individual action
 				this.groupAction = false;
 
@@ -222,7 +225,7 @@ export default class Chronometer extends React.Component {
 	async _playRandomAction() {
 		if (this.state.isPlaying && this.state.gameStarted) {
 			//add to the history with appropriate language
-			const { language, mod } = this.props;
+			const { language, mod, records } = this.props;
 
 			//find random index
 			//const index = Math.round(Math.random() * (this.audioSampleAction.length-1))
@@ -242,6 +245,8 @@ export default class Chronometer extends React.Component {
 					console.log('error : ' + error);
 				}
 			} else {
+				console.log("On prépare l'audio");
+				this.originAudioRecorded = 'action';
 				//user actions
 				audioObjectNames = null;
 
@@ -249,8 +254,11 @@ export default class Chronometer extends React.Component {
 
 				audioObjectNames = records.actions[index];
 				this.actualAction = records.actionsName[index];
+				console.log('action name : ' + this.actualAction);
+				console.log('type of : ' + typeof audioObjectNames);
 				try {
-					audioObjectNames.setOnPlaybackStatusUpdate(this._onPlaybackStatusUpdateAction);
+					// audioObjectNames.setOnPlaybackStatusUpdate(this._onPlaybackStatusUpdateAction);
+					audioObjectNames.setOnPlaybackStatusUpdate(this._onPlaybackStatusUpdateName);
 					//await audioObject.loadAsync(records.names[index])
 					await audioObjectNames.replayAsync();
 				} catch (error) {
@@ -277,24 +285,30 @@ export default class Chronometer extends React.Component {
 				//   }
 				// })
 				//le jeu est en cours
-				if (this.state.isPlaying) {
-					this._playRandomAction();
-				} else {
-					//le jeu est en pause
-					BackgroundTimer.clearInterval(this._tickInterval);
-					this._rN = 0;
-					this._rTimeLimit = -1;
-					this.state.rotationNeedle.setValue(0);
-					this.state.rotationLimit.setValue(-3);
-					this._tickInterval = null;
-					this.setState(
-						{
-							displayTimeLimit: 0
-						},
-						() => this._initNeedle()
-					);
+				if (this.originAudioRecorded == 'name') {
+					if (this.state.isPlaying) {
+						await audioObjectNames.pauseAsync().then(() => this._playRandomAction());
+					} else {
+						//le jeu est en pause
+						BackgroundTimer.clearInterval(this._tickInterval);
+						this._rN = 0;
+						this._rTimeLimit = -1;
+						this.state.rotationNeedle.setValue(0);
+						this.state.rotationLimit.setValue(-3);
+						this._tickInterval = null;
+						this.setState(
+							{
+								displayTimeLimit: 0
+							},
+							() => this._initNeedle()
+						);
+						await audioObjectNames.pauseAsync();
+					}
+				} else if (this.originAudioRecorded == 'action') {
+					this.props.addHistorique(this.actualName, this.actualAction);
+					this._initNeedle();
+					await audioObjectNames.pauseAsync();
 				}
-				await audioObjectNames.pauseAsync();
 			}
 		}
 	};

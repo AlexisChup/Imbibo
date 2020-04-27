@@ -13,7 +13,8 @@ import {
 	YellowBox,
 	Switch,
 	AsyncStorage,
-	Alert
+	Alert,
+	BackHandler
 } from 'react-native';
 import ParamsButton from './ParamsButton';
 
@@ -163,6 +164,11 @@ class Home extends Component {
 	}
 
 	async componentDidMount() {
+		// Disable back button
+		BackHandler.addEventListener('hardwareBackPress', () => {
+			return true;
+		});
+
 		// require('../assets/chronometer/chronometer-only-contour.png')
 		// require('../assets/chronometer/needle-and(circle).png')
 		// require('../assets/chronometer/shadow.png')
@@ -183,6 +189,10 @@ class Home extends Component {
 
 		//warning message
 		// this._displayWarning()
+	}
+
+	componentWillUnmount() {
+		BackHandler.removeEventListener('hardwareBackPress', this.onBackButtonPressed);
 	}
 
 	_hideAlert() {
@@ -379,7 +389,7 @@ class Home extends Component {
 							prevLabel={prevLabel}
 							paginationStyle={{}}
 							activeDotStyle={{ backgroundColor: red }}
-							buttonStyle={{ backgroundColor: blue, borderWidth: 5, borderColor: red, borderRadius: 30 }}
+							buttonStyle={{ backgroundColor: green, borderWidth: 5, borderColor: red, borderRadius: 30 }}
 							buttonTextStyle={{ fontFamily: 'montserrat-bold', color: white }}
 						/>
 					</SafeAreaView>

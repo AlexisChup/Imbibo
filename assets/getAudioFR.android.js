@@ -154,11 +154,11 @@ export const shotActionTak = [
 export const ebyAction = [
 	{
 		actionAudio: { uri: 'asset:/18_fr.mp3' },
-		actionName: 'Tout le monde boit 1 gorgée'
+		actionName: "Ceux qui n'ont pas téléchargé Imbibo boivent cul sec."
 	},
 	{
 		actionAudio: { uri: 'asset:/19_fr.mp3' },
-		actionName: 'Tout le monde boit 3 gorgées'
+		actionName: 'Le premier qui termine son verre distribue un cul sec !'
 	}
 	// {
 	//     actionAudio  : require('./audios/FR/all/.m4a'),
