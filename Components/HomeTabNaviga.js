@@ -22,7 +22,7 @@ class HomeTabNaviga extends Component {
 	triggerPopUp() {
 		const { language } = this.props;
 		const stateRecords = this.props.returnStateRecord();
-		console.log('stateRecords !!!' + stateRecords);
+		// console.log('stateRecords !!!' + stateRecords);
 		if (stateRecords[0] || stateRecords[1]) {
 			let textAlert;
 			if (language == 'FR') {

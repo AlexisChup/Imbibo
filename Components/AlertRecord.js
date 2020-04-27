@@ -30,8 +30,8 @@ export default class AlertRecord extends Component {
 				textAlertTitle = text.alertTitleFR;
 				textAlert = text.alertRecordFR;
 			} else if (language == 'EN') {
-				textAlert = text.alertRecordEN;
 				textAlertTitle = text.alertTitleEN;
+				textAlert = text.alertRecordEN;
 			}
 		} else {
 			if (showAlertPremiumOrigin == 'premium') {
@@ -39,32 +39,40 @@ export default class AlertRecord extends Component {
 					textAlertTitle = 'SUCCÈS !';
 					textAlert = 'Vous êtes maintenant un imbibeur.';
 				} else if (language == 'EN') {
-					textAlert = 'SUCCESS !';
-					textAlertTitle = "You're now an imbibeur.";
+					textAlertTitle = 'SUCCESS !';
+					textAlert = "You're now an imbibeur.";
 				}
 			} else if (showAlertPremiumOrigin == 'store') {
 				if (language == 'FR') {
 					textAlertTitle = 'PROBLÈME !';
 					textAlert = 'Il y a une erreur avec la connexion au Store.';
 				} else if (language == 'EN') {
-					textAlert = 'PROBLEM !';
-					textAlertTitle = 'There was a problem with the Store.';
+					textAlertTitle = 'PROBLEM !';
+					textAlert = 'There was a problem with the Store.';
 				}
 			} else if (showAlertPremiumOrigin == 'pending') {
 				if (language == 'FR') {
 					textAlertTitle = 'INFORMATION';
 					textAlert = 'La transaction est en cours.';
 				} else if (language == 'EN') {
-					textAlert = 'INFORMATION';
-					textAlertTitle = 'The transaction is pending.';
+					textAlertTitle = 'INFORMATION';
+					textAlert = 'The transaction is pending.';
+				}
+			} else if (showAlertPremiumOrigin == 'network') {
+				if (language == 'FR') {
+					textAlertTitle = 'PROBLÈME !';
+					textAlert = 'Vous avez un problème de connexion internet.';
+				} else if (language == 'EN') {
+					textAlertTitle = 'PROBLEM !';
+					textAlert = 'You have internet connection issue.';
 				}
 			} else if (showAlertPremiumOrigin == 'undefined') {
 				if (language == 'FR') {
 					textAlertTitle = 'PROBLÈME !';
 					textAlert = 'Une erreur est survenue !.';
 				} else if (language == 'EN') {
-					textAlert = 'PROBLEM !';
-					textAlertTitle = 'There was a problem !.';
+					textAlertTitle = 'PROBLEM !';
+					textAlert = 'There was a problem !.';
 				}
 			}
 		}

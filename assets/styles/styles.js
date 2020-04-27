@@ -4,7 +4,7 @@ import { green, red, blue, white } from '../colors';
 
 const topHeight = Platform.OS == 'android' ? -65 : -75;
 
-console.log('Height :' + height);
+// console.log('Height :' + height);
 
 let heightTopBar;
 if (height > 800) {

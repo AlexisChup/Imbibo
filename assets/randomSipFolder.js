@@ -22,7 +22,7 @@ export function randomSipFolder(mod, nbActionsUser, langage, groupAction) {
 	// 10% of groupAction
 	if (groupAction) {
 		const randomIndex = Math.floor(Math.random() * audio.ebyAction.length);
-		console.log('Every body action ' + randomIndex);
+		// console.log('Every body action ' + randomIndex);
 		return audio.ebyAction[randomIndex];
 	} else {
 		// individual action
@@ -57,42 +57,42 @@ export function randomSipFolder(mod, nbActionsUser, langage, groupAction) {
 					//distri
 					if (distriTake) {
 						const randomIndex = Math.floor(Math.random() * audio.fewActionDis.length);
-						console.log('few Distri' + randomIndex);
+						// console.log('few Distri' + randomIndex);
 						return audio.fewActionDis[randomIndex];
 					} else {
 						//take
 						const randomIndex = Math.floor(Math.random() * audio.fewActionTak.length);
-						console.log('few Take' + randomIndex);
+						// console.log('few Take' + randomIndex);
 						return audio.fewActionTak[randomIndex];
 					}
 				} else if (sipFolderRandom >= 30 && sipFolderRandom < 60) {
 					if (distriTake) {
 						const randomIndex = Math.floor(Math.random() * audio.mediumActionDis.length);
-						console.log('medium Distri' + randomIndex);
+						// console.log('medium Distri' + randomIndex);
 						return audio.mediumActionDis[randomIndex];
 					} else {
 						const randomIndex = Math.floor(Math.random() * audio.mediumActionTak.length);
-						console.log('medium Take' + randomIndex);
+						// console.log('medium Take' + randomIndex);
 						return audio.mediumActionTak[randomIndex];
 					}
 				} else if (sipFolderRandom >= 60 && sipFolderRandom < 90) {
 					if (distriTake) {
 						const randomIndex = Math.floor(Math.random() * audio.manyActionDis.length);
-						console.log('many Distri' + randomIndex);
+						// console.log('many Distri' + randomIndex);
 						return audio.manyActionDis[randomIndex];
 					} else {
 						const randomIndex = Math.floor(Math.random() * audio.manyActionTak.length);
-						console.log('many Take' + randomIndex);
+						// console.log('many Take' + randomIndex);
 						return audio.manyActionTak[randomIndex];
 					}
 				} else if (sipFolderRandom >= 90 && sipFolderRandom < 100) {
 					if (distriTake) {
 						const randomIndex = Math.floor(Math.random() * audio.calActionDis.length);
-						console.log('chug_a_lug Distri' + randomIndex);
+						// console.log('chug_a_lug Distri' + randomIndex);
 						return audio.calActionDis[randomIndex];
 					} else {
 						const randomIndex = Math.floor(Math.random() * audio.calActionTak.length);
-						console.log('chug_a_lug Take' + randomIndex);
+						// console.log('chug_a_lug Take' + randomIndex);
 						return audio.calActionTak[randomIndex];
 					}
 				}
@@ -104,42 +104,42 @@ export function randomSipFolder(mod, nbActionsUser, langage, groupAction) {
 					//distri
 					if (distriTake < 20) {
 						const randomIndex = Math.floor(Math.random() * audio.fewActionDis.length);
-						console.log('few Distri' + randomIndex);
+						// console.log('few Distri' + randomIndex);
 						return audio.fewActionDis[randomIndex];
 					} else {
 						//take
 						const randomIndex = Math.floor(Math.random() * audio.fewActionTak.length);
-						console.log('few Take' + randomIndex);
+						// console.log('few Take' + randomIndex);
 						return audio.fewActionTak[randomIndex];
 					}
 				} else if (sipFolderRandom >= 10 && sipFolderRandom < 30) {
 					if (distriTake < 20) {
 						const randomIndex = Math.floor(Math.random() * audio.mediumActionDis.length);
-						console.log('medium Distri' + randomIndex);
+						// console.log('medium Distri' + randomIndex);
 						return audio.mediumActionDis[randomIndex];
 					} else {
 						const randomIndex = Math.floor(Math.random() * audio.mediumActionTak.length);
-						console.log('medium Take' + randomIndex);
+						// console.log('medium Take' + randomIndex);
 						return audio.mediumActionTak[randomIndex];
 					}
 				} else if (sipFolderRandom >= 30 && sipFolderRandom < 50) {
 					if (distriTake < 20) {
 						const randomIndex = Math.floor(Math.random() * audio.manyActionDis.length);
-						console.log('many Distri' + randomIndex);
+						// console.log('many Distri' + randomIndex);
 						return audio.manyActionDis[randomIndex];
 					} else {
 						const randomIndex = Math.floor(Math.random() * audio.manyActionTak.length);
-						console.log('many Take' + randomIndex);
+						// console.log('many Take' + randomIndex);
 						return audio.manyActionTak[randomIndex];
 					}
 				} else if (sipFolderRandom >= 50 && sipFolderRandom < 100) {
 					if (distriTake < 20) {
 						const randomIndex = Math.floor(Math.random() * audio.shotActionDis.length);
-						console.log('shot Distri' + randomIndex);
+						// console.log('shot Distri' + randomIndex);
 						return audio.shotActionDis[randomIndex];
 					} else {
 						const randomIndex = Math.floor(Math.random() * audio.shotActionTak.length);
-						console.log('shot Take' + randomIndex);
+						// console.log('shot Take' + randomIndex);
 						return audio.shotActionTak[randomIndex];
 					}
 				}
@@ -151,42 +151,42 @@ export function randomSipFolder(mod, nbActionsUser, langage, groupAction) {
 					//distri
 					if (distriTake < 80) {
 						const randomIndex = Math.floor(Math.random() * audio.fewActionDis.length);
-						console.log('few Distri' + randomIndex);
+						// console.log('few Distri' + randomIndex);
 						return audio.fewActionDis[randomIndex];
 					} else {
 						//take
 						const randomIndex = Math.floor(Math.random() * audio.fewActionTak.length);
-						console.log('few Take' + randomIndex);
+						// console.log('few Take' + randomIndex);
 						return audio.fewActionTak[randomIndex];
 					}
 				} else if (sipFolderRandom >= 10 && sipFolderRandom < 40) {
 					if (distriTake < 80) {
 						const randomIndex = Math.floor(Math.random() * audio.mediumActionDis.length);
-						console.log('medium Distri' + randomIndex);
+						// console.log('medium Distri' + randomIndex);
 						return audio.mediumActionDis[randomIndex];
 					} else {
 						const randomIndex = Math.floor(Math.random() * audio.mediumActionTak.length);
-						console.log('medium Take' + randomIndex);
+						// console.log('medium Take' + randomIndex);
 						return audio.mediumActionTak[randomIndex];
 					}
 				} else if (sipFolderRandom >= 40 && sipFolderRandom < 80) {
 					if (distriTake < 80) {
 						const randomIndex = Math.floor(Math.random() * audio.manyActionDis.length);
-						console.log('many Distri' + randomIndex);
+						// console.log('many Distri' + randomIndex);
 						return audio.manyActionDis[randomIndex];
 					} else {
 						const randomIndex = Math.floor(Math.random() * audio.manyActionTak.length);
-						console.log('many Take' + randomIndex);
+						// console.log('many Take' + randomIndex);
 						return audio.manyActionTak[randomIndex];
 					}
 				} else if (sipFolderRandom >= 80 && sipFolderRandom < 100) {
 					if (distriTake < 80) {
 						const randomIndex = Math.floor(Math.random() * audio.calActionDis.length);
-						console.log('chug_a_lug Distri' + randomIndex);
+						// console.log('chug_a_lug Distri' + randomIndex);
 						return audio.calActionDis[randomIndex];
 					} else {
 						const randomIndex = Math.floor(Math.random() * audio.calActionTak.length);
-						console.log('chug_a_lug Take' + randomIndex);
+						// console.log('chug_a_lug Take' + randomIndex);
 						return audio.calActionTak[randomIndex];
 					}
 				}
@@ -198,50 +198,50 @@ export function randomSipFolder(mod, nbActionsUser, langage, groupAction) {
 					//distri
 					if (distriTake) {
 						const randomIndex = Math.floor(Math.random() * audio.fewActionDis.length);
-						console.log('few Distri' + randomIndex);
+						// console.log('few Distri' + randomIndex);
 						return audio.fewActionDis[randomIndex];
 					} else {
 						//take
 						const randomIndex = Math.floor(Math.random() * audio.fewActionTak.length);
-						console.log('few Take' + randomIndex);
+						// console.log('few Take' + randomIndex);
 						return audio.fewActionTak[randomIndex];
 					}
 				} else if (sipFolderRandom >= 5 && sipFolderRandom < 20) {
 					if (distriTake) {
 						const randomIndex = Math.floor(Math.random() * audio.mediumActionDis.length);
-						console.log('medium Distri' + randomIndex);
+						// console.log('medium Distri' + randomIndex);
 						return audio.mediumActionDis[randomIndex];
 					} else {
 						const randomIndex = Math.floor(Math.random() * audio.mediumActionTak.length);
-						console.log('medium Take' + randomIndex);
+						// console.log('medium Take' + randomIndex);
 						return audio.mediumActionTak[randomIndex];
 					}
 				} else if (sipFolderRandom >= 20 && sipFolderRandom < 75) {
 					if (distriTake) {
 						const randomIndex = Math.floor(Math.random() * audio.manyActionDis.length);
-						console.log('many Distri' + randomIndex);
+						// console.log('many Distri' + randomIndex);
 						return audio.manyActionDis[randomIndex];
 					} else {
 						const randomIndex = Math.floor(Math.random() * audio.manyActionTak.length);
-						console.log('many Take' + randomIndex);
+						// console.log('many Take' + randomIndex);
 						return audio.manyActionTak[randomIndex];
 					}
 				} else if (sipFolderRandom >= 75 && sipFolderRandom < 100) {
 					if (distriTake) {
 						const randomIndex = Math.floor(Math.random() * audio.calActionDis.length);
-						console.log('chug_a_lug Distri' + randomIndex);
+						// console.log('chug_a_lug Distri' + randomIndex);
 						return audio.calActionDis[randomIndex];
 					} else {
 						const randomIndex = Math.floor(Math.random() * audio.calActionTak.length);
-						console.log('chug_a_lug Take' + randomIndex);
+						// console.log('chug_a_lug Take' + randomIndex);
 						return audio.calActionTak[randomIndex];
 					}
 				}
 			} else {
 				//pas le bon mod
-				console.log('Error, no mod');
+				// console.log('Error, no mod');
 			}
-			console.log('Index du tableau : ' + randomIndex);
+			// console.log('Index du tableau : ' + randomIndex);
 		}
 	}
 }

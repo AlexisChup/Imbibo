@@ -155,14 +155,20 @@ class PremiumPopUp extends React.Component {
 				);
 			}
 		} catch (e) {
-			console.log('ERREUR DISPLAYING : ' + JSON.stringify(e));
-			// Close modal + alert :
-			this.setState(
-				{
-					isModalVisible: false
-				},
-				() => Alert.alert('ERROR : Service non disponible')
-			);
+			if (e.userInfo.readableErrorCode == 'NetworkError') {
+				console.log('Network Problem :/');
+				this.toggleModal();
+				this.props.showAlertFuncPremium('network');
+			} else {
+				console.log('ERREUR DISPLAYING : ' + JSON.stringify(e, null, 2));
+				// Close modal + alert :
+				this.setState(
+					{
+						isModalVisible: false
+					},
+					() => Alert.alert('ERROR : Service non disponible')
+				);
+			}
 		}
 	}
 
@@ -328,7 +334,7 @@ class PremiumPopUp extends React.Component {
 								style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 15 }}
 							>
 								<View />
-								<Button title="Test Premium" onPress={() => this._becomePremium()} />
+								{/* <Button title="Test Premium" onPress={() => this._becomePremium()} /> */}
 								{/* <Button title="PurchaserInfo" onPress={async () => this._getPurchaserInfo()} />
 								<Button title="Reset" onPress={async () => this._resetUser()} />
 								<Button title="Restore Product" onPress={async () => this._restorPurchases()} /> */}

@@ -188,7 +188,7 @@ class ParamsButton extends React.Component {
 	// Nécessaire car si l'utilisateur clique trop vite il va quitter et revenir sur le Modal
 	_initTimer() {
 		this._timer = true;
-		setTimeout(() => this._destroyTimer(), 500);
+		setTimeout(() => this._destroyTimer(), 1000);
 	}
 
 	_destroyTimer() {
