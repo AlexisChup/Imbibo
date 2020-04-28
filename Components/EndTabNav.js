@@ -13,6 +13,7 @@ import PremiumPopUp from './PremiumPopUp';
 import * as text from '../assets/textInGame/listTextEnd';
 import AnimatedOnPress from '../Animations/AnimatedOnPress';
 import * as stl from '../assets/styles/styles';
+import { green } from '../assets/colors';
 const { width, height } = Dimensions.get('window');
 
 export default class EndTabNav extends Component {
@@ -34,7 +35,7 @@ export default class EndTabNav extends Component {
 			return null;
 		} else {
 			return (
-				<View style={{ marginTop: 12 }}>
+				<View style={{}}>
 					<PremiumPopUp
 						isVisible={true}
 						language={language}
@@ -53,14 +54,14 @@ export default class EndTabNav extends Component {
 		if (language == 'FR') {
 			return (
 				<Image
-					style={styles.buttonBottomTabBar}
+					style={stl.buttonBottomTabBarImage}
 					source={require('../assets/button-images/button-accueil-FR.png')}
 				/>
 			);
 		} else if (language == 'EN') {
 			return (
 				<Image
-					style={styles.buttonBottomTabBar}
+					style={stl.buttonBottomTabBarImage}
 					source={require('../assets/button-images/button-accueil-EN.png')}
 				/>
 			);
@@ -81,43 +82,19 @@ export default class EndTabNav extends Component {
 
 		const flexPopUp = premium ? null : 1;
 		return (
-			<View style={{ flex: 1, alignSelf: 'center' }}>
-				<View style={styles.bottomTabBar}>
-					<View style={styles.buttonsContainer}>
-						<View style={{}}>
-							<AnimatedOnPress toggleOnPress={this.props.goToHomeScreen}>
-								{this._displayHome()}
-							</AnimatedOnPress>
-						</View>
+			<View style={{ backgroundColor: green }}>
+				<View style={stl.containerBottom}>
+					<View style={{}}>
+						<AnimatedOnPress toggleOnPress={this.props.goToHomeScreen}>
+							{this._displayHome()}
+						</AnimatedOnPress>
+					</View>
 
-						{this._displayPremiumIcon()}
-					</View>
-				</View>
-				<View style={styles.topTabBar}>
-					<View style={styles.headerContainer}>
-						<Text style={styles.headerTitle}>{title}</Text>
-					</View>
+					{this._displayPremiumIcon()}
 				</View>
 			</View>
 		);
 	}
 }
 
-const styles = StyleSheet.create({
-	topTabBar: stl.topTabBar,
-	headerContainer: stl.headerContainer,
-	headerTitle: stl.headerTitle,
-	bottomTabBar: stl.bottomTabBar,
-	buttonsContainer: {
-		marginBottom: 60,
-		flexDirection: 'row',
-		//alignItems: "center",
-		justifyContent: 'center',
-		justifyContent: 'space-around'
-	},
-	buttonBottomTabBar: {
-		height: 65,
-		width: 65,
-		resizeMode: 'contain'
-	}
-});
+const styles = StyleSheet.create({});

@@ -5,6 +5,7 @@ const { height, width } = Dimensions.get('window');
 import * as stl from '../assets/styles/styles';
 import AnimatedOnPress from '../Animations/AnimatedOnPress';
 import * as text from '../assets/textInGame/listTextChoice';
+import { green, red, blue, white } from '../assets/colors';
 export default class ChoiceTabNav extends Component {
 	constructor(props) {
 		super(props);
@@ -58,35 +59,24 @@ export default class ChoiceTabNav extends Component {
 		const flexPopUp = premium ? null : 1;
 
 		return (
-			<View style={{ flex: 1 }}>
-				<View style={styles.bottomTabBar}>
-					<View style={styles.buttonsContainer}>
-						<View style={styles.containerButton}>
-							<AnimatedOnPress toggleOnPress={this.props.goToHomeScreen}>
-								<Image
-									style={styles.buttonBottomTabBar}
-									source={require('../assets/button-images/button-left.png')}
-								/>
-							</AnimatedOnPress>
-						</View>
-						<View style={[ styles.containerButton, { marginTop: 10, flex: flexPopUp } ]}>
-							{this._displayPremiumIcon()}
-						</View>
-						<View style={styles.containerButton}>
-							<AnimatedOnPress toggleOnPress={this.props.goToGameScreen}>
-								<Image
-									style={[ styles.buttonGo ]}
-									source={require('../assets/button-images/button-go.png')}
-								/>
-							</AnimatedOnPress>
-						</View>
+			<View style={{ backgroundColor: green }}>
+				<View style={stl.containerBottom}>
+					<View style={[ styles.containerButton, { flex: 1 } ]}>
+						<AnimatedOnPress toggleOnPress={this.props.goToHomeScreen}>
+							<Image
+								style={stl.buttonBottomTabBar}
+								source={require('../assets/button-images/button-left.png')}
+							/>
+						</AnimatedOnPress>
 					</View>
-				</View>
-				<View style={styles.topTabBar}>
-					<View style={styles.headerContainer}>
-						<Text style={styles.headerTitle}>
-							{nbJoueurs} {playersName}
-						</Text>
+					<View style={[ { flex: flexPopUp } ]}>{this._displayPremiumIcon()}</View>
+					<View style={[ styles.containerButton, { flex: 1 } ]}>
+						<AnimatedOnPress toggleOnPress={this.props.goToGameScreen}>
+							<Image
+								style={[ stl.buttonBottomTabBarImage ]}
+								source={require('../assets/button-images/button-go.png')}
+							/>
+						</AnimatedOnPress>
 					</View>
 				</View>
 			</View>
@@ -95,28 +85,8 @@ export default class ChoiceTabNav extends Component {
 }
 
 const styles = StyleSheet.create({
-	topTabBar: stl.topTabBar,
-	headerContainer: stl.headerContainer,
-	headerTitle: stl.headerTitle,
-	bottomTabBar: stl.bottomTabBar,
 	containerButton: {
-		flex: 1,
 		alignItems: 'center',
 		justifyContent: 'center'
-	},
-	buttonsContainer: {
-		marginBottom: 60,
-		flexDirection: 'row'
-		//justifyContent: 'space-around'
-	},
-	buttonBottomTabBar: {
-		height: 40,
-		width: 40,
-		resizeMode: 'contain'
-	},
-	buttonGo: {
-		height: 65,
-		width: 65,
-		resizeMode: 'contain'
 	}
 });

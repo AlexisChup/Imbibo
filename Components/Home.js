@@ -165,9 +165,9 @@ class Home extends Component {
 
 	async componentDidMount() {
 		// Disable back button
-		BackHandler.addEventListener('hardwareBackPress', () => {
-			return true;
-		});
+		// BackHandler.addEventListener('hardwareBackPress', () => {
+		// 	return true;
+		// });
 
 		// require('../assets/chronometer/chronometer-only-contour.png')
 		// require('../assets/chronometer/needle-and(circle).png')
@@ -192,7 +192,7 @@ class Home extends Component {
 	}
 
 	componentWillUnmount() {
-		BackHandler.removeEventListener('hardwareBackPress', this.onBackButtonPressed);
+		// BackHandler.removeEventListener('hardwareBackPress', this.onBackButtonPressed);
 	}
 
 	_hideAlert() {
@@ -356,6 +356,7 @@ class Home extends Component {
 		const animLogo = this.state.animationLogo;
 		const { nbActions, nbJoueurs, hasCheckedAsyncStorage, isFirstLaunch, showIntroSliders } = this.state;
 		const { premium, language } = this.props;
+
 		if (!hasCheckedAsyncStorage) {
 			return <View style={{ flex: 1, backgroundColor: green }} />;
 		} else {
@@ -395,11 +396,24 @@ class Home extends Component {
 					</SafeAreaView>
 				);
 			} else {
+				let displayNameNaviga;
+				if (language == 'FR') {
+					displayNameNaviga = text.nameNavigaFR;
+				} else if (language == 'EN') {
+					displayNameNaviga = text.nameNavigaEN;
+				}
 				return (
 					<SafeAreaView style={styles.container}>
 						<StatusBar hidden={true} />
 
-						<View style={styles.containerView}>
+						{/* TOP BAR */}
+						<View style={{ backgroundColor: green }}>
+							<View style={stl.containerHeader}>
+								<Text style={stl.headerTitle}> {displayNameNaviga} </Text>
+							</View>
+						</View>
+
+						<View style={stl.containerView}>
 							<View style={styles.containerLogo}>
 								<Animated.View style={[ styles.containerLogo, { height: animLogo, width: animLogo } ]}>
 									<Image style={[ styles.logo ]} source={this.uriLogo} />
@@ -462,17 +476,16 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center'
 	},
-	containerView: stl.containerView,
+	containerView: {
+		backgroundColor: green,
+		flex: 1
+	},
 	containerLogo: {
 		flex: 2,
-		// backgroundColor: 'gray',
-		// borderColor: 'gray',
 		alignSelf: 'center'
 	},
 	containerButtons: {
 		flex: 5
-		// backgroundColor: 'red',
-		// borderColor: 'red',
 	},
 	logo: {
 		flex: 1,

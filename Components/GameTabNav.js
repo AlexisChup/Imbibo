@@ -15,6 +15,7 @@ import AnimatedOnPress from '../Animations/AnimatedOnPress';
 const { height, width } = Dimensions.get('window');
 
 import * as stl from '../assets/styles/styles';
+import { green } from '../assets/colors';
 
 export default class GameTabNav extends Component {
 	constructor(props) {
@@ -96,42 +97,24 @@ export default class GameTabNav extends Component {
 			buttonEndSource = require('../assets/button-images/button-quitter-EN.png');
 		}
 		return (
-			<View style={{ flex: 1 }}>
-				<View style={styles.bottomTabBar}>
-					<View style={styles.buttonsContainer}>
-						{/* <View style = { styles.containerBoutons } >
-                      <TouchableOpacity
-                        onPress={() => {this.props.goToChoiceScreen()}}
-                      >
-                          <Image
-                            style = {{ height: 40, width: 40, resizeMode: "contain" }}
-                            source = { require('../assets/button-images/button-left.png') }
-                          />
-                      </TouchableOpacity>
-
-                    </View> */}
-						<Animated.View style={[ styles.containerBoutons, animatedStyleButton ]}>
-							<TouchableWithoutFeedback
-								onPressIn={() => {
-									this._onPressInPressed();
-								}}
-								onPressOut={() => {
-									this._onPressOutPressed();
-								}}
-							>
-								<Image style={styles.buttonBottomTabBar} source={sourceImage} />
-							</TouchableWithoutFeedback>
-						</Animated.View>
-						<View style={styles.containerBoutons}>
-							<AnimatedOnPress toggleOnPress={this.props.onStopPressedTabNav}>
-								<Image style={styles.buttonBottomTabBar} source={buttonEndSource} />
-							</AnimatedOnPress>
-						</View>
-					</View>
-				</View>
-				<View style={styles.topTabBar}>
-					<View style={styles.headerContainer}>
-						<Text style={styles.headerTitle}>{title}</Text>
+			<View style={{ backgroundColor: green }}>
+				<View style={stl.containerBottom}>
+					<Animated.View style={[ styles.containerBoutons, animatedStyleButton ]}>
+						<TouchableWithoutFeedback
+							onPressIn={() => {
+								this._onPressInPressed();
+							}}
+							onPressOut={() => {
+								this._onPressOutPressed();
+							}}
+						>
+							<Image style={stl.buttonBottomTabBarImage} source={sourceImage} />
+						</TouchableWithoutFeedback>
+					</Animated.View>
+					<View style={styles.containerBoutons}>
+						<AnimatedOnPress toggleOnPress={this.props.onStopPressedTabNav}>
+							<Image style={stl.buttonBottomTabBarImage} source={buttonEndSource} />
+						</AnimatedOnPress>
 					</View>
 				</View>
 			</View>
@@ -140,21 +123,6 @@ export default class GameTabNav extends Component {
 }
 
 const styles = StyleSheet.create({
-	topTabBar: stl.topTabBar,
-	headerContainer: stl.headerContainer,
-	headerTitle: stl.headerTitle,
-	bottomTabBar: stl.bottomTabBar,
-	buttonsContainer: {
-		marginBottom: 60,
-		flexDirection: 'row',
-		justifyContent: 'space-around',
-		alignItems: 'center'
-	},
-	buttonBottomTabBar: {
-		height: 65,
-		width: 65,
-		resizeMode: 'contain'
-	},
 	containerBoutons: {
 		flex: 1,
 		alignItems: 'center',

@@ -21,8 +21,8 @@ export const addActionsFR = "Débloquer l'enregistrement d'actions";
 export const addActionsEN = "Enable action's records";
 
 //LITTLE JOKE
-export const jokeFR = "Tous ces avantages coûtent moins chère qu'une bouteille d'alcool !";
-export const jokeEN = 'Those advantages cost less than a bottle of alcohol !';
+export const jokeFR = "Tous ces avantages coûtent moins cher qu'une bouteille d'alcool !";
+export const jokeEN = 'Those advantages is cheaper than a bottle of alcohol !';
 
 //BECOME AN IMBIBEUR
 export const becomeFR = 'Je deviens un IMBIBEUR !';

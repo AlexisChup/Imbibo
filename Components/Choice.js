@@ -147,19 +147,38 @@ class Choice extends Component {
 	render() {
 		const { navigation, language, premium } = this.props;
 		const records = this.props.navigation.getParam('records');
-		let textMods;
-		let textIntervals;
+		const nbJoueurs = records.names.length;
+		let textMods, textIntervals, displayNameNaviga;
 		if (language == 'FR') {
 			textMods = text.titleModsFR;
+			displayNameNaviga = text.titleScreenFR;
 			textIntervals = text.titleIntervalsFR;
 		} else if (language == 'EN') {
 			textMods = text.titleModsEN;
 			textIntervals = text.titleIntervalsEN;
+			displayNameNaviga = text.titleScreenEN;
 		}
+
+		//remove the 's' if there is less than 2 players
+		if (nbJoueurs <= 1) {
+			displayNameNaviga = displayNameNaviga.slice(0, -1);
+		}
+
 		return (
 			<SafeAreaView style={styles.container}>
 				<StatusBar hidden={true} />
-				<View style={styles.containerView}>
+
+				{/* TOP BAR */}
+				<View style={{ backgroundColor: green }}>
+					<View style={stl.containerHeader}>
+						<Text style={stl.headerTitle}>
+							{' '}
+							{nbJoueurs} {displayNameNaviga}{' '}
+						</Text>
+					</View>
+				</View>
+
+				<View style={stl.containerView}>
 					<View style={styles.containerGame}>
 						<View style={styles.containerGameTitle}>
 							<Text style={styles.titleMenu}>{textMods}</Text>
@@ -249,7 +268,6 @@ const styles = StyleSheet.create({
 	containerView: stl.containerView,
 	containerGame: {
 		flex: 6,
-		marginTop: 10,
 		marginBottom: 5
 	},
 	containerGameTitle: {

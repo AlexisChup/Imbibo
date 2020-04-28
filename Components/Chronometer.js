@@ -526,7 +526,7 @@ const styles = StyleSheet.create({
 		},
 		shadowOpacity: 0.6,
 		shadowRadius: 6.0,
-		elevation: 24,
+		elevation: 12,
 		zIndex: 1
 	},
 	//The view that will be moved

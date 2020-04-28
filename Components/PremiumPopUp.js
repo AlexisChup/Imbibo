@@ -307,7 +307,7 @@ class PremiumPopUp extends React.Component {
 		}
 
 		return (
-			<View style={{ justifyContent: 'center', alignItems: 'center', marginBottom: 12 }}>
+			<View style={{ justifyContent: 'center', alignItems: 'center' }}>
 				<AnimatedOnPress toggleOnPress={this.toggleModal}>
 					<Image style={styles.iconPremium} source={require('../assets/button-images/button-premium.png')} />
 				</AnimatedOnPress>

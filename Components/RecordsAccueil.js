@@ -637,7 +637,7 @@ const styles = StyleSheet.create({
 		},
 		shadowOpacity: 0.6,
 		shadowRadius: 6.0,
-		elevation: 24
+		elevation: 10
 	},
 	addText: {
 		fontSize: stl.fontSizeRecordText,

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, StyleSheet, View, Image, SafeAreaView, Dimensions, Button, AsyncStorage } from 'react-native';
+import { Text, StyleSheet, View, Image, SafeAreaView, Dimensions, Button, AsyncStorage, StatusBar } from 'react-native';
 import EndTabNav from './EndTabNav';
 import AlertRate from './AlertRate';
 import Rate, { AndroidMarket } from 'react-native-rate';
@@ -82,16 +82,27 @@ class End extends Component {
 	render() {
 		const { language, premium } = this.props;
 		const { showAlert } = this.state;
-		let end;
+		let end, displayNameNaviga;
 		if (language == 'FR') {
 			end = text.endFR;
+			displayNameNaviga = text.titleFR;
 		} else if (language == 'EN') {
 			end = text.endEN;
+			displayNameNaviga = text.titleEN;
 		}
 
 		return (
 			<SafeAreaView style={styles.container}>
-				<View style={styles.containerView}>
+				<StatusBar hidden={true} />
+
+				{/* TOP BAR */}
+				<View style={{ backgroundColor: green }}>
+					<View style={stl.containerHeader}>
+						<Text style={stl.headerTitle}> {displayNameNaviga} </Text>
+					</View>
+				</View>
+
+				<View style={stl.containerView}>
 					<View style={styles.containerTitle}>
 						<Text style={styles.title}>{end}</Text>
 					</View>
@@ -127,14 +138,12 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center'
 	},
-	containerView: stl.containerView,
 	containerTitle: {
 		borderBottomColor: white,
 		borderBottomWidth: 5,
 		borderBottomRightRadius: 70,
 		borderBottomLeftRadius: 70,
 		width: width - 100,
-		marginTop: 10,
 		alignSelf: 'center'
 	},
 	containerLogo: {

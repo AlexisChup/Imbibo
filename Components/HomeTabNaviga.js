@@ -78,63 +78,33 @@ class HomeTabNaviga extends Component {
 	render() {
 		// language from Redux
 		const language = this.props.language;
-		let displayNameNaviga;
-		if (language == 'FR') {
-			displayNameNaviga = text.nameNavigaFR;
-		} else if (language == 'EN') {
-			displayNameNaviga = text.nameNavigaEN;
-		}
+
 		//console.log('stateRecord' + this.props.returnStateRecord[0])
 
 		return (
-			<View style={{ flex: 1 }}>
-				<View style={styles.bottomTabBar}>
-					<View style={styles.buttonsContainer}>
-						{this._displayPremiumIcon()}
-						{/* <ParamsButton
-							triggerIntroSliders={this.props.triggerIntroSliders}
-							permitPopUp={this.state.permitPopUp}
-						/> */}
-						<ParamsButton
-							isVisible={false}
-							triggerIntroSliders={this.props.triggerIntroSliders}
-							language={this.props.language}
-							permitPopUp={this._permitPopUp}
-							showAlertFunc={this.props.showAlertFunc}
+			<View style={{ backgroundColor: green }}>
+				<View style={stl.containerBottom}>
+					{this._displayPremiumIcon()}
+
+					<ParamsButton
+						isVisible={false}
+						triggerIntroSliders={this.props.triggerIntroSliders}
+						language={this.props.language}
+						permitPopUp={this._permitPopUp}
+						showAlertFunc={this.props.showAlertFunc}
+					/>
+					<AnimatedOnPress toggleOnPress={this.props.goToChoiceScreen}>
+						<Image
+							style={stl.buttonBottomTabBar}
+							source={require('../assets/button-images/button-right.png')}
 						/>
-						<AnimatedOnPress toggleOnPress={this.props.goToChoiceScreen}>
-							<Image
-								style={styles.buttonBottomTabBar}
-								source={require('../assets/button-images/button-right.png')}
-							/>
-						</AnimatedOnPress>
-					</View>
-				</View>
-				<View style={styles.topTabBar}>
-					<View style={styles.headerContainer}>
-						<Text style={styles.headerTitle}>{displayNameNaviga}</Text>
-					</View>
+					</AnimatedOnPress>
 				</View>
 			</View>
 		);
 	}
 }
 
-const styles = StyleSheet.create({
-	topTabBar: stl.topTabBar,
-	headerContainer: stl.headerContainer,
-	headerTitle: stl.headerTitle,
-	bottomTabBar: stl.bottomTabBar,
-	buttonsContainer: {
-		marginBottom: 50,
-		flexDirection: 'row',
-		justifyContent: 'space-evenly'
-	},
-	buttonBottomTabBar: {
-		height: 40,
-		width: 40,
-		resizeMode: 'contain'
-	}
-});
+const styles = StyleSheet.create({});
 
 export default HomeTabNaviga;

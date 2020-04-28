@@ -95,21 +95,29 @@ class Game extends Component {
 
 	render() {
 		const language = this.props.language;
-		let time;
-		let history;
+		let time, history, displayNameNaviga;
 		if (language == 'FR') {
 			time = text.timeFR;
 			history = text.historyFR;
+			displayNameNaviga = text.titleScreenFR;
 		} else if (language == 'EN') {
 			time = text.timeEN;
 			history = text.historyEN;
+			displayNameNaviga = text.titleScreenEN;
 		}
 		//console.log("GAME LANGUAGE " +language+ " GAME MOD : " + this.mod)
 		//console.log(" nb Actions :" + this.records.actions.length)
 		return (
 			<SafeAreaView style={styles.container}>
 				<StatusBar hidden={true} />
-				<View style={styles.containerView}>
+				{/* TOP BAR */}
+				<View style={{ backgroundColor: green }}>
+					<View style={stl.containerHeader}>
+						<Text style={stl.headerTitle}> {displayNameNaviga} </Text>
+					</View>
+				</View>
+
+				<View style={[ stl.containerView ]}>
 					<View style={styles.containerTitle}>
 						<Text style={styles.title}>{time}</Text>
 					</View>
@@ -171,22 +179,21 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center'
 	},
-	containerView: stl.containerView,
+
 	containerTitle: {
 		borderBottomColor: white,
 		borderBottomWidth: 5,
 		borderBottomRightRadius: 70,
 		borderBottomLeftRadius: 70,
 		width: width - 100,
-		alignSelf: 'center',
-		marginTop: 10
+		alignSelf: 'center'
 	},
 	containerChrono: {
 		flex: flexContainerChrono,
 		width: width - 30,
 		justifyContent: 'center',
 		alignSelf: 'center',
-		// marginTop: 40,
+		marginTop: 10,
 		marginBottom: -10
 	},
 	containerHistorique: {
@@ -194,10 +201,6 @@ const styles = StyleSheet.create({
 		width: width - 30
 	},
 	containerFlat: {
-		// backgroundColor: red,
-		// borderColor: green,
-		// borderWidth: 2,
-
 		flex: 1,
 		borderRadius: 15,
 		marginBottom: 10,
