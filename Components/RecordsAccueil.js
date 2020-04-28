@@ -541,7 +541,7 @@ class RecordsAccueil extends Component {
 		}
 		return (
 			<SafeAreaView style={[ styles.container, { opacity: 1 } ]}>
-				<View style={{ flex: 1 }}>
+				<View style={{ flex: 1, paddingHorizontal: 20 }}>
 					<TouchableWithoutFeedback
 						onPressIn={() => this._animateRecordBouton('name')}
 						onPressOut={() => this._resetScaleRecordBouton('name')}
@@ -578,7 +578,7 @@ class RecordsAccueil extends Component {
 						extraData={this.state}
 					/>
 				</View>
-				<View style={{ flex: flexWidth, marginTop: 10 }}>
+				<View style={{ flex: flexWidth, marginTop: 10, paddingHorizontal: 20 }}>
 					<TouchableWithoutFeedback
 						onPressIn={() => this._animateRecordBouton('action')}
 						onPressOut={() => this._resetScaleRecordBouton('action')}
@@ -620,7 +620,7 @@ const styles = StyleSheet.create({
 		alignContent: 'center'
 	},
 	addButtons: {
-		width: width - 40,
+		width: '100%',
 		backgroundColor: '#3B4A6B',
 		borderColor: '#B83B5E',
 		borderWidth: 5,

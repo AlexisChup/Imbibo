@@ -101,8 +101,8 @@ class End extends Component {
 						<Text style={stl.headerTitle}> {displayNameNaviga} </Text>
 					</View>
 				</View>
-
 				<View style={stl.containerView}>
+					<View style={{ width: width, height: 1, backgroundColor: green }} />
 					<View style={styles.containerTitle}>
 						<Text style={styles.title}>{end}</Text>
 					</View>
@@ -134,7 +134,7 @@ class End extends Component {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: green,
+		backgroundColor: blue,
 		alignItems: 'center',
 		justifyContent: 'center'
 	},

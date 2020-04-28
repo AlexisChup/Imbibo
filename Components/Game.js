@@ -175,7 +175,7 @@ class Game extends Component {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: green,
+		backgroundColor: blue,
 		alignItems: 'center',
 		justifyContent: 'center'
 	},
@@ -190,7 +190,8 @@ const styles = StyleSheet.create({
 	},
 	containerChrono: {
 		flex: flexContainerChrono,
-		width: width - 30,
+		width: width,
+		paddingHorizontal: 15,
 		justifyContent: 'center',
 		alignSelf: 'center',
 		marginTop: 10,

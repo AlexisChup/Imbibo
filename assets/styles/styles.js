@@ -78,30 +78,36 @@ export const buttonBottomTabBarImage = {
 
 // FOR PREMIUM CONTENT
 let fontSizeM;
-let titleI;
-let descI;
 let sizeI;
 let flexPNoRate;
 let flexPAlreadyRate;
 if (height > 800) {
 	fontSizeM = height / 35;
-	titleI = height / 30;
-	descI = height / 60;
 	sizeI = width / 5;
 	flexPNoRate = 0.5;
 	flexPAlreadyRate = 0.4;
 } else {
 	fontSizeM = height / 32;
-	titleI = height / 30;
 	sizeI = width / 6;
-	descI = height / 50;
 	flexPNoRate = 0.65;
 	flexPAlreadyRate = 0.53;
 }
-export const titleItem = titleI;
-export const descItem = descI;
+// TITLE & DESCRIPTION
+export const titleItem = Platform.select({
+	ios: 18,
+	android: 16
+});
+export const descItem = Platform.select({
+	ios: 13,
+	android: 11
+});
+
+// SIZE LOGO
 export const sizeItem = sizeI;
+
+//  FLEX FOR PARAMS POP UP
 export const flexParamsNoRate = flexPNoRate;
 export const flexParamsAlreadyRate = flexPAlreadyRate;
+
 export const fontSizeMenu = fontSizeM;
 export const fontSizeRecordText = fontSizeM * 0.9;

@@ -4,6 +4,9 @@
 export const titleFR = 'DEVIENS UN \nIMBIBEUR !';
 export const titleEN = 'BECOME AN \nIMBIBER !';
 
+export const imbibeurFR = 'IMBIBEUR !';
+export const imbibeurEN = 'IMBIBER !';
+
 //FOR FEATURES
 export const featuresFR = 'Fonctionnalités en plus :';
 export const featuresEN = 'Features :';
@@ -25,5 +28,5 @@ export const jokeFR = "Tous ces avantages coûtent moins cher qu'une bouteille d
 export const jokeEN = 'Those advantages is cheaper than a bottle of alcohol !';
 
 //BECOME AN IMBIBEUR
-export const becomeFR = 'Je deviens un IMBIBEUR !';
-export const becomeEN = 'I become an IMBIBER !';
+export const becomeFR = 'Je deviens un';
+export const becomeEN = 'I become an';

@@ -19,6 +19,7 @@ import Modal from 'react-native-modal';
 import * as text from '../assets/textInGame/listTextPopUpPremium';
 import * as textHome from '../assets/textInGame/listTextHome';
 import AwesomeAlert from 'react-native-awesome-alerts';
+import * as stl from '../assets/styles/styles';
 import Purchases, { PURCHASE_TYPE } from 'react-native-purchases';
 
 import { blue, green, red, white } from '../assets/colors';
@@ -277,6 +278,7 @@ class PremiumPopUp extends React.Component {
 		let addActions;
 		let joke;
 		let become;
+		let imbibeur;
 		if (language == 'FR') {
 			title = text.titleFR;
 			features = text.featuresFR;
@@ -285,6 +287,7 @@ class PremiumPopUp extends React.Component {
 			addActions = text.addActionsFR;
 			joke = text.jokeFR;
 			become = text.becomeFR;
+			imbibeur = text.imbibeurFR;
 		} else if (language == 'EN') {
 			title = text.titleEN;
 			features = text.featuresEN;
@@ -293,6 +296,7 @@ class PremiumPopUp extends React.Component {
 			addActions = text.addActionsEN;
 			joke = text.jokeEN;
 			become = text.becomeEN;
+			imbibeur = text.imbibeurEN;
 		}
 
 		// Toggle modal ->
@@ -373,7 +377,7 @@ class PremiumPopUp extends React.Component {
 								source={require('../assets/button-images/button-popUP-shadow.png')}
 							/>
 						</View>
-						<View style={{ flex: 1, justifyContent: 'space-around' }}>
+						<View style={{ justifyContent: 'space-around' }}>
 							<View>
 								<Text style={styles.popUpSubTitle}>{features}</Text>
 								<View>
@@ -395,10 +399,45 @@ class PremiumPopUp extends React.Component {
 						</View>
 						<TouchableWithoutFeedback onPress={async () => this._purchasePremium()}>
 							<Animated.View style={[ styles.buttonPremiumContainer, animatedStyleButton ]}>
-								<Text style={[ styles.popUpSubTitle, { marginHorizontal: 8, textAlign: 'center' } ]}>
+								<Text
+									style={[
+										{
+											textAlign: 'center',
+											color: white,
+											fontFamily: 'montserrat-bold',
+											fontSize: stl.titleItem
+										}
+									]}
+								>
 									{become}
-									{'\n'}4.99€
 								</Text>
+								<Text
+									style={[
+										{
+											textAlign: 'center',
+											color: white,
+											fontFamily: 'montserrat-bold',
+											fontSize: stl.titleItem
+										}
+									]}
+								>
+									{imbibeur}
+								</Text>
+								<View style={{ alignSelf: 'flex-end' }}>
+									<Text
+										style={[
+											{
+												fontSize: stl.descItem,
+												textAlign: 'center',
+												color: white,
+												fontFamily: 'montserrat-regular',
+												justifyContent: 'flex-end'
+											}
+										]}
+									>
+										4.99€
+									</Text>
+								</View>
 							</Animated.View>
 						</TouchableWithoutFeedback>
 					</View>
@@ -437,7 +476,6 @@ const styles = StyleSheet.create({
 		paddingBottom: 10
 	},
 	premiumPopUp: {
-		flex: 0.95,
 		backgroundColor: green,
 		borderRadius: 30,
 		borderWidth: 5,
@@ -466,13 +504,13 @@ const styles = StyleSheet.create({
 		marginTop: 15
 	},
 	popUpSubTitle: {
-		fontSize: height / 35,
+		fontSize: stl.titleItem,
 		color: 'white',
 		marginLeft: 15,
 		fontFamily: 'montserrat-bold'
 	},
 	popUpDescription: {
-		fontSize: height / 50,
+		fontSize: stl.descItem,
 		fontFamily: 'montserrat-regular',
 		color: 'white',
 		marginLeft: 15,
@@ -490,15 +528,17 @@ const styles = StyleSheet.create({
 		marginRight: -10
 	},
 	buttonPremiumContainer: {
+		flexDirection: 'column',
+		alignItems: 'center',
 		backgroundColor: blue,
 		borderColor: '#B83B5E',
 		borderWidth: 10,
 		borderRadius: 50,
 		alignSelf: 'center',
-		width: popUpBoutonWidth,
-		height: popUpBoutonHeight,
 		justifyContent: 'center',
-		marginVertical: 15
+		marginVertical: 15,
+		paddingVertical: 15,
+		paddingHorizontal: 30
 	}
 });
 

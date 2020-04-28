@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
 	containerTextDesc: {},
 	textTitle: {
 		fontSize: stl.titleItem,
-		fontFamily: 'montserrat-bold',
+		fontFamily: 'cinzel-black',
 		color: white
 	},
 	textDesc: {

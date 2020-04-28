@@ -112,10 +112,20 @@ class Choice extends Component {
 			);
 		} else {
 			return (
-				<TouchableWithoutFeedback onPress={() => this._triggerPopUp()}>
+				<TouchableWithoutFeedback
+					onPress={() => this._triggerPopUp()}
+					style={{ height: 140, width: width - 80 }}
+				>
 					<Image
 						source={require('../assets/slider/slidersLocked.png')}
-						style={[ { width: width - 70, resizeMode: 'contain', height: width / 4 } ]}
+						style={[
+							{
+								flex: 1,
+								height: null,
+								width: null,
+								resizeMode: 'contain'
+							}
+						]}
 					/>
 				</TouchableWithoutFeedback>
 			);
@@ -261,13 +271,12 @@ class Choice extends Component {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: green,
+		backgroundColor: blue,
 		alignItems: 'center',
 		justifyContent: 'center'
 	},
-	containerView: stl.containerView,
 	containerGame: {
-		flex: 6,
+		flex: 1,
 		marginBottom: 5
 	},
 	containerGameTitle: {
@@ -279,8 +288,8 @@ const styles = StyleSheet.create({
 		alignSelf: 'center'
 	},
 	containerGameMenu: {
-		flex: 8,
-		width: width
+		width: width,
+		marginBottom: 30
 	},
 	containerGameCard: {
 		flex: 1,
@@ -296,9 +305,8 @@ const styles = StyleSheet.create({
 		alignItems: 'center'
 	},
 	containerInterval: {
-		flex: 3,
-		marginBottom: 0
-		// backgroundColor: red
+		height: 160,
+		backgroundColor: green
 	},
 	titleMenu: {
 		fontSize: stl.fontSizeMenu,
