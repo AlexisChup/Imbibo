@@ -97,14 +97,26 @@ export default class Chronometer extends React.Component {
 		this._stopChrono();
 	}
 
-	async _stopChrono() {
+	_stopChrono = async () => {
 		BackgroundTimer.clearInterval(this._tickInterval);
 		this._tickInterval = null;
 		if (this.state.isPlaying && this.state.gameStarted) {
-			audioObjectNames = null;
-			await audioObjectActions.unloadAsync();
+			if (audioObjectNames !== null) {
+				try {
+					await audioObjectNames.pauseAsync();
+				} catch (error) {
+					console.log('ERROR STOP CHRONO NAMES: ' + JSON.stringify(error, null, 4));
+				}
+			}
+			if (audioObjectActions !== null) {
+				try {
+					await audioObjectActions.pauseAsync();
+				} catch (error) {
+					console.log('ERROR STOP CHRONO ACTIONS: ' + JSON.stringify(error, null, 4));
+				}
+			}
 		}
-	}
+	};
 
 	_initNeedle() {
 		//random location between extremeties
@@ -589,6 +601,6 @@ const styles = StyleSheet.create({
 		shadowOpacity: 0.8,
 		shadowRadius: 6.0,
 
-		elevation: 24
+		elevation: 12
 	}
 });

@@ -1,5 +1,16 @@
 import React, { Component } from 'react';
-import { Text, StyleSheet, View, Image, SafeAreaView, Dimensions, Button, AsyncStorage, StatusBar } from 'react-native';
+import {
+	Text,
+	StyleSheet,
+	View,
+	Image,
+	SafeAreaView,
+	Dimensions,
+	Button,
+	AsyncStorage,
+	StatusBar,
+	Animated
+} from 'react-native';
 import EndTabNav from './EndTabNav';
 import AlertRate from './AlertRate';
 import Rate, { AndroidMarket } from 'react-native-rate';
@@ -106,18 +117,22 @@ class End extends Component {
 					<View style={styles.containerTitle}>
 						<Text style={styles.title}>{end}</Text>
 					</View>
-					<View style={styles.containerLogo}>
-						<Image style={styles.logo} source={require('../assets/logo-in-game.png')} />
+					<View style={styles.containerRest}>
+						<View style={styles.containerLogo}>
+							<Image style={styles.logo} source={require('../assets/logo-in-game.png')} />
+						</View>
 					</View>
 				</View>
 				<EndTabNav
 					goToHomeScreen={this._goToHomeScreen}
 					language={language}
-					premium={premium}
+					premium={true}
+					// premium={premium}
 					showAlertFuncPremium={this._showAlertFuncPremium}
 					becomePremium={this._becomePremium}
 				/>
-				<AlertRate showAlert={showAlert} hideAlert={this._hideAlert} language={language} />
+				<AlertRate showAlert={false} hideAlert={this._hideAlert} language={language} />
+				{/* <AlertRate showAlert={showAlert} hideAlert={this._hideAlert} language={language} /> */}
 				<AlertRecord
 					showAlert={this.state.showAlertPremium}
 					showAlertFunc={this._showAlertFuncPremium}
@@ -146,10 +161,23 @@ const styles = StyleSheet.create({
 		width: width - 100,
 		alignSelf: 'center'
 	},
-	containerLogo: {
+	containerRest: {
 		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center'
+	},
+	containerLogo: {
+		width: 0.7 * width,
+		height: 0.4 * width,
+		shadowColor: '#000',
+		shadowOffset: {
+			width: 6,
+			height: 6
+		},
+		shadowOpacity: 0.8,
+		shadowRadius: 6.0,
+
+		elevation: 12
 	},
 	title: {
 		fontSize: stl.fontSizeMenu,
@@ -158,9 +186,12 @@ const styles = StyleSheet.create({
 		textAlign: 'center'
 	},
 	logo: {
-		width: width / 1.5,
-		height: width / 1.5,
+		flex: 1,
+		height: null,
+		width: null,
 		resizeMode: 'contain'
+		// borderWidth: 5,
+		// borderColor: red
 	}
 });
 

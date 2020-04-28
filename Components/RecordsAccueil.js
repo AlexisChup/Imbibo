@@ -115,6 +115,8 @@ class RecordsAccueil extends Component {
 		});
 	}
 
+	async componentWillUnmount() {}
+
 	_askForPermissions = async () => {
 		const response = await Permissions.askAsync(Permissions.AUDIO_RECORDING);
 		this.setState({
@@ -239,6 +241,7 @@ class RecordsAccueil extends Component {
 		this._getNamesBeforeLaunch();
 		this._getActionsNameBeforceLaunch();
 		this._getActionsBeforceLaunch();
+		this._stopItemRecord();
 		console.log('##########################');
 		return this.records;
 	}
