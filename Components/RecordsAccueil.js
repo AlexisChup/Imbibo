@@ -575,7 +575,6 @@ class RecordsAccueil extends Component {
 	};
 
 	render() {
-		console.log('RENDER RECORDS');
 		const animatedStyleButtonPlayers = {
 			transform: [ { scale: this.state.buttonAnimationPlayers } ]
 		};

@@ -30,7 +30,8 @@ const { height, width } = Dimensions.get('window');
 
 YellowBox.ignoreWarnings([ 'Warning: componentWillReceiveProps', 'Warning: componentWillMount' ]);
 
-const defaultValuesSlider = [ 90, 180 ];
+const defaultValuesSlider = [ 115, 155 ];
+const defaultValuesSliderPremium = [ 90, 180 ];
 
 var audioObject = new Audio.Sound();
 class Choice extends Component {
@@ -49,7 +50,7 @@ class Choice extends Component {
 		this._becomePremium = this._becomePremium.bind(this);
 		this.modRef = [];
 		this.rowRefs = [];
-		this.state = { showAlertPremiumOrigin: undefined, showAlertPremium: false };
+		this.state = { showAlertPremiumOrigin: undefined, showAlertPremium: false, test: '' };
 	}
 
 	componentDidMount() {
@@ -80,6 +81,13 @@ class Choice extends Component {
 		if (premium) {
 			this.valuesSlider = values;
 		} else {
+			if (values[0] <= 105) {
+				this._triggerPopUp();
+			} else if (values[1] >= 165) {
+				this._triggerPopUp();
+			} else {
+				this.valuesSlider = values;
+			}
 		}
 	}
 
@@ -102,11 +110,18 @@ class Choice extends Component {
 	//display or not the real Sliders
 	_displaySliders() {
 		const { premium } = this.props;
+		let defautVS;
+
 		if (premium) {
+			defautVS = defaultValuesSliderPremium;
+		} else {
+			defautVS = defaultValuesSlider;
+		}
+		if (true) {
 			return (
 				<CustomSlider
 					toggleSliderValues={this._toggleSliderValues}
-					defaultValuesSlider={defaultValuesSlider}
+					defaultValuesSlider={defautVS}
 					premium={premium}
 				/>
 			);

@@ -16,8 +16,8 @@ export const enableModsFR = 'Tous les modes de jeux disponibles';
 export const enableModsEN = 'Every mods available';
 
 //ADJUSTABLE INTERVALS
-export const adjustableFR = 'Intervalles réglables';
-export const adjustableEN = 'Adjustable intervals';
+export const adjustableFR = 'Intervalles plus grands !';
+export const adjustableEN = 'Larger intervals !';
 
 //ENABLE ACTIONS
 export const addActionsFR = "Débloquer l'enregistrement d'actions";

@@ -21,7 +21,7 @@ export default class MarkerSlider extends Component {
 
 	_displayItemsSlider(text) {
 		const { premium } = this.props;
-		if (premium) {
+		if (true) {
 			return (
 				<View style={{}}>
 					<Image style={styles.markersImage} source={require('../assets/slider/marker.png')} />
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
 		},
 		shadowOpacity: 0.6,
 		shadowRadius: 6.0,
-		elevation: 20
+		elevation: 12
 	},
 	markersImage: {
 		height: 125,
