@@ -15,7 +15,6 @@ import { green, red, blue, white } from '../assets/colors';
 import ChoiceTabNav from './ChoiceTabNav';
 import CustomSlider from './CustomSlider';
 import * as stl from '../assets/styles/styles';
-//import ItemChoice from './ItemChoice'
 
 //differents ItemMods
 import ItemModNormal from './ItemModNormal';

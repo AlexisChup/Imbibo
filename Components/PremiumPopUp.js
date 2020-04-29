@@ -5,11 +5,9 @@ import {
 	View,
 	Alert,
 	StyleSheet,
-	Button,
 	Image,
 	Dimensions,
 	Animated,
-	TouchableOpacity,
 	TouchableWithoutFeedback,
 	Platform
 } from 'react-native';
@@ -17,15 +15,11 @@ import { Icon } from 'react-native-elements';
 import AnimatedOnPress from '../Animations/AnimatedOnPress';
 import Modal from 'react-native-modal';
 import * as text from '../assets/textInGame/listTextPopUpPremium';
-import * as textHome from '../assets/textInGame/listTextHome';
-import AwesomeAlert from 'react-native-awesome-alerts';
 import * as stl from '../assets/styles/styles';
 import Purchases, { PURCHASE_TYPE } from 'react-native-purchases';
 
 import { blue, green, red, white } from '../assets/colors';
 const { width, height } = Dimensions.get('window');
-const popUpBoutonWidth = width / 1.4;
-const popUpBoutonHeight = height / 6;
 
 // IAP imbibeur
 const itemIAP = Platform.select({
@@ -89,14 +83,10 @@ class PremiumPopUp extends React.Component {
 
 	_toggleIntervalAnimation() {
 		if (this.state.isModalVisible) {
-			//console.log("On fait l'iterval");
-
 			this._interval = setInterval(() => {
-				//console.log("Interval")
 				this._animateBuyBouton();
 			}, 3000);
 		} else {
-			//console.log("On quitte l'interval")
 			clearInterval(this._interval);
 			this._interval = null;
 		}
@@ -181,7 +171,6 @@ class PremiumPopUp extends React.Component {
 				null,
 				Purchases.PURCHASE_TYPE.INAPP
 			);
-			// const { purchaserInfo, productIdentifier } = await Purchases.purchasePackage(this.packageImbibo);
 			this.purchaserInfo = purchaserInfo;
 
 			// checkIfPro(purchaserInfo, this._becomePremium);
@@ -216,21 +205,11 @@ class PremiumPopUp extends React.Component {
 	async _getOfferings() {
 		const purchaserProducts = await Purchases.getOfferings();
 		const packageImbibo = purchaserProducts.current.availablePackages[0];
-		// this.purchaserInfo = purchaserInfo;
-		// console.log(
-		// 	'###############\n Package Offerings : \n###############' + JSON.stringify(purchaserProducts, null, 3)
-		// );
 		console.log('###############\n Package Imbibo INFO : \n####' + JSON.stringify(packageImbibo, null, 3));
 		// checkIfPro(purchaserInfo, this._becomePremium);
 	}
 	async _restorPurchases() {
 		console.log('###############\nRestor Purchases : ');
-		// try {
-		// 	const rep = await Purchases.restoreTransactions();
-		// 	console.log(JSON.stringify(rep));
-		// } catch (error) {
-		// 	console.log('ERROR : ' + JSON.stringify(error));
-		// }
 		try {
 			const purchaserInfo = await Purchases.restoreTransactions();
 			// ... check restored purchaserInfo to see if entitlement is now active

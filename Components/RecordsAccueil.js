@@ -3,15 +3,12 @@ import {
 	StyleSheet,
 	Text,
 	View,
-	FlatList,
 	Dimensions,
 	SafeAreaView,
 	Alert,
 	TouchableWithoutFeedback,
 	Image,
-	Animated,
-	TextInput,
-	Easing
+	Animated
 } from 'react-native';
 import * as Permissions from 'expo-permissions';
 import { Audio } from 'expo-av';
@@ -24,7 +21,7 @@ import FlatListRecordActions from './FlatListRecordActions';
 
 import * as text from '../assets/textInGame/listTextHome';
 import { green, red, blue, white } from '../assets/colors';
-const { height, width } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 var startRecord, endRecord;
 class RecordsAccueil extends Component {
 	constructor(props) {
@@ -80,17 +77,6 @@ class RecordsAccueil extends Component {
 		this._stopItemRecord = this._stopItemRecord.bind(this);
 		this._deleteItemRecord = this._deleteItemRecord.bind(this);
 		this._returnState = this._returnState.bind(this);
-
-		// // UNCOMMENT THIS TO TEST maxFileSize:
-		// this.recordingSettings.android['maxFileSize'] = 12000;
-
-		// this.textButtonName;
-		// this.bgName;
-		// this.bcName;
-
-		// this.textButtonAction;
-		// this.bgAction;
-		// this.bcAction;
 	}
 
 	//to check if user can navigate between scree
@@ -101,13 +87,6 @@ class RecordsAccueil extends Component {
 
 	async componentDidMount() {
 		this._askForPermissions();
-		const { language } = this.props;
-		// if( language == "FR" ){
-		//   this.textButtonName = text.addPlayersFR
-		// }
-		// else if ( language == "EN" ){
-		//   this.textButtonName = text.addPlayersEN
-		// }
 		await Audio.setAudioModeAsync({
 			staysActiveInBackground: true,
 			allowsRecordingIOS: false,
@@ -304,14 +283,7 @@ class RecordsAccueil extends Component {
 	_updateScreenForSoundStatus = async (status) => {
 		if (status.isLoaded) {
 			this.setState({
-				// soundDuration: status.durationMillis,
-				// soundPosition: status.positionMillis,
-				// shouldPlay: status.shouldPlay,
 				isPlaying: status.isPlaying
-				// rate: status.rate,
-				// muted: status.isMuted,
-				// volume: 1,
-				// isPlaybackAllowed: true,
 			});
 		}
 		if (status.didJustFinish && !status.isLooping) {
@@ -335,7 +307,7 @@ class RecordsAccueil extends Component {
 			});
 
 			if (status.error) {
-				//console.log(`FATAL PLAYER ERROR: ${status.error}`);
+				console.log(`FATAL PLAYER ERROR: ${status.error}`);
 			}
 		}
 	};
@@ -407,9 +379,6 @@ class RecordsAccueil extends Component {
 		await recording.prepareToRecordAsync(this.recordingSettings);
 
 		this.recording = recording;
-		//launch scale button
-		//this._animateRecordBouton(origin)
-		// L'enregistrement commence
 		await this.recording.startAsync().then(() => {});
 		this.setState({
 			isLoading: false
@@ -492,7 +461,6 @@ class RecordsAccueil extends Component {
 				isLoading: false
 			},
 			() => {
-				//this._resetScaleRecordBouton(origin);
 				this.rowRefs[0].enabledButtons();
 				this.rowRefs[1].enabledButtons();
 				this.props.enablePopUp();
@@ -581,9 +549,6 @@ class RecordsAccueil extends Component {
 		const animatedStyleButtonActions = {
 			transform: [ { scale: this.state.buttonAnimationActions } ]
 		};
-		//const opa = (this.state.isLoading) ? 0.2 : 1
-		//const bg = (this.state.isRecording) ? red : blue
-		//const borderCol = (this.state.isRecording) ? blue : red
 		const nbActions = this.actionsArray.length;
 		const flexWidth = nbActions > 0 ? 1 : null;
 
@@ -671,7 +636,6 @@ class RecordsAccueil extends Component {
 						onPressIn={() => this._animateRecordBouton('name')}
 						onPressOut={() => this._resetScaleRecordBouton('name')}
 						onPress={() => this._toggleModalRecord('name')}
-						// onPress={() => this._onRecordPressed('name')}
 						disabled={disabledNameButton}
 					>
 						<Animated.View
@@ -695,7 +659,6 @@ class RecordsAccueil extends Component {
 					</TouchableWithoutFeedback>
 
 					<FlatListRecord
-						//ref = 'flrecord'
 						ref={(ref) => (this.rowRefs[0] = ref)}
 						soundsArray={this.soundsArray}
 						playItemRecord={this._playItemRecord}
@@ -709,7 +672,6 @@ class RecordsAccueil extends Component {
 						onPressIn={() => this._animateRecordBouton('action')}
 						onPressOut={() => this._resetScaleRecordBouton('action')}
 						onPress={() => this._toggleModalRecord('action')}
-						// onPress={() => this._onRecordPressed('action')}
 						disabled={disabledActionButton}
 					>
 						<Animated.View
@@ -724,9 +686,7 @@ class RecordsAccueil extends Component {
 						</Animated.View>
 					</TouchableWithoutFeedback>
 					<FlatListRecordActions
-						//ref = 'flrecordActions'
 						ref={(ref) => (this.rowRefs[1] = ref)}
-						//ref = {(ref) => this.refFLaction = ref}
 						actionsArray={this.actionsArray}
 						playItemRecord={this._playItemRecord}
 						stopItemRecord={this._stopItemRecord}
@@ -745,9 +705,7 @@ class RecordsAccueil extends Component {
 					animationOutTiming={600}
 					backdropTransitionInTiming={600}
 					backdropTransitionOutTiming={600}
-					//onBackdropPress = {() => this.setState({isModalVisible: false})}
 					onBackdropPress={() => this._toggleModalRecord()}
-					// onPress = {() => this.toggleModal()}
 				>
 					<View
 						style={[
@@ -865,29 +823,3 @@ const styles = StyleSheet.create({
 });
 
 export default RecordsAccueil;
-
-// _recordAnimation(origin){
-//   this._animateRecordBouton(origin)
-//   //this.setState({ isLoading: true, canRecord: true, recordingDuration: 0, isRecording: false })
-//   this._onRecordPressed(origin)
-//   this._intervall = setInterval(() => {
-//     this._animateRecordBouton(origin)
-//   }, 1000)
-// }
-
-// async _clearAnimation(origin){
-//   if(this.state.recordingDuration > 0){
-//   }else {
-//     this.setState({
-//       canRecord: false,
-//       isRecording: false,
-//       isLoading: false,
-//       recordPrepared: "notReady"
-//     })
-//   }
-//   this._onRecordPressed(origin)
-//   clearInterval(this._intervall)
-//   this._intervall = null;
-//   this.state.buttonAnimationPlayers.setValue(1)
-//   this.state.buttonAnimationActions.setValue(1)
-// }

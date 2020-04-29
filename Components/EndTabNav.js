@@ -1,20 +1,10 @@
 import React, { Component } from 'react';
-import {
-	Text,
-	StyleSheet,
-	View,
-	SafeAreaView,
-	Dimensions,
-	Button,
-	TouchableWithoutFeedback,
-	Image
-} from 'react-native';
+import { StyleSheet, View, Dimensions, Image } from 'react-native';
 import PremiumPopUp from './PremiumPopUp';
 import * as text from '../assets/textInGame/listTextEnd';
 import AnimatedOnPress from '../Animations/AnimatedOnPress';
 import * as stl from '../assets/styles/styles';
 import { green } from '../assets/colors';
-const { width, height } = Dimensions.get('window');
 
 export default class EndTabNav extends Component {
 	constructor(props) {
@@ -70,17 +60,6 @@ export default class EndTabNav extends Component {
 
 	render() {
 		const { language, premium } = this.props;
-		let title;
-		// let sourceButtonHome;
-		if (language == 'FR') {
-			title = text.titleFR;
-			// sourceButtonHome = require('../assets/button-images/button-accueil-FR.png');
-		} else if (language == 'EN') {
-			title = text.titleEN;
-			// sourceButtonHome = require('../assets/button-images/button-accueil-EN.png');
-		}
-
-		const flexPopUp = premium ? null : 1;
 		return (
 			<View style={{ backgroundColor: green }}>
 				<View style={stl.containerBottom}>

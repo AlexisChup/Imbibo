@@ -1,26 +1,8 @@
 import React, { Component } from 'react';
-import {
-	StatusBar,
-	StyleSheet,
-	Text,
-	View,
-	SafeAreaView,
-	TouchableOpacity,
-	Dimensions,
-	Image,
-	Button,
-	Animated,
-	YellowBox,
-	Switch,
-	AsyncStorage,
-	Alert,
-	BackHandler
-} from 'react-native';
-import ParamsButton from './ParamsButton';
+import { StatusBar, StyleSheet, Text, View, SafeAreaView, Dimensions, Image, Animated, Switch } from 'react-native';
 
 import * as stl from '../assets/styles/styles';
 import HomeTabNaviga from './HomeTabNaviga';
-YellowBox.ignoreWarnings([ 'Warning: componentWillReceiveProps', 'Warning: componentWillMount' ]);
 
 // import * as Localization from 'expo-localization';
 import AlertRecord from './AlertRecord';
@@ -169,10 +151,6 @@ class Home extends Component {
 		// 	return true;
 		// });
 
-		// require('../assets/chronometer/chronometer-only-contour.png')
-		// require('../assets/chronometer/needle-and(circle).png')
-		// require('../assets/chronometer/shadow.png')
-		// require('../assets/chronometer/needle-center.png')
 		const { language } = this.props;
 		setTimeout(() => this._animateLogo(), 1000);
 
@@ -248,19 +226,6 @@ class Home extends Component {
 			});
 		} else {
 			this.records = this.rowRefs[0]._getDatasBeforeNavigate();
-
-			// const records = {
-			//     names: [],
-			//     namesName: ["a", "b"],
-			//     actions: [],
-			//     actionsName: ["a", "b"],
-			// };
-			// this.props.navigation.navigate('ChoiceScreen',
-			//     {
-			//         nbJoueurs : 1,
-			//         records: records
-			//     }
-			// )
 			this.props.navigation.navigate('ChoiceScreen', {
 				nbJoueurs: nb,
 				records: this.records

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Text, StyleSheet, View, Image, Dimensions, TouchableWithoutFeedback, Animated } from 'react-native';
-import { green, blue, red, white } from '../assets/colors';
+import { blue, red, white } from '../assets/colors';
 
-const { height, width } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 import * as text from '../assets/textInGame/listTextMods';
 
 export default class ItemChoice extends Component {
@@ -59,7 +59,6 @@ export default class ItemChoice extends Component {
 				tension: 20,
 				useNativeDriver: false
 			}).start();
-			//this._handleToggleMod(mod)
 		}
 	}
 

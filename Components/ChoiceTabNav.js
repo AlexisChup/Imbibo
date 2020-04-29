@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { Text, StyleSheet, View, Dimensions, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, View, Dimensions, Image } from 'react-native';
 import PremiumPopUp from './PremiumPopUp';
-const { height, width } = Dimensions.get('window');
 import * as stl from '../assets/styles/styles';
 import AnimatedOnPress from '../Animations/AnimatedOnPress';
 import * as text from '../assets/textInGame/listTextChoice';
-import { green, red, blue, white } from '../assets/colors';
+import { green } from '../assets/colors';
 export default class ChoiceTabNav extends Component {
 	constructor(props) {
 		super(props);

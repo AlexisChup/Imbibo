@@ -1,19 +1,9 @@
 import React, { Component } from 'react';
-import {
-	Text,
-	StyleSheet,
-	View,
-	TouchableWithoutFeedback,
-	TextInput,
-	Image,
-	Dimensions,
-	Animated,
-	TouchableHighlight
-} from 'react-native';
+import { StyleSheet, View, TouchableWithoutFeedback, Image, Dimensions, Animated } from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { Hideo } from 'react-native-textinput-effects';
 import { green, red, blue, white } from '../assets/colors';
-const { height, width } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 export default class FlatListItemActions extends Component {
 	constructor(props) {
@@ -34,9 +24,6 @@ export default class FlatListItemActions extends Component {
 	}
 
 	componentDidMount() {
-		// this.setState({
-		//     actionName : this.props.action
-		// })
 		this._animateItem();
 	}
 
@@ -50,7 +37,6 @@ export default class FlatListItemActions extends Component {
 	}
 
 	onChangeText(index, text) {
-		//console.log("AVANT CHANGER")
 		this.props.changeAction(index, text);
 		this.setState({ actionName: text });
 	}
@@ -139,14 +125,6 @@ export default class FlatListItemActions extends Component {
 			const { backgroundColor } = this.state;
 			return (
 				<Animated.View style={[ styles.itemFlatList, animItemTransform, { backgroundColor: backgroundColor } ]}>
-					{/* <TextInput 
-                        style = {styles.textFlatList}
-                        value = { this.state.actionName }
-                        onChangeText= {text =>  this.onChangeText(index,text)}
-                        editable = { !this.state.disabled }
-                        placeholder = { this.props.action }
-                        //defaultValue = {this.props.name}
-                    />  */}
 					<View
 						style={{
 							flex: 5
@@ -261,58 +239,3 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-around'
 	}
 });
-
-// _displayItemFlatList(item, index){
-//     if(index == 0 && this.soundsArray[0] == null){
-//     //if(index == 0 && this.state.soundsArray[0] == null){
-//       return null
-//     }else {
-//       //console.log("STATE : " + this.state.soundsArray.length())
-//       //const text = this.state.soundsArray.length
-
-//       return (
-//         <View style = {styles.itemFlatList}>
-//           {/* <Text
-//             style = {styles.textFlatList}
-//           >
-//             {this.state.namesArray[index]}
-//           </Text> */}
-//           <TextInput
-//             style = {styles.textFlatList}
-//             value = { this.state.namesArray[index] }
-//             onChangeText= {text =>  this._onChangeText(index, text)}
-//           />
-//           <View style = {styles.iconFlatList}>
-//             <TouchableWithoutFeedback
-//               onPress = {async() => this._playItemRecord(item, this._updateScreenForSoundStatus)}
-//             >
-//               <Image
-//                 style = { styles.buttonFlatList }
-//                 source = { require('./assets/button-images/button-FL-play.png') }
-//               />
-//             </TouchableWithoutFeedback>
-
-//             <TouchableWithoutFeedback
-//               onPress = {() => this._stopItemRecord()}
-//             >
-//               <Image
-//                 style = { styles.buttonFlatList }
-//                 source = { require('./assets/button-images/button-FL-stop.png') }
-//               />
-//             </TouchableWithoutFeedback>
-
-//             <TouchableWithoutFeedback
-//               onPress= {() => this._deleteItemRecord(index)}
-//             >
-//               <Image
-//                 style = { styles.buttonFlatList }
-//                 source = { require('./assets/button-images/button-FL-trash.png') }
-//               />
-//             </TouchableWithoutFeedback>
-
-//           </View>
-//         </View>
-
-//       )
-//     }
-//   }

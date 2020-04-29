@@ -1,15 +1,13 @@
 import React from 'react';
-import { Animated, StyleSheet, Text, View, StatusBar, Dimensions, Image, Button, Alert } from 'react-native';
+import { Animated, StyleSheet, View, StatusBar, Dimensions, Image } from 'react-native';
 import { Audio } from 'expo-av';
-import { green, red, blue, white } from '../assets/colors';
+import { green } from '../assets/colors';
 import BackgroundTimer from 'react-native-background-timer';
 import { MultiArcCircle } from 'react-native-circles';
 import * as random from '../assets/randomSipFolder';
-import { clockRunning } from 'react-native-reanimated';
 const maxSeconds = 240;
 const { width, height } = Dimensions.get('window');
 const SIZE = width * 0.9;
-const ECART_NEEDLE = 40;
 //const ROT_ECART_NEEDLE = ECART_NEEDLE /18
 
 //Ne pas y toucher :
@@ -90,7 +88,7 @@ export default class Chronometer extends React.Component {
 			});
 		});
 
-		Animated.stagger(200, scaleStaggerAnimations).start();
+		Animated.stagger(300, scaleStaggerAnimations).start();
 	};
 
 	componentWillUnmount() {
@@ -104,6 +102,7 @@ export default class Chronometer extends React.Component {
 			if (audioObjectNames !== null) {
 				try {
 					await audioObjectNames.pauseAsync();
+					audioObjectNames = null;
 				} catch (error) {
 					console.log('ERROR STOP CHRONO NAMES: ' + JSON.stringify(error, null, 4));
 				}
@@ -111,6 +110,7 @@ export default class Chronometer extends React.Component {
 			if (audioObjectActions !== null) {
 				try {
 					await audioObjectActions.pauseAsync();
+					audioSampleAction = null;
 				} catch (error) {
 					console.log('ERROR STOP CHRONO ACTIONS: ' + JSON.stringify(error, null, 4));
 				}
@@ -245,19 +245,19 @@ export default class Chronometer extends React.Component {
 
 			//si ce n'est pas un user action
 			if (audio != 'UserAction') {
-				this.actualAction = audio.actionName;
-
+				console.log('ON VA JOUER INDIVIDUAL ACTION');
 				try {
+					this.actualAction = audio.actionName;
 					audioObjectActions.setOnPlaybackStatusUpdate(this._onPlaybackStatusUpdateAction);
-					// await audioObjectActions.loadAsync({ uri: 'asset:/21_fr.m4a' });
+					// await audioObjectActions.loadAsync({ uri: 'asset:/19_fr.mp3' });
 					await audioObjectActions.loadAsync(audio.actionAudio);
 
-					await audioObjectActions.playAsync();
+					await audioObjectActions.playAsync().then(() => console.log('LECTURE CORRECt'));
 				} catch (error) {
-					console.log('error : ' + error);
+					console.log('error : ' + JSON.stringify(error, null, 2));
 				}
 			} else {
-				console.log("On prépare l'audio");
+				console.log("On prépare l'audio USER");
 				this.originAudioRecorded = 'action';
 				//user actions
 				audioObjectNames = null;
@@ -291,11 +291,6 @@ export default class Chronometer extends React.Component {
 			}
 		} else {
 			if (playbackStatus.didJustFinish && !playbackStatus.isLooping) {
-				// await audioObject.unloadAsync().then(() => {
-				//   if(this.state.isPlaying){
-				//     this._playRandomAction()
-				//   }
-				// })
 				//le jeu est en cours
 				if (this.originAudioRecorded == 'name') {
 					if (this.state.isPlaying) {
@@ -422,12 +417,6 @@ export default class Chronometer extends React.Component {
 			transform: [ { rotate: rotationNeedle.interpolate(interpolated) }, { scale: needle } ]
 		};
 
-		const transformTimeLimit = {
-			transform: [ { rotate: rotationLimit.interpolate(interpolated) } ]
-		};
-
-		const titleButton = this.state.isPlaying ? 'PAUSE' : 'PLAY';
-		const { records, valuesSlider } = this.props;
 		return (
 			<View style={styles.container}>
 				<StatusBar hidden={true} />
@@ -437,12 +426,6 @@ export default class Chronometer extends React.Component {
 					style={[ styles.chronometer, { transform: [ { scale: chronometer } ] } ]}
 					source={require('../assets/chronometer/chronometer-only-contour.png')}
 				/>
-				{/* <Animated.View style = { [styles.containerChronometer, { transform: [{ scale: chronometer}]}] }>
-          <Image 
-            source = {require('../assets/chronometer/chronometer-only-contour.png')}
-            style = { styles.chronometer}
-          />
-        </Animated.View> */}
 
 				{/* Zone verte */}
 				<Animated.View style={[ styles.area, { transform: [ { scale: area } ] } ]}>
@@ -463,57 +446,11 @@ export default class Chronometer extends React.Component {
 					/>
 				</Animated.View>
 
-				{/* Ombre du chronometre */}
-				{/* <Animated.View style = { [styles.shadowChrono, { transform: [{ scale: chronometer}]}] } >
-          <Image
-            style = { styles.chronometer }
-            source = { require('../assets/chronometer/shadow.png')}
-          />          
-        </Animated.View> */}
-
 				{/* Aiguille qui tourne */}
 				<Animated.Image
 					style={[ transformNeedle, styles.needle ]}
 					source={require('../assets/chronometer/needle-center.png')}
 				/>
-
-				{/* Boutons Play/Pause */}
-				{/* <Animated.View style = {[styles.buttons, { transform: [{ scale: buttons}]}]}>
-          <Button
-            title = "PLAY"
-            onPress = {() => this._onPlayPressed()}
-            disabled = {this.state.isPlaying}
-          />
-          <Button
-            title = "PAUSE"
-            onPress = {() => this._onPausePressed()}
-            disabled = {!this.state.isPlaying}
-            color = "orange"
-          />
-          <Button
-            title = {titleButton}
-            onPress = {() => this._onPlayPausePressed()}
-            color = "orange"
-          />
-          <Button
-            title = "STOP"
-            onPress = { () => this._onStopPressed()}
-            color = "#B83B5E"
-          />
-        </Animated.View> */}
-
-				{/* Stick red pour afficher le TimeOut et le compteur */}
-				{/* <Animated.View
-          style = {[ transformTimeLimit, styles.redStick ]}>
-        </Animated.View>
-        <View style = {{position: "absolute", backgroundColor: 'gray', borderRadius: 25, flex: 1}}>
-          <Text style = {{color : 'white', margin : 5}}>
-            {this.state.displayTimeLimit} s
-          </Text>
-          <Text style = {{color : 'white', margin : 5}}>
-            {(Math.round(((this.state.rotationLimit.__getValue())/18)*100)/100)} s
-          </Text>
-        </View> */}
 			</View>
 		);
 	}

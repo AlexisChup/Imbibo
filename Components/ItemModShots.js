@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Text, StyleSheet, View, Image, Dimensions, TouchableWithoutFeedback, Animated } from 'react-native';
-import { green, blue, red, white } from '../assets/colors';
+import { blue, red, white } from '../assets/colors';
 import * as stl from '../assets/styles/styles';
-const { height, width } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 import * as text from '../assets/textInGame/listTextMods';
 
 export default class ItemModShots extends Component {

@@ -1,27 +1,14 @@
 import React, { Component } from 'react';
-import {
-	Text,
-	StyleSheet,
-	View,
-	Image,
-	SafeAreaView,
-	Dimensions,
-	Button,
-	AsyncStorage,
-	StatusBar,
-	Animated,
-	Easing
-} from 'react-native';
+import { Text, StyleSheet, View, Image, SafeAreaView, Dimensions, AsyncStorage, StatusBar } from 'react-native';
 import EndTabNav from './EndTabNav';
 import AlertRate from './AlertRate';
-import Rate, { AndroidMarket } from 'react-native-rate';
 import * as stl from '../assets/styles/styles';
 import * as text from '../assets/textInGame/listTextEnd';
-import { green, red, blue, white } from '../assets/colors';
+import { green, blue, white } from '../assets/colors';
 import AlertRecord from './AlertRecord';
 import AnimatedEndGame from '../Animations/AnimatedEndGame';
 import { connect } from 'react-redux';
-const { width, height } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 class End extends Component {
 	constructor(props) {
 		super(props);
@@ -62,7 +49,6 @@ class End extends Component {
 	};
 
 	_hideAlert = () => {
-		console.log('hide alert');
 		this.setState({
 			showAlert: false
 		});
@@ -122,13 +108,6 @@ class End extends Component {
 						<Text style={styles.title}>{end}</Text>
 					</View>
 					<View style={styles.containerRest}>
-						{/* <Animated.View
-							style={[
-								styles.containerLogo,
-								{ marginLeft: marginLeft, transform: [ { rotate: spin }, { scale: scaleValue } ] }
-							]}
-						>
-						</Animated.View> */}
 						<AnimatedEndGame style={styles.containerLogo}>
 							<Image style={styles.logo} source={require('../assets/logo-in-game.png')} />
 						</AnimatedEndGame>
@@ -142,7 +121,6 @@ class End extends Component {
 					showAlertFuncPremium={this._showAlertFuncPremium}
 					becomePremium={this._becomePremium}
 				/>
-				{/* <AlertRate showAlert={false} hideAlert={this._hideAlert} language={language} /> */}
 				<AlertRate showAlert={showAlert} hideAlert={this._hideAlert} language={language} />
 				<AlertRecord
 					showAlert={this.state.showAlertPremium}

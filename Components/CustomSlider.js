@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, StyleSheet, View, Dimensions } from 'react-native';
+import { StyleSheet, View, Dimensions } from 'react-native';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import MarkerSlider from './MarkerSlider';
 import { white, green } from '../assets/colors';
@@ -12,10 +12,6 @@ export default class CustomSlider extends Component {
 
 		this.state = {};
 	}
-
-	// _toggleValueChanged(values){
-	//   console.log("Values : " + values)
-	// }
 
 	render() {
 		const { defaultValuesSlider, premium } = this.props;

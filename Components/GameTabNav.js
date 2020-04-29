@@ -1,18 +1,7 @@
 import React, { Component } from 'react';
-import {
-	Text,
-	StyleSheet,
-	View,
-	Dimensions,
-	TouchableOpacity,
-	Image,
-	Animated,
-	TouchableWithoutFeedback
-} from 'react-native';
+import { StyleSheet, View, Dimensions, Image, Animated, TouchableWithoutFeedback } from 'react-native';
 import * as text from '../assets/textInGame/listTextGame';
 import AnimatedOnPress from '../Animations/AnimatedOnPress';
-
-const { height, width } = Dimensions.get('window');
 
 import * as stl from '../assets/styles/styles';
 import { green } from '../assets/colors';
@@ -73,10 +62,6 @@ export default class GameTabNav extends Component {
 		);
 	}
 
-	// _onStopPressedChild() {
-	// 	this.props.onStopPressedTabNav();
-	// }
-
 	render() {
 		const animatedStyleButton = {
 			transform: [ { scale: this.state.buttonAnimation } ]
@@ -87,13 +72,10 @@ export default class GameTabNav extends Component {
 				? require('../assets/button-images/button-pause.png')
 				: require('../assets/button-images/button-play.png');
 		const { language } = this.props;
-		let title;
 		let buttonEndSource;
 		if (language == 'FR') {
-			title = text.titleScreenFR;
 			buttonEndSource = require('../assets/button-images/button-quitter-FR.png');
 		} else if (language == 'EN') {
-			title = text.titleScreenEN;
 			buttonEndSource = require('../assets/button-images/button-quitter-EN.png');
 		}
 		return (

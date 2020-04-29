@@ -3,12 +3,10 @@ import {
 	Text,
 	TouchableHighlight,
 	View,
-	Alert,
 	StyleSheet,
 	Image,
 	Dimensions,
 	Animated,
-	TouchableOpacity,
 	TouchableWithoutFeedback,
 	Share,
 	Platform,
@@ -19,7 +17,6 @@ import Modal from 'react-native-modal';
 import AnimatedOnPress from '../Animations/AnimatedOnPress';
 import * as text from '../assets/textInGame/listTextParams';
 import * as textShare from '../assets/textInGame/listTextSelectLanguage';
-import * as textHome from '../assets/textInGame/listTextHome';
 import { white, red, blue, green } from '../assets/colors';
 import * as stl from '../assets/styles/styles';
 import Rate, { AndroidMarket } from 'react-native-rate';
@@ -27,7 +24,7 @@ import AlertRecord from './AlertRecord';
 import { connect } from 'react-redux';
 
 import Purchases, { PURCHASE_TYPE } from 'react-native-purchases';
-const { width, height } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 class ParamsButton extends React.Component {
 	constructor(props) {
 		super(props);
@@ -123,10 +120,6 @@ class ParamsButton extends React.Component {
 		try {
 			const purchaserProducts = await Purchases.getOfferings();
 			const packageImbibo = purchaserProducts.current.availablePackages[0];
-			// this.purchaserInfo = purchaserInfo;
-			// console.log(
-			// 	'###############\n Package Offerings : \n###############' + JSON.stringify(purchaserProducts, null, 3)
-			// );
 			console.log('###############\n Package Imbibo INFO : \n####' + JSON.stringify(packageImbibo, null, 3));
 			// checkIfPro(purchaserInfo, this._becomePremium);
 		} catch (e) {
@@ -135,12 +128,6 @@ class ParamsButton extends React.Component {
 	}
 	async _restorPurchases() {
 		console.log('###############\nRestor Purchases : ');
-		// try {
-		// 	const rep = await Purchases.restoreTransactions();
-		// 	console.log(JSON.stringify(rep));
-		// } catch (error) {
-		// 	console.log('ERROR : ' + JSON.stringify(error));
-		// }
 		try {
 			const purchaserInfo = await Purchases.restoreTransactions();
 			// ... check restored purchaserInfo to see if entitlement is now active
@@ -156,7 +143,6 @@ class ParamsButton extends React.Component {
 			const purchaserInfo = await Purchases.reset();
 			// ... check restored purchaserInfo to see if entitlement is now active
 			this.purchaserInfo = this.purchaserInfo;
-			// this._isPaymentPossible();
 			console.log(JSON.stringify(purchaserInfo, null, 2));
 		} catch (e) {
 			console.log('ERROR : ' + JSON.stringify(e));
@@ -243,7 +229,6 @@ class ParamsButton extends React.Component {
 			rate = text.rateEN;
 		}
 		if (!isAlreadyRate) {
-			// if (!isAlreadyRate) {
 			return (
 				<View>
 					<View style={[ styles.subCat ]}>
@@ -302,13 +287,6 @@ class ParamsButton extends React.Component {
 
 		return (
 			<View style={{}}>
-				{/* <TouchableWithoutFeedback
-					style={{ flex: 1 }}
-					//onPress = {() => this.setState({isModalVisible: true})}
-					onPress={() => this.toggleModal()}
-				>
-					<Icon name="settings" color="#B83B5E" size={35} />
-				</TouchableWithoutFeedback> */}
 				<AnimatedOnPress toggleOnPress={this.toggleModal}>
 					<View style={styles.iconContainer}>
 						<Icon name="settings" color="#B83B5E" size={35} />
@@ -326,9 +304,7 @@ class ParamsButton extends React.Component {
 					animationOutTiming={600}
 					backdropTransitionInTiming={600}
 					backdropTransitionOutTiming={600}
-					//onBackdropPress = {() => this.setState({isModalVisible: false})}
 					onBackdropPress={() => this.toggleModal()}
-					// onPress = {() => this.toggleModal()}
 				>
 					<View style={[ styles.paramsPopUp, { flex: flexPopUp } ]}>
 						<View style={{ flexDirection: 'row', width: width }}>

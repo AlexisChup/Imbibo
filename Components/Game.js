@@ -7,7 +7,7 @@ import * as stl from '../assets/styles/styles';
 import Historique from './Historique';
 import * as text from '../assets/textInGame/listTextGame';
 
-import { green, red, blue, white } from '../assets/colors';
+import { green, blue, white } from '../assets/colors';
 
 const { height, width } = Dimensions.get('window');
 let flexContainerChrono;
@@ -65,9 +65,8 @@ class Game extends Component {
 		this._goToEndScreen();
 	}
 
-	// add item for FlatList
+	// add item for FlatListFlatList
 	_addHistorique(name, action) {
-		const index = this.historique.length;
 		var hours = new Date().getHours(); //Current Hours
 		var minutes = new Date().getMinutes(); //Current Hours
 		if (minutes < 10) {
@@ -105,8 +104,6 @@ class Game extends Component {
 			history = text.historyEN;
 			displayNameNaviga = text.titleScreenEN;
 		}
-		//console.log("GAME LANGUAGE " +language+ " GAME MOD : " + this.mod)
-		//console.log(" nb Actions :" + this.records.actions.length)
 		return (
 			<SafeAreaView style={styles.container}>
 				<StatusBar hidden={true} />

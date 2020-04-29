@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, StyleSheet, View, TouchableOpacity, Button, Dimensions } from 'react-native';
+import { StyleSheet, View, Dimensions } from 'react-native';
 import { red, blue, green, white } from '../assets/colors';
 import * as text from '../assets/textInGame/listTextHome';
 import AwesomeAlert from 'react-native-awesome-alerts';

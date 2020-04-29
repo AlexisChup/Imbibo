@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Text, StyleSheet, View, SafeAreaView, Dimensions, StatusBar, FlatList, Animated } from 'react-native';
-import { green, red, blue, white } from '../assets/colors';
+import { Text, StyleSheet, View, SafeAreaView, Dimensions, Animated } from 'react-native';
+import { red, blue, white } from '../assets/colors';
 const { height, width } = Dimensions.get('window');
 export default class Historique extends Component {
 	constructor(props) {
@@ -76,7 +76,6 @@ const styles = StyleSheet.create({
 		marginVertical: 7
 	},
 	containerDesc: {
-		//backgroundColor: red,
 		flex: 1,
 		marginLeft: 5
 	},

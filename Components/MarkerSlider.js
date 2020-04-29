@@ -1,17 +1,6 @@
 import React, { Component } from 'react';
-import { Text, StyleSheet, View, Image, TouchableWithoutFeedback, Dimensions } from 'react-native';
-import { green } from '../assets/colors';
-import descItem from '../assets/styles/styles';
-const { height, width } = Dimensions.get('window');
-let fontSize;
-let heightMarker;
-if (height <= 592) {
-	fontSize = 9;
-	heightMarker = 110;
-} else {
-	fontSize = 12;
-	heightMarker = 140;
-}
+import { Text, StyleSheet, View, Image } from 'react-native';
+
 export default class MarkerSlider extends Component {
 	constructor(props) {
 		super(props);

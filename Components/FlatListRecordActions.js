@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, StyleSheet, View, FlatList, Button } from 'react-native';
+import { StyleSheet, View, FlatList } from 'react-native';
 import FlatListItemAction from './FlatListItemAction';
 
 export default class FlatListRecordActions extends Component {
@@ -13,7 +13,6 @@ export default class FlatListRecordActions extends Component {
 	}
 
 	_addAction(a) {
-		//console.log("ADD ACTION")
 		this.setState((state) => {
 			const actions = state.actions.concat(a);
 
@@ -118,34 +117,3 @@ export default class FlatListRecordActions extends Component {
 }
 
 const styles = StyleSheet.create({});
-
-// _displayCardRecord(){
-//     const color = this.state.enTrainDeRecord ? "red" : "white";
-//     if(this.state.gameStarted){
-//       return null
-//     }else {
-//       return(
-//         <View style = {styles.cardRecord}>
-//           <Text style = {styles.textTitle}>Record des Joueurs</Text>
-//           <View style = {{flexDirection: "row", alignContent: "center", borderColor: "black", borderWidth: 2, alignItems: "center", marginBottom: 10}}>
-//             <Button
-//               title = "Record"
-//               onPress = {() => this._onRecordPressed()}
-//               disabled= {!this.state.soundEnded}
-//             />
-//             <View style = {[styles.redRecord, {backgroundColor: color, borderWidth: 3, borderColor: "black"}]}></View>
-//           </View>
-//           {/* <FlatList
-//             data = { this.soundsArray }
-//             //data = {this.state.soundsArray}
-//             keyExtractor = {(item, index) => index.toString()}
-//             renderItem = {({item, index}) => (
-//               this._displayItemFlatList(item, index)
-//             )}
-//           /> */}
-
-//         </View>
-//       )
-//     }
-
-//   }
