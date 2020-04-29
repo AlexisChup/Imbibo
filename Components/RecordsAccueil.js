@@ -166,7 +166,6 @@ class RecordsAccueil extends Component {
 	*/
 	_stopItemRecord = (index, origin) => {
 		if (this.soundPlayBack != null) {
-			this.soundPlayBack.stopAsync();
 			this.setState({ soundEnded: true, itemPlayAudio: false }, () => {
 				this.props.enablePopUp();
 				if (origin === 'name') {
@@ -175,7 +174,11 @@ class RecordsAccueil extends Component {
 				} else if (origin === 'action') {
 					this.rowRefs[0].enabledButtons(null);
 					this.rowRefs[1].enabledButtons(index);
+				} else {
+					this.rowRefs[0].enabledButtons(null);
+					this.rowRefs[1].enabledButtons(null);
 				}
+				this.soundPlayBack.stopAsync();
 			});
 		}
 	};
@@ -280,11 +283,11 @@ class RecordsAccueil extends Component {
 
 	_getDatasBeforeNavigate() {
 		console.log('##########################');
+		this._stopItemRecord();
 		this._getNamesNameBeforeLaunch();
 		this._getNamesBeforeLaunch();
 		this._getActionsNameBeforceLaunch();
 		this._getActionsBeforceLaunch();
-		this._stopItemRecord();
 		console.log('##########################');
 		return this.records;
 	}

@@ -22,7 +22,9 @@ export default class FlatListItemActions extends Component {
 			actionName: '',
 			showItem: new Animated.Value(0.01),
 			disabled: false,
-			opacity: 1
+			opacity: 1,
+			isOnePlaying: false,
+			backgroundColor: blue
 		};
 		this._updateAction = this._updateAction.bind(this);
 		this.rowRefs = {};
@@ -74,6 +76,27 @@ export default class FlatListItemActions extends Component {
 		});
 	}
 
+	// START ANIMATIONS WHEN PLAY AUDIO
+	_startAnimation = () => {
+		console.log('YES ANIMATIONS');
+		this.setState({
+			isOnePlaying: true,
+			backgroundColor: red
+		});
+	};
+
+	// END ANIMATIONS WHEN FINISHING PLAYING AUDIO
+	_endAnimation = () => {
+		const { isOnePlaying } = this.state;
+		if (isOnePlaying) {
+			console.log('FIN ANIMATION');
+			this.setState({
+				isOnePlaying: false,
+				backgroundColor: blue
+			});
+		}
+	};
+
 	render() {
 		const { index, item } = this.props;
 		const animItemTransform = {
@@ -82,8 +105,9 @@ export default class FlatListItemActions extends Component {
 		if (index == 0 && item == null) {
 			return null;
 		} else {
+			const { backgroundColor } = this.state;
 			return (
-				<Animated.View style={[ styles.itemFlatList, animItemTransform ]}>
+				<Animated.View style={[ styles.itemFlatList, animItemTransform, { backgroundColor: backgroundColor } ]}>
 					{/* <TextInput 
                         style = {styles.textFlatList}
                         value = { this.state.actionName }
@@ -104,10 +128,10 @@ export default class FlatListItemActions extends Component {
 							iconClass={Entypo}
 							iconName={'game-controller'}
 							iconColor={green}
-							iconBackgroundColor={blue}
+							iconBackgroundColor={backgroundColor}
 							placeholder={this.props.action}
 							placeholderTextColor={'#b7b7b7'}
-							inputStyle={styles.inputText}
+							inputStyle={[ styles.inputText, { backgroundColor: backgroundColor } ]}
 							style={styles.inputStyle}
 							useNativeDriver={false}
 						/>
@@ -157,7 +181,6 @@ export default class FlatListItemActions extends Component {
 
 const styles = StyleSheet.create({
 	itemFlatList: {
-		backgroundColor: blue,
 		width: width - 40,
 		height: 40,
 		flexDirection: 'row',
@@ -172,8 +195,7 @@ const styles = StyleSheet.create({
 		fontStyle: 'italic',
 		fontSize: 15,
 		color: white,
-		fontFamily: 'montserrat-regular',
-		backgroundColor: blue
+		fontFamily: 'montserrat-regular'
 	},
 	inputStyle: {
 		marginVertical: 5,
