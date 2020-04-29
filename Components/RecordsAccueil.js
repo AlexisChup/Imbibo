@@ -35,6 +35,8 @@ class RecordsAccueil extends Component {
 			actions: [ null ],
 			actionsName: [ null ]
 		};
+		this.joueurName = 1;
+		this.actionName = 1;
 		this.interval;
 		this.state = {
 			haveRecordingPermissions: false,
@@ -44,8 +46,6 @@ class RecordsAccueil extends Component {
 			soundEnded: true,
 			buttonAnimationPlayers: new Animated.Value(1),
 			buttonAnimationActions: new Animated.Value(1),
-			joueurName: 1,
-			actionName: 1,
 			origin: 'name',
 			itemPlayAudio: false,
 			isModalVisible: false,
@@ -276,35 +276,19 @@ class RecordsAccueil extends Component {
 			if (this.soundPlayBack != null) {
 				this.soundPlayBack.pauseAsync();
 			}
-		} else {
-			if (status.error) {
-				console.log(`FATAL PLAYER ERROR: ${status.error}`);
-			}
+		}
+		if (status.error) {
+			console.log(`FATAL PLAYER ERROR: ${status.error}`);
 		}
 	};
 
 	//On met à jour le state quand le record s'effectue
 	_updateScreenForRecordingStatus = (status) => {
 		const origin = this.state.origin;
-		if (status.durationMillis < 20000) {
-			if (status.canRecord) {
-				this.setState({
-					isRecording: status.isRecording
-				});
-			} else if (status.isDoneRecording) {
-				this.setState({
-					isRecording: false
-				});
-				if (!this.state.isLoading) {
-					this._stopRecordingAndEnablePlayback(origin);
-				}
-			}
-		} else {
-			this.setState({
-				isRecording: false
-			});
+		// Si le son est trop long on le coupe
+		if (status.durationMillis >= 20000) {
 			if (!this.state.isLoading) {
-				this._stopRecordingAndEnablePlayback(origin);
+				this._toggleModalRecord(origin);
 			}
 		}
 	};
@@ -372,11 +356,12 @@ class RecordsAccueil extends Component {
 						origin: origin,
 						soundEnded: true,
 						addRecordTitle,
-						isModalVisible: true
+						isModalVisible: true,
+						isRecording: true
 					},
-					() => this._initTimer()
+					() => this._initTimer(),
+					this._onRecordPressed(origin)
 				);
-				this._onRecordPressed(origin);
 
 				this._intervall = setInterval(() => {
 					this.setState({
@@ -389,11 +374,13 @@ class RecordsAccueil extends Component {
 					{
 						isLoading: true,
 						recordingDurationTest: 0,
-						isModalVisible: false
+						isModalVisible: false,
+						isRecording: false
 					},
-					() => this._initTimer()
+					() => this._initTimer(),
+					this._onRecordPressed(this.state.origin)
 				);
-				this._onRecordPressed(this.state.origin);
+
 				clearInterval(this._intervall);
 				this._intervall = null;
 			}
@@ -444,31 +431,36 @@ class RecordsAccueil extends Component {
 		if (origin == 'name') {
 			if (this.soundsArray[0] == null || this.soundsArray[0] == undefined) {
 				this.rowRefs[0]._addName(player + ' 1');
-				this.setState({ joueurName: 2 });
-
+				// this.setState({ joueurName: 2 });
+				this.joueurName = 2;
 				this.soundsArray[0] = sound;
 			} else {
-				this.rowRefs[0]._addName(player + ' ' + this.state.joueurName);
-				this.setState({ joueurName: this.state.joueurName + 1 });
-
+				this.rowRefs[0]._addName(player + ' ' + this.joueurName);
+				// this.rowRefs[0]._addName(player + ' ' + this.state.joueurName);
+				// this.setState({ joueurName: this.state.joueurName + 1 });
+				this.joueurName = this.joueurName + 1;
 				this.soundsArray.push(sound);
 			}
 			//add nbPlayers for Home Screen
-			this.props.addPlayers(this.state.joueurName - 1);
+			this.props.addPlayers(this.joueurName - 1);
+			// this.props.addPlayers(this.state.joueurName - 1);
 		} else if (origin == 'action') {
 			if (this.actionsArray[0] == null || this.actionsArray[0] == undefined) {
 				this.rowRefs[1]._addAction(action + ' 1');
-				this.setState({ actionName: 2 });
+				this.actionName = 2;
+				// this.setState({ actionName: 2 });
 
 				this.actionsArray[0] = sound;
 			} else {
-				this.rowRefs[1]._addAction(action + ' ' + this.state.actionName);
-				this.setState({ actionName: this.state.actionName + 1 });
-
+				this.rowRefs[1]._addAction(action + ' ' + this.actionName);
+				// this.rowRefs[1]._addAction(action + ' ' + this.state.actionName);
+				// this.setState({ actionName: this.state.actionName + 1 });
+				this.actionName = this.actionName + 1;
 				this.actionsArray.push(sound);
 			}
 			//add actions to Home Screen
-			this.props.addActions(this.state.actionName - 1);
+			this.props.addActions(this.actionName - 1);
+			// this.props.addActions(this.state.actionName - 1);
 		} else {
 			console.log('MAUVAISE ORIGINE');
 		}
