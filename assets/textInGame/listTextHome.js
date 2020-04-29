@@ -23,6 +23,18 @@ export const actionEN = 'ACTION';
 export const addRecordingFR = 'Enregistrement...';
 export const addRecordingEN = 'Recording...';
 
+export const addRecordNameFR = 'Dis ton surnom !';
+export const addRecordNameEN = 'Say your nickname !';
+
+export const addRecordActionFR = 'Dis ton action !';
+export const addRecordActionEN = 'Say your action !';
+
+export const lengthRecordFR = 'Durée';
+export const lengthRecordEN = 'Length';
+
+export const endRecordFR = 'Terminer';
+export const endRecordEN = 'End';
+
 //For Warning when launch the app
 export const warningTitleFR = 'Attention';
 export const warningFR =

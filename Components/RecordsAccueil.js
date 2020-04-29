@@ -3,14 +3,12 @@ import {
 	StyleSheet,
 	Text,
 	View,
-	Button,
 	FlatList,
 	Dimensions,
 	SafeAreaView,
 	Alert,
 	TouchableWithoutFeedback,
 	Image,
-	Modal,
 	Animated,
 	TextInput,
 	Easing
@@ -18,8 +16,9 @@ import {
 import * as Permissions from 'expo-permissions';
 import { Audio } from 'expo-av';
 import * as stl from '../assets/styles/styles';
-import { Icon } from 'react-native-elements';
-
+import { Icon, Button } from 'react-native-elements';
+import Modal from 'react-native-modal';
+import Spinner from 'react-native-spinkit';
 import FlatListRecord from './FlatListRecord';
 import FlatListRecordActions from './FlatListRecordActions';
 
@@ -50,6 +49,7 @@ class RecordsAccueil extends Component {
 				soundPosition: null,
 				soundDuration: null,
 				recordingDuration: null,
+				recordingDurationTest: 0,
 				shouldPlay: false,
 				isPlaying: false,
 				isRecording: false,
@@ -68,9 +68,12 @@ class RecordsAccueil extends Component {
 				origin: 'name',
 				canRecord: true,
 				recordPrepared: false,
-				itemPlayAudio: false
+				itemPlayAudio: false,
+				isModalVisible: false,
+				addRecordTitle: ''
 			});
 		this.rowRefs = [];
+		this._timer = null;
 		this._intervall = null;
 		this.recordingSettings = JSON.parse(JSON.stringify(Audio.RECORDING_OPTIONS_PRESET_LOW_QUALITY));
 		this._playItemRecord = this._playItemRecord.bind(this);
@@ -521,7 +524,58 @@ class RecordsAccueil extends Component {
 		}
 	}
 
+	// WHEN RECORDIN
+	_toggleModalRecord = (origin) => {
+		const { language } = this.props;
+		if (this._timer == null) {
+			// Reset var and save record
+			if (this.state.isModalVisible) {
+				this._onRecordPressed(this.state.origin);
+				clearInterval(this._intervall);
+				this._intervall = null;
+				this.setState({
+					recordingDurationTest: 0
+				});
+			} else {
+				this._onRecordPressed(origin);
+				// Set var and start record
+				let addRecordTitle;
+				if (origin == 'name') {
+					if (language == 'FR') {
+						addRecordTitle = text.addRecordNameFR;
+					} else if (language == 'EN') {
+						addRecordTitle = text.addRecordNameEN;
+					}
+				} else if (origin == 'action') {
+					if (language == 'FR') {
+						addRecordTitle = text.addRecordActionFR;
+					} else if (language == 'EN') {
+						addRecordTitle = text.addRecordActionEN;
+					}
+				}
+				this._intervall = setInterval(() => {
+					this.setState({
+						recordingDurationTest: this.state.recordingDurationTest + 1,
+						addRecordTitle
+					});
+				}, 1000);
+			}
+			this.setState({ isModalVisible: !this.state.isModalVisible }, () => this._initTimer());
+		}
+	};
+
+	// TO AVOID REPETITION WITH MODAL
+	_initTimer = () => {
+		this._timer = true;
+		setTimeout(() => this._destroyTimer(), 1000);
+	};
+
+	_destroyTimer = () => {
+		this._timer = null;
+	};
+
 	render() {
+		console.log('RENDER RECORDS');
 		const animatedStyleButtonPlayers = {
 			transform: [ { scale: this.state.buttonAnimationPlayers } ]
 		};
@@ -539,19 +593,25 @@ class RecordsAccueil extends Component {
 		let bgAction = blue;
 		let borderColAction = red;
 
+		// For duration records in modal
+		let lengthRecord, endRecord;
 		//From Language & premium
 		const { language, premium } = this.props;
 
-		const { itemPlayAudio } = this.state;
+		const { itemPlayAudio, recordingDurationTest, addRecordTitle } = this.state;
 
 		let displayPlayersButtonRecord;
 		let displayActionsButtonRecord;
 		if (language == 'FR') {
 			displayPlayersButtonRecord = text.addPlayersFR;
 			displayActionsButtonRecord = text.addActionsFR;
+			endRecord = text.endRecordFR;
+			lengthRecord = text.lengthRecordFR;
 		} else if (language == 'EN') {
 			displayPlayersButtonRecord = text.addPlayersEN;
 			displayActionsButtonRecord = text.addActionsEN;
+			endRecord = text.endRecordEN;
+			lengthRecord = text.lengthRecordEN;
 		}
 
 		var disabledActionButton;
@@ -562,19 +622,20 @@ class RecordsAccueil extends Component {
 
 		//  IF NONE ITEM PLAY AUDIO -> ACT NORMALLY
 		if (!itemPlayAudio) {
+			// if (!itemPlayAudio) {
 			//Si l'on est en train de record un Name
 			if (this.state.isLoading || (this.state.isRecording && this.state.origin == 'name')) {
 				disabledActionButton = true;
 				opaActionButton = 0.2;
-				if (this.state.isRecording && this.state.origin == 'name') {
-					bgName = red;
-					borderColName = blue;
-					if (language == 'FR') {
-						displayPlayersButtonRecord = text.addRecordingFR;
-					} else if (language == 'EN') {
-						displayPlayersButtonRecord = text.addRecordingEN;
-					}
-				}
+				// if (this.state.isRecording && this.state.origin == 'name') {
+				// 	bgName = red;
+				// 	borderColName = blue;
+				// 	if (language == 'FR') {
+				// 		displayPlayersButtonRecord = text.addRecordingFR;
+				// 	} else if (language == 'EN') {
+				// 		displayPlayersButtonRecord = text.addRecordingEN;
+				// 	}
+				// }
 			} else {
 				disabledActionButton = false;
 				opaActionButton = 1;
@@ -584,15 +645,15 @@ class RecordsAccueil extends Component {
 			if (this.state.isLoading || (this.state.isRecording && this.state.origin == 'action')) {
 				disabledNameButton = true;
 				opaNameButton = 0.2;
-				if (this.state.isRecording && this.state.origin == 'action') {
-					bgAction = red;
-					borderColAction = blue;
-					if (language == 'FR') {
-						displayActionsButtonRecord = text.addRecordingFR;
-					} else if (language == 'EN') {
-						displayActionsButtonRecord = text.addRecordingEN;
-					}
-				}
+				// if (this.state.isRecording && this.state.origin == 'action') {
+				// 	bgAction = red;
+				// 	borderColAction = blue;
+				// 	if (language == 'FR') {
+				// 		displayActionsButtonRecord = text.addRecordingFR;
+				// 	} else if (language == 'EN') {
+				// 		displayActionsButtonRecord = text.addRecordingEN;
+				// 	}
+				// }
 			} else {
 				disabledNameButton = false;
 				opaNameButton = 1;
@@ -610,7 +671,8 @@ class RecordsAccueil extends Component {
 					<TouchableWithoutFeedback
 						onPressIn={() => this._animateRecordBouton('name')}
 						onPressOut={() => this._resetScaleRecordBouton('name')}
-						onPress={() => this._onRecordPressed('name')}
+						onPress={() => this._toggleModalRecord('name')}
+						// onPress={() => this._onRecordPressed('name')}
 						disabled={disabledNameButton}
 					>
 						<Animated.View
@@ -647,7 +709,8 @@ class RecordsAccueil extends Component {
 					<TouchableWithoutFeedback
 						onPressIn={() => this._animateRecordBouton('action')}
 						onPressOut={() => this._resetScaleRecordBouton('action')}
-						onPress={() => this._onRecordPressed('action')}
+						onPress={() => this._toggleModalRecord('action')}
+						// onPress={() => this._onRecordPressed('action')}
 						disabled={disabledActionButton}
 					>
 						<Animated.View
@@ -672,6 +735,64 @@ class RecordsAccueil extends Component {
 						extraData={this.state}
 					/>
 				</View>
+				<Modal
+					// isVisible={true}
+					isVisible={this.state.isModalVisible}
+					backdropColor="#B4B3DB"
+					backdropOpacity={0.8}
+					animationIn="slideInUp"
+					animationOut="slideOutDown"
+					animationInTiming={600}
+					animationOutTiming={600}
+					backdropTransitionInTiming={600}
+					backdropTransitionOutTiming={600}
+					//onBackdropPress = {() => this.setState({isModalVisible: false})}
+					onBackdropPress={() => this._toggleModalRecord()}
+					// onPress = {() => this.toggleModal()}
+				>
+					<View
+						style={[
+							styles.modalRecord,
+							{
+								marginBottom: 20,
+								alignItems: 'center',
+								paddingVertical: 10,
+								width: width / 2,
+								alignSelf: 'center'
+							}
+						]}
+					>
+						<Text style={[ styles.modalText, { fontFamily: 'montserrat-regular' } ]}>{lengthRecord} :</Text>
+						<Text style={styles.modalText}>{recordingDurationTest} s</Text>
+					</View>
+					<View style={[ styles.modalRecord, { paddingTop: 30 } ]}>
+						<Text style={styles.modalText}>{addRecordTitle}</Text>
+						<Spinner
+							style={{ marginVertical: 15, alignSelf: 'center' }}
+							isVisible={this.state.isModalVisible}
+							size={100}
+							type="Bounce"
+							color={red}
+						/>
+						<Button
+							title={endRecord}
+							type="solid"
+							buttonStyle={{
+								backgroundColor: red,
+								borderBottomRightRadius: 25,
+								borderBottomLeftRadius: 25
+							}}
+							titleStyle={{
+								color: white,
+								fontFamily: 'montserrat-bold',
+								fontSize: stl.descItem
+							}}
+							onPress={() => {
+								this._toggleModalRecord();
+							}}
+						/>
+					</View>
+				</Modal>
 			</SafeAreaView>
 		);
 	}
@@ -683,6 +804,20 @@ const styles = StyleSheet.create({
 		backgroundColor: green,
 		justifyContent: 'center',
 		alignContent: 'center'
+	},
+	modalRecord: {
+		backgroundColor: blue,
+		borderRadius: 30,
+		borderWidth: 5,
+		borderColor: white,
+		alignContent: 'center',
+		justifyContent: 'center'
+	},
+	modalText: {
+		fontFamily: 'montserrat-extra-bold',
+		color: white,
+		fontSize: stl.titleItem,
+		textAlign: 'center'
 	},
 	addButtons: {
 		width: '100%',

@@ -69,7 +69,6 @@ export default class FlatListItem extends Component {
 
 	// START ANIMATIONS WHEN PLAY AUDIO
 	_startAnimation = () => {
-		console.log('YES ANIMATIONS');
 		this.setState({
 			isOnePlaying: true,
 			backgroundColor: red
@@ -80,7 +79,6 @@ export default class FlatListItem extends Component {
 	_endAnimation = () => {
 		const { isOnePlaying } = this.state;
 		if (isOnePlaying) {
-			console.log('FIN ANIMATION');
 			this.setState({
 				isOnePlaying: false,
 				backgroundColor: blue

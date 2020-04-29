@@ -199,7 +199,8 @@ const styles = StyleSheet.create({
 	},
 	containerHistorique: {
 		flex: 3,
-		width: width - 30
+		width: width - 30,
+		alignSelf: 'center'
 	},
 	containerFlat: {
 		flex: 1,

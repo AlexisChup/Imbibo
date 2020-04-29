@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Text, StyleSheet, View, Image, TouchableWithoutFeedback, Dimensions } from 'react-native';
 import { green } from '../assets/colors';
+import descItem from '../assets/styles/styles';
 const { height, width } = Dimensions.get('window');
 let fontSize;
 let heightMarker;
@@ -22,7 +23,7 @@ export default class MarkerSlider extends Component {
 		const { premium } = this.props;
 		if (premium) {
 			return (
-				<View>
+				<View style={{}}>
 					<Image style={styles.markersImage} source={require('../assets/slider/marker.png')} />
 					<View style={styles.containerMarkerText}>
 						<Text style={styles.textMarker}> {text} </Text>
@@ -88,8 +89,8 @@ const styles = StyleSheet.create({
 		elevation: 20
 	},
 	markersImage: {
-		height: heightMarker,
-		width: heightMarker,
+		height: 125,
+		width: 125,
 		resizeMode: 'contain'
 	},
 	containerMarkerText: {
@@ -100,7 +101,7 @@ const styles = StyleSheet.create({
 	},
 	textMarker: {
 		color: 'white',
-		fontSize: fontSize,
+		fontSize: 10,
 		fontFamily: 'montserrat-extra-bold'
 	}
 });

@@ -93,12 +93,10 @@ export default class FlatListRecord extends Component {
 
 	// @params: index. if not null, not enable button -> it's all execpt one who play the audio
 	enabledButtons(index) {
-		console.log('ON VA METTRE FIN');
 		for (let i = 0; i < this.props.soundsArray.length; i++) {
 			if (!(index === i)) {
 				this.rowRefs[i]._enabledButtons();
 			}
-			console.log('END ANIMATION');
 			this.rowRefs[i]._endAnimation();
 		}
 	}
