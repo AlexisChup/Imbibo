@@ -9,7 +9,8 @@ import {
 	Button,
 	AsyncStorage,
 	StatusBar,
-	Animated
+	Animated,
+	Easing
 } from 'react-native';
 import EndTabNav from './EndTabNav';
 import AlertRate from './AlertRate';
@@ -18,6 +19,7 @@ import * as stl from '../assets/styles/styles';
 import * as text from '../assets/textInGame/listTextEnd';
 import { green, red, blue, white } from '../assets/colors';
 import AlertRecord from './AlertRecord';
+import AnimatedEndGame from '../Animations/AnimatedEndGame';
 import { connect } from 'react-redux';
 const { width, height } = Dimensions.get('window');
 class End extends Component {
@@ -29,6 +31,7 @@ class End extends Component {
 		this._becomePremium = this._becomePremium.bind(this);
 		this.state = {
 			showAlert: false,
+			showAlertPremium: false,
 			showAlertPremiumOrigin: undefined
 		};
 		this._hideAlert = this._hideAlert.bind(this);
@@ -59,6 +62,7 @@ class End extends Component {
 	};
 
 	_hideAlert = () => {
+		console.log('hide alert');
 		this.setState({
 			showAlert: false
 		});
@@ -92,7 +96,7 @@ class End extends Component {
 
 	render() {
 		const { language, premium } = this.props;
-		const { showAlert } = this.state;
+		const { showAlert, showAlertPremium } = this.state;
 		let end, displayNameNaviga;
 		if (language == 'FR') {
 			end = text.endFR;
@@ -118,21 +122,28 @@ class End extends Component {
 						<Text style={styles.title}>{end}</Text>
 					</View>
 					<View style={styles.containerRest}>
-						<View style={styles.containerLogo}>
+						{/* <Animated.View
+							style={[
+								styles.containerLogo,
+								{ marginLeft: marginLeft, transform: [ { rotate: spin }, { scale: scaleValue } ] }
+							]}
+						>
+						</Animated.View> */}
+						<AnimatedEndGame style={styles.containerLogo}>
 							<Image style={styles.logo} source={require('../assets/logo-in-game.png')} />
-						</View>
+						</AnimatedEndGame>
 					</View>
 				</View>
 				<EndTabNav
 					goToHomeScreen={this._goToHomeScreen}
 					language={language}
-					premium={true}
-					// premium={premium}
+					// premium={true}
+					premium={premium}
 					showAlertFuncPremium={this._showAlertFuncPremium}
 					becomePremium={this._becomePremium}
 				/>
-				<AlertRate showAlert={false} hideAlert={this._hideAlert} language={language} />
-				{/* <AlertRate showAlert={showAlert} hideAlert={this._hideAlert} language={language} /> */}
+				{/* <AlertRate showAlert={false} hideAlert={this._hideAlert} language={language} /> */}
+				<AlertRate showAlert={showAlert} hideAlert={this._hideAlert} language={language} />
 				<AlertRecord
 					showAlert={this.state.showAlertPremium}
 					showAlertFunc={this._showAlertFuncPremium}

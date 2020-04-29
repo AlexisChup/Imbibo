@@ -49,7 +49,7 @@ class Choice extends Component {
 		this._becomePremium = this._becomePremium.bind(this);
 		this.modRef = [];
 		this.rowRefs = [];
-		this.state = { showAlertPremiumOrigin: undefined };
+		this.state = { showAlertPremiumOrigin: undefined, showAlertPremium: false };
 	}
 
 	componentDidMount() {

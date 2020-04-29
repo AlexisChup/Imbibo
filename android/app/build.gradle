@@ -134,6 +134,12 @@ def jscFlavor = 'org.webkit:android-jsc:+'
 def enableHermes = project.ext.react.get("enableHermes", false);
 
 android {
+
+// USE TO INSCREASE HEAP SPACE
+    dexOptions {
+       javaMaxHeapSize "3g"
+    }
+
     compileSdkVersion rootProject.ext.compileSdkVersion
 
     compileOptions {
@@ -146,8 +152,8 @@ android {
         applicationId "com.imbibo"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 5
-        versionName "1.2.2"
+        versionCode 6
+        versionName "1.2.3"
     }
     splits {
         abi {
