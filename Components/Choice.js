@@ -49,7 +49,7 @@ class Choice extends Component {
 		this._becomePremium = this._becomePremium.bind(this);
 		this.modRef = [];
 		this.rowRefs = [];
-		this.state = { showAlertPremiumOrigin: undefined, showAlertPremium: false, test: '' };
+		this.state = { showAlertPremiumOrigin: undefined, showAlertPremium: false };
 	}
 
 	componentDidMount() {
@@ -80,6 +80,9 @@ class Choice extends Component {
 		if (premium) {
 			this.valuesSlider = values;
 		} else {
+			// When the user is not premium
+			// If he reachs the limits
+			// the popup will be triggered
 			if (values[0] <= 105) {
 				this._triggerPopUp();
 			} else if (values[1] >= 165) {
@@ -106,46 +109,6 @@ class Choice extends Component {
 		this.rowRefs[0].triggerPopUp();
 	}
 
-	//display or not the real Sliders
-	_displaySliders() {
-		const { premium } = this.props;
-		let defautVS;
-
-		if (premium) {
-			defautVS = defaultValuesSliderPremium;
-		} else {
-			defautVS = defaultValuesSlider;
-		}
-		if (true) {
-			return (
-				<CustomSlider
-					toggleSliderValues={this._toggleSliderValues}
-					defaultValuesSlider={defautVS}
-					premium={premium}
-				/>
-			);
-		} else {
-			return (
-				<TouchableWithoutFeedback
-					onPress={() => this._triggerPopUp()}
-					style={{ height: 140, width: width - 80 }}
-				>
-					<Image
-						source={require('../assets/slider/slidersLocked.png')}
-						style={[
-							{
-								flex: 1,
-								height: null,
-								width: null,
-								resizeMode: 'contain'
-							}
-						]}
-					/>
-				</TouchableWithoutFeedback>
-			);
-		}
-	}
-
 	_hideAlertPremium() {
 		this.setState({
 			showAlertPremium: false
@@ -169,7 +132,7 @@ class Choice extends Component {
 	}
 
 	render() {
-		const { navigation, language, premium } = this.props;
+		const { language, premium } = this.props;
 		const records = this.props.navigation.getParam('records');
 		const nbJoueurs = records.names.length;
 		let textMods, textIntervals, displayNameNaviga;
@@ -186,6 +149,14 @@ class Choice extends Component {
 		//remove the 's' if there is less than 2 players
 		if (nbJoueurs <= 1) {
 			displayNameNaviga = displayNameNaviga.slice(0, -1);
+		}
+
+		let defautVS;
+
+		if (premium) {
+			defautVS = defaultValuesSliderPremium;
+		} else {
+			defautVS = defaultValuesSlider;
 		}
 
 		return (
@@ -256,7 +227,13 @@ class Choice extends Component {
 						<View style={styles.containerGameTitle}>
 							<Text style={styles.titleMenu}>{textIntervals}</Text>
 						</View>
-						<View style={[ styles.containerGameCard, {} ]}>{this._displaySliders()}</View>
+						<View style={[ styles.containerGameCard, {} ]}>
+							<CustomSlider
+								toggleSliderValues={this._toggleSliderValues}
+								defaultValuesSlider={defautVS}
+								premium={premium}
+							/>
+						</View>
 					</View>
 				</View>
 				<ChoiceTabNav

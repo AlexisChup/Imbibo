@@ -5,7 +5,6 @@ import {
 	View,
 	Dimensions,
 	SafeAreaView,
-	Alert,
 	TouchableWithoutFeedback,
 	Image,
 	Animated
@@ -36,39 +35,22 @@ class RecordsAccueil extends Component {
 			actions: [ null ],
 			actionsName: [ null ]
 		};
-		this.interval,
-			this.intervalRemaining,
-			(this.state = {
-				haveRecordingPermissions: false,
-				isLoading: false,
-				isPlaybackAllowed: false,
-				muted: false,
-				soundPosition: null,
-				soundDuration: null,
-				recordingDuration: null,
-				recordingDurationTest: 0,
-				shouldPlay: false,
-				isPlaying: false,
-				isRecording: false,
-				volume: 1.0,
-				soundEnded: true,
-				enTrainDeRecord: false,
-				gameStarted: false,
-				timeRemainig: 0,
-				showModal: false,
-				buttonAnimationPlayers: new Animated.Value(1),
-				buttonAnimationActions: new Animated.Value(1),
-				joueurName: 1,
-				actionName: 1,
-				namesArray: [],
-				nbActions: 1,
-				origin: 'name',
-				canRecord: true,
-				recordPrepared: false,
-				itemPlayAudio: false,
-				isModalVisible: false,
-				addRecordTitle: ''
-			});
+		this.interval;
+		this.state = {
+			haveRecordingPermissions: false,
+			isLoading: false,
+			recordingDurationTest: 0,
+			isRecording: false,
+			soundEnded: true,
+			buttonAnimationPlayers: new Animated.Value(1),
+			buttonAnimationActions: new Animated.Value(1),
+			joueurName: 1,
+			actionName: 1,
+			origin: 'name',
+			itemPlayAudio: false,
+			isModalVisible: false,
+			addRecordTitle: ''
+		};
 		this.rowRefs = [];
 		this._timer = null;
 		this._intervall = null;
@@ -281,11 +263,6 @@ class RecordsAccueil extends Component {
 
 	//On met à jour le state quand on lit le playBackde l'enregistrement
 	_updateScreenForSoundStatus = async (status) => {
-		if (status.isLoaded) {
-			this.setState({
-				isPlaying: status.isPlaying
-			});
-		}
 		if (status.didJustFinish && !status.isLooping) {
 			this.setState(
 				{
@@ -300,12 +277,6 @@ class RecordsAccueil extends Component {
 				this.soundPlayBack.pauseAsync();
 			}
 		} else {
-			this.setState({
-				soundDuration: null,
-				soundPosition: null,
-				isPlaybackAllowed: false
-			});
-
 			if (status.error) {
 				console.log(`FATAL PLAYER ERROR: ${status.error}`);
 			}
@@ -318,13 +289,11 @@ class RecordsAccueil extends Component {
 		if (status.durationMillis < 20000) {
 			if (status.canRecord) {
 				this.setState({
-					isRecording: status.isRecording,
-					recordingDuration: status.durationMillis
+					isRecording: status.isRecording
 				});
 			} else if (status.isDoneRecording) {
 				this.setState({
-					isRecording: false,
-					recordingDuration: status.durationMillis
+					isRecording: false
 				});
 				if (!this.state.isLoading) {
 					this._stopRecordingAndEnablePlayback(origin);
@@ -332,8 +301,7 @@ class RecordsAccueil extends Component {
 			}
 		} else {
 			this.setState({
-				isRecording: false,
-				recordingDuration: status.durationMillis
+				isRecording: false
 			});
 			if (!this.state.isLoading) {
 				this._stopRecordingAndEnablePlayback(origin);
@@ -342,22 +310,9 @@ class RecordsAccueil extends Component {
 	};
 
 	async _stopPlaybackAndBeginRecording(origin) {
-		//disabled Sound buttons
-		this.rowRefs[0].disabledButtons(null);
-		this.rowRefs[1].disabledButtons(null);
-		//Pour indiquer un chargement
-		this.setState(
-			{
-				isLoading: true,
-				origin: origin,
-				soundEnded: true
-			},
-			() => this.props.disablePopUp()
-		);
-
 		// SI un son est en cours on le met en pause
 		if (this.soundPlayBack != null) {
-			this.soundPlayBack.pauseAsync();
+			await this.soundPlayBack.pauseAsync();
 		}
 		await Audio.setAudioModeAsync({
 			allowsRecordingIOS: true,
@@ -379,16 +334,76 @@ class RecordsAccueil extends Component {
 		await recording.prepareToRecordAsync(this.recordingSettings);
 
 		this.recording = recording;
-		await this.recording.startAsync().then(() => {});
-		this.setState({
-			isLoading: false
+		await this.recording.startAsync().then(() => {
+			this.setState({
+				isLoading: false
+			});
 		});
 	}
 
+	// WHEN RECORDING
+	_toggleModalRecord = (origin) => {
+		const { language } = this.props;
+		if (this._timer == null) {
+			//_stopPlaybackAndBeginRecording
+			if (!this.state.isModalVisible) {
+				let addRecordTitle;
+				if (origin == 'name') {
+					if (language == 'FR') {
+						addRecordTitle = text.addRecordNameFR;
+					} else if (language == 'EN') {
+						addRecordTitle = text.addRecordNameEN;
+					}
+				} else if (origin == 'action') {
+					if (language == 'FR') {
+						addRecordTitle = text.addRecordActionFR;
+					} else if (language == 'EN') {
+						addRecordTitle = text.addRecordActionEN;
+					}
+				}
+				//disabled Sound buttons
+				this.props.disablePopUp();
+				this.rowRefs[0].disabledButtons(null);
+				this.rowRefs[1].disabledButtons(null);
+				//Pour indiquer un chargement
+				this.setState(
+					{
+						isLoading: true,
+						origin: origin,
+						soundEnded: true,
+						addRecordTitle,
+						isModalVisible: true
+					},
+					() => this._initTimer()
+				);
+				this._onRecordPressed(origin);
+
+				this._intervall = setInterval(() => {
+					this.setState({
+						recordingDurationTest: this.state.recordingDurationTest + 1
+					});
+				}, 1000);
+			} else {
+				// _stopRecordingAndEnablePlayback
+				this.setState(
+					{
+						isLoading: true,
+						recordingDurationTest: 0,
+						isModalVisible: false
+					},
+					() => this._initTimer()
+				);
+				this._onRecordPressed(this.state.origin);
+				clearInterval(this._intervall);
+				this._intervall = null;
+			}
+		}
+	};
+
 	async _stopRecordingAndEnablePlayback(origin) {
 		const { language } = this.props;
-		let player;
-		let action;
+		// USE FOR PLACEHOLDER
+		let player, action;
 		if (language == 'FR') {
 			player = text.playerFR;
 			action = text.actionFR;
@@ -396,16 +411,15 @@ class RecordsAccueil extends Component {
 			player = text.playerEN;
 			action = text.actionEN;
 		}
-		this.setState({
-			origin: origin,
-			isLoading: true
-		});
 
 		//On stop l'enregistrement
 		try {
 			await this.recording.stopAndUnloadAsync();
-		} catch (error) {}
+		} catch (error) {
+			console.log('ERROR STOP RECORDING : ' + JSON.stringify(error, null, 2));
+		}
 
+		// ON REMET LE MODE POUR LA LECTURE DE SONS
 		await Audio.setAudioModeAsync({
 			staysActiveInBackground: true,
 			allowsRecordingIOS: false,
@@ -415,15 +429,18 @@ class RecordsAccueil extends Component {
 			interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DUCK_OTHERS,
 			shouldDuckAndroid: true
 		});
+
+		// ON RECUPERE L'AUDIO ENREGISTRÉ
 		const { sound, status } = await this.recording.createNewLoadedSoundAsync(
 			{
 				isLooping: false,
-				isMuted: this.state.muted,
 				volume: 1,
 				rate: this.state.rate
 			},
 			this._updateScreenForSoundStatus
 		);
+
+		// ON CRÉÉ L'ITEM AUDIO
 		if (origin == 'name') {
 			if (this.soundsArray[0] == null || this.soundsArray[0] == undefined) {
 				this.rowRefs[0]._addName(player + ' 1');
@@ -491,46 +508,6 @@ class RecordsAccueil extends Component {
 			return <Image style={styles.lockedPremium} source={require('../assets/button-images/button-lock.png')} />;
 		}
 	}
-
-	// WHEN RECORDIN
-	_toggleModalRecord = (origin) => {
-		const { language } = this.props;
-		if (this._timer == null) {
-			// Reset var and save record
-			if (this.state.isModalVisible) {
-				this._onRecordPressed(this.state.origin);
-				clearInterval(this._intervall);
-				this._intervall = null;
-				this.setState({
-					recordingDurationTest: 0
-				});
-			} else {
-				this._onRecordPressed(origin);
-				// Set var and start record
-				let addRecordTitle;
-				if (origin == 'name') {
-					if (language == 'FR') {
-						addRecordTitle = text.addRecordNameFR;
-					} else if (language == 'EN') {
-						addRecordTitle = text.addRecordNameEN;
-					}
-				} else if (origin == 'action') {
-					if (language == 'FR') {
-						addRecordTitle = text.addRecordActionFR;
-					} else if (language == 'EN') {
-						addRecordTitle = text.addRecordActionEN;
-					}
-				}
-				this._intervall = setInterval(() => {
-					this.setState({
-						recordingDurationTest: this.state.recordingDurationTest + 1,
-						addRecordTitle
-					});
-				}, 1000);
-			}
-			this.setState({ isModalVisible: !this.state.isModalVisible }, () => this._initTimer());
-		}
-	};
 
 	// TO AVOID REPETITION WITH MODAL
 	_initTimer = () => {

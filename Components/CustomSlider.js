@@ -15,12 +15,6 @@ export default class CustomSlider extends Component {
 
 	render() {
 		const { defaultValuesSlider, premium } = this.props;
-		let enabled;
-		if (true) {
-			enabled = true;
-		} else {
-			enabled = false;
-		}
 		let min, max;
 		if (premium) {
 			min = 30;
@@ -35,8 +29,8 @@ export default class CustomSlider extends Component {
 					<MultiSlider
 						values={defaultValuesSlider}
 						sliderLength={width - 150}
-						enabledOne={enabled}
-						enabledTwo={enabled}
+						enabledOne={true}
+						enabledTwo={true}
 						isMarkersSeparated={true}
 						touchDimensions={{ height: 50, width: 50, borderRadius: 15, slipDisplacement: height }}
 						min={min}

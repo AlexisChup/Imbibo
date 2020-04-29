@@ -4,32 +4,6 @@ import { Text, StyleSheet, View, Image } from 'react-native';
 export default class MarkerSlider extends Component {
 	constructor(props) {
 		super(props);
-
-		this.state = {};
-	}
-
-	_displayItemsSlider(text) {
-		const { premium } = this.props;
-		if (true) {
-			return (
-				<View style={{}}>
-					<Image style={styles.markersImage} source={require('../assets/slider/marker.png')} />
-					<View style={styles.containerMarkerText}>
-						<Text style={styles.textMarker}> {text} </Text>
-					</View>
-				</View>
-			);
-		} else {
-			return (
-				<View>
-					<Image style={styles.markersImage} source={require('../assets/slider/marker-locked.png')} />
-					{/* <View style = { styles.containerMarkerText }>
-                <Text style = { styles.textMarker }> {text} </Text>
-    
-              </View> */}
-				</View>
-			);
-		}
 	}
 
 	render() {
@@ -62,7 +36,14 @@ export default class MarkerSlider extends Component {
 			}
 			text = '4   min' + '\n' + zero + (value - 240) + ' s';
 		}
-		return <View style={styles.containerMarker}>{this._displayItemsSlider(text)}</View>;
+		return (
+			<View style={styles.containerMarker}>
+				<Image style={styles.markersImage} source={require('../assets/slider/marker.png')} />
+				<View style={styles.containerMarkerText}>
+					<Text style={styles.textMarker}> {text} </Text>
+				</View>
+			</View>
+		);
 	}
 }
 
