@@ -322,8 +322,8 @@ class PremiumPopUp extends React.Component {
 					isVisible={this.state.isModalVisible}
 					backdropColor="#B4B3DB"
 					backdropOpacity={0.8}
-					animationIn="zoomInDown"
-					animationOut="zoomOutUp"
+					animationIn="slideInUp"
+					animationOut="slideOutDown"
 					animationInTiming={600}
 					animationOutTiming={600}
 					backdropTransitionInTiming={600}

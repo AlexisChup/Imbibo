@@ -21,6 +21,9 @@ export default class FlatListItemActions extends Component {
 		this.state = {
 			actionName: '',
 			showItem: new Animated.Value(0.01),
+			scalePlayButton: new Animated.Value(1),
+			scalePauseButton: new Animated.Value(1),
+			scaleStopButton: new Animated.Value(1),
 			disabled: false,
 			opacity: 1,
 			isOnePlaying: false,
@@ -95,10 +98,40 @@ export default class FlatListItemActions extends Component {
 		}
 	};
 
+	// Animations for the 3 little buttons
+	_toggleOnPressIn = (buttonOrigin) => {
+		Animated.spring(buttonOrigin, {
+			toValue: 0.6,
+			friction: 15,
+			tension: 18,
+			useNativeDriver: false
+		}).start();
+	};
+
+	_toggleOnPressOut = (buttonOrigin) => {
+		Animated.spring(buttonOrigin, {
+			toValue: 1,
+			friction: 15,
+			tension: 18,
+			useNativeDriver: false
+		}).start();
+	};
+
 	render() {
 		const { index, item } = this.props;
 		const animItemTransform = {
 			transform: [ { scale: this.state.showItem } ]
+		};
+
+		const { scalePlayButton, scalePauseButton, scaleStopButton } = this.state;
+		const sPlayButton = {
+			transform: [ { scale: scalePlayButton } ]
+		};
+		const sPauseButton = {
+			transform: [ { scale: scalePauseButton } ]
+		};
+		const sStopButton = {
+			transform: [ { scale: scaleStopButton } ]
 		};
 		if (index == 0 && item == null) {
 			return null;
@@ -136,39 +169,45 @@ export default class FlatListItemActions extends Component {
 					</View>
 					<View style={styles.iconFlatList}>
 						<TouchableWithoutFeedback
+							onPressIn={() => this._toggleOnPressIn(scalePlayButton)}
+							onPressOut={() => this._toggleOnPressOut(scalePlayButton)}
 							onPress={async () => this.props.playItemRecord(item, index, 'action')}
 							disabled={this.state.disabled}
 						>
-							<View style={{ opacity: this.state.opacity }}>
+							<Animated.View style={[ { opacity: this.state.opacity }, sPlayButton ]}>
 								<Image
 									style={styles.buttonFlatList}
 									source={require('../assets/button-images/button-FL-play.png')}
 								/>
-							</View>
+							</Animated.View>
 						</TouchableWithoutFeedback>
 
 						<TouchableWithoutFeedback
+							onPressIn={() => this._toggleOnPressIn(scalePauseButton)}
+							onPressOut={() => this._toggleOnPressOut(scalePauseButton)}
 							onPress={() => this.props.stopItemRecord(index, 'action')}
 							disabled={this.state.disabled}
 						>
-							<View style={{ opacity: this.state.opacity }}>
+							<Animated.View style={[ { opacity: this.state.opacity }, sPauseButton ]}>
 								<Image
 									style={styles.buttonFlatList}
 									source={require('../assets/button-images/button-FL-stop.png')}
 								/>
-							</View>
+							</Animated.View>
 						</TouchableWithoutFeedback>
 
 						<TouchableWithoutFeedback
+							onPressIn={() => this._toggleOnPressIn(scaleStopButton)}
+							onPressOut={() => this._toggleOnPressOut(scaleStopButton)}
 							onPress={() => this._deleteItem(index)}
 							disabled={this.state.disabled}
 						>
-							<View style={{ opacity: this.state.opacity }}>
+							<Animated.View style={[ { opacity: this.state.opacity }, sStopButton ]}>
 								<Image
 									style={styles.buttonFlatList}
 									source={require('../assets/button-images/button-FL-trash.png')}
 								/>
-							</View>
+							</Animated.View>
 						</TouchableWithoutFeedback>
 					</View>
 				</Animated.View>
@@ -190,7 +229,6 @@ const styles = StyleSheet.create({
 		flex: 1
 	},
 	inputText: {
-		fontStyle: 'italic',
 		fontSize: 15,
 		color: white,
 		fontFamily: 'montserrat-regular'

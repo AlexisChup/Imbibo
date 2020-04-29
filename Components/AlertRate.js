@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, StyleSheet, View, TouchableOpacity, Button, Dimensions, AsyncStorage } from 'react-native';
+import { Text, StyleSheet, View, Dimensions, AsyncStorage } from 'react-native';
 import { red, blue, green, white } from '../assets/colors';
 import * as text from '../assets/textInGame/listTextRate';
 import Rate, { AndroidMarket } from 'react-native-rate';
