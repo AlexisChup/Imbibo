@@ -13,7 +13,9 @@ export default class FlatListItem extends Component {
 			joueurName: '',
 			showItem: new Animated.Value(0.01),
 			disabled: false,
-			opacity: 1
+			opacity: 1,
+			isOnePlaying: false,
+			backgroundColor: blue
 		};
 		this._updateName = this._updateName.bind(this);
 		this.rowRefs = {};
@@ -65,6 +67,27 @@ export default class FlatListItem extends Component {
 		});
 	}
 
+	// START ANIMATIONS WHEN PLAY AUDIO
+	_startAnimation = () => {
+		console.log('YES ANIMATIONS');
+		this.setState({
+			isOnePlaying: true,
+			backgroundColor: red
+		});
+	};
+
+	// END ANIMATIONS WHEN FINISHING PLAYING AUDIO
+	_endAnimation = () => {
+		const { isOnePlaying } = this.state;
+		if (isOnePlaying) {
+			console.log('FIN ANIMATION');
+			this.setState({
+				isOnePlaying: false,
+				backgroundColor: blue
+			});
+		}
+	};
+
 	render() {
 		const { index, item } = this.props;
 		const animItemTransform = {
@@ -74,8 +97,9 @@ export default class FlatListItem extends Component {
 		if (index == 0 && (item == null || item == undefined)) {
 			return null;
 		} else {
+			const { backgroundColor } = this.state;
 			return (
-				<Animated.View style={[ styles.itemFlatList, animItemTransform ]}>
+				<Animated.View style={[ styles.itemFlatList, animItemTransform, { backgroundColor: backgroundColor } ]}>
 					{/* <TextInput 
                         style = {styles.textFlatList}
                         value = { this.state.joueurName }
@@ -96,10 +120,10 @@ export default class FlatListItem extends Component {
 							iconClass={Ionicons}
 							iconName={'md-person'}
 							iconColor={green}
-							iconBackgroundColor={blue}
+							iconBackgroundColor={backgroundColor}
 							placeholder={this.props.name}
 							placeholderTextColor={'#b7b7b7'}
-							inputStyle={styles.inputText}
+							inputStyle={[ styles.inputText, { backgroundColor: backgroundColor } ]}
 							style={styles.inputStyle}
 							useNativeDriver={false}
 						/>
@@ -149,7 +173,6 @@ export default class FlatListItem extends Component {
 
 const styles = StyleSheet.create({
 	itemFlatList: {
-		backgroundColor: blue,
 		width: width - 40,
 		height: 40,
 		flexDirection: 'row',
@@ -171,8 +194,7 @@ const styles = StyleSheet.create({
 		fontStyle: 'italic',
 		fontSize: 15,
 		color: white,
-		fontFamily: 'montserrat-regular',
-		backgroundColor: blue
+		fontFamily: 'montserrat-regular'
 	},
 	inputStyle: {
 		marginVertical: 5,

@@ -67,7 +67,8 @@ class RecordsAccueil extends Component {
 				nbActions: 1,
 				origin: 'name',
 				canRecord: true,
-				recordPrepared: false
+				recordPrepared: false,
+				itemPlayAudio: false
 			});
 		this.rowRefs = [];
 		this._intervall = null;
@@ -143,15 +144,17 @@ class RecordsAccueil extends Component {
 				this.rowRefs[1].disabledButtons(index);
 			}
 			if (this.soundPlayBack == item) {
-				await this.soundPlayBack.replayAsync();
-				this.setState({ soundEnded: false });
+				this.setState({ soundEnded: false, itemPlayAudio: true }, async () => {
+					await this.soundPlayBack.replayAsync();
+				});
 			} else {
 				this.soundPlayBack = null;
 				this.soundPlayBack = item;
 
 				this.soundPlayBack.setOnPlaybackStatusUpdate(this._updateScreenForSoundStatus);
-				await this.soundPlayBack.replayAsync();
-				this.setState({ soundEnded: false });
+				this.setState({ soundEnded: false, itemPlayAudio: true }, async () => {
+					await this.soundPlayBack.replayAsync();
+				});
 			}
 		} else {
 		}
@@ -164,7 +167,7 @@ class RecordsAccueil extends Component {
 	_stopItemRecord = (index, origin) => {
 		if (this.soundPlayBack != null) {
 			this.soundPlayBack.stopAsync();
-			this.setState({ soundEnded: true }, () => {
+			this.setState({ soundEnded: true, itemPlayAudio: false }, () => {
 				this.props.enablePopUp();
 				if (origin === 'name') {
 					this.rowRefs[0].enabledButtons(index);
@@ -212,7 +215,7 @@ class RecordsAccueil extends Component {
 		} else {
 			console.log('MAUVAISE ORIGINE');
 		}
-		this.setState({ soundEnded: true });
+		this.setState({ soundEnded: true, itemPlayAudio: false });
 	}
 
 	_animateRecordBouton(origin) {
@@ -308,7 +311,8 @@ class RecordsAccueil extends Component {
 		if (status.didJustFinish && !status.isLooping) {
 			this.setState(
 				{
-					soundEnded: true
+					soundEnded: true,
+					itemPlayAudio: false
 				},
 				() => this.props.enablePopUp(),
 				this.rowRefs[0].enabledButtons(),
@@ -361,8 +365,8 @@ class RecordsAccueil extends Component {
 
 	async _stopPlaybackAndBeginRecording(origin) {
 		//disabled Sound buttons
-		this.rowRefs[0].disabledButtons();
-		this.rowRefs[1].disabledButtons();
+		this.rowRefs[0].disabledButtons(null);
+		this.rowRefs[1].disabledButtons(null);
 		//Pour indiquer un chargement
 		this.setState(
 			{
@@ -534,6 +538,9 @@ class RecordsAccueil extends Component {
 
 		//From Language & premium
 		const { language, premium } = this.props;
+
+		const { itemPlayAudio } = this.state;
+
 		let displayPlayersButtonRecord;
 		let displayActionsButtonRecord;
 		if (language == 'FR') {
@@ -547,43 +554,53 @@ class RecordsAccueil extends Component {
 		var disabledActionButton;
 		var opaActionButton;
 
-		//Si l'on est en train de record un Name
-		if (this.state.isLoading || (this.state.isRecording && this.state.origin == 'name')) {
-			disabledActionButton = true;
-			opaActionButton = 0.2;
-			if (this.state.isRecording && this.state.origin == 'name') {
-				bgName = red;
-				borderColName = blue;
-				if (language == 'FR') {
-					displayPlayersButtonRecord = text.addRecordingFR;
-				} else if (language == 'EN') {
-					displayPlayersButtonRecord = text.addRecordingEN;
-				}
-			}
-		} else {
-			disabledActionButton = false;
-			opaActionButton = 1;
-		}
-
 		var disabledNameButton;
 		var opaNameButton;
-		//Si l'on est en train de record une Action
-		if (this.state.isLoading || (this.state.isRecording && this.state.origin == 'action')) {
-			disabledNameButton = true;
-			opaNameButton = 0.2;
-			if (this.state.isRecording && this.state.origin == 'action') {
-				bgAction = red;
-				borderColAction = blue;
-				if (language == 'FR') {
-					displayActionsButtonRecord = text.addRecordingFR;
-				} else if (language == 'EN') {
-					displayActionsButtonRecord = text.addRecordingEN;
+
+		//  IF NONE ITEM PLAY AUDIO -> ACT NORMALLY
+		if (!itemPlayAudio) {
+			//Si l'on est en train de record un Name
+			if (this.state.isLoading || (this.state.isRecording && this.state.origin == 'name')) {
+				disabledActionButton = true;
+				opaActionButton = 0.2;
+				if (this.state.isRecording && this.state.origin == 'name') {
+					bgName = red;
+					borderColName = blue;
+					if (language == 'FR') {
+						displayPlayersButtonRecord = text.addRecordingFR;
+					} else if (language == 'EN') {
+						displayPlayersButtonRecord = text.addRecordingEN;
+					}
 				}
+			} else {
+				disabledActionButton = false;
+				opaActionButton = 1;
+			}
+
+			//Si l'on est en train de record une Action
+			if (this.state.isLoading || (this.state.isRecording && this.state.origin == 'action')) {
+				disabledNameButton = true;
+				opaNameButton = 0.2;
+				if (this.state.isRecording && this.state.origin == 'action') {
+					bgAction = red;
+					borderColAction = blue;
+					if (language == 'FR') {
+						displayActionsButtonRecord = text.addRecordingFR;
+					} else if (language == 'EN') {
+						displayActionsButtonRecord = text.addRecordingEN;
+					}
+				}
+			} else {
+				disabledNameButton = false;
+				opaNameButton = 1;
 			}
 		} else {
-			disabledNameButton = false;
-			opaNameButton = 1;
+			disabledNameButton = true;
+			opaNameButton = 0.2;
+			disabledActionButton = true;
+			opaActionButton = 0.2;
 		}
+
 		return (
 			<SafeAreaView style={[ styles.container, { opacity: 1 } ]}>
 				<View style={{ flex: 1, paddingHorizontal: 20 }}>

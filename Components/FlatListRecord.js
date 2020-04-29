@@ -85,6 +85,8 @@ export default class FlatListRecord extends Component {
 		for (let i = 0; i < this.props.soundsArray.length; i++) {
 			if (!(index === i)) {
 				this.rowRefs[i]._disabledButtons();
+			} else {
+				this.rowRefs[i]._startAnimation();
 			}
 		}
 	}
@@ -95,6 +97,8 @@ export default class FlatListRecord extends Component {
 			if (!(index === i)) {
 				this.rowRefs[i]._enabledButtons();
 			}
+
+			this.rowRefs[i]._endAnimation();
 		}
 	}
 
