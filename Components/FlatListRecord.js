@@ -80,15 +80,21 @@ export default class FlatListRecord extends Component {
 		);
 	}
 
-	disabledButtons() {
+	// @params: index. if not null, not disable button -> it's one who play the audio
+	disabledButtons(index) {
 		for (let i = 0; i < this.props.soundsArray.length; i++) {
-			this.rowRefs[i]._disabledButtons();
+			if (!(index === i)) {
+				this.rowRefs[i]._disabledButtons();
+			}
 		}
 	}
 
-	enabledButtons() {
+	// @params: index. if not null, not enable button -> it's all execpt one who play the audio
+	enabledButtons(index) {
 		for (let i = 0; i < this.props.soundsArray.length; i++) {
-			this.rowRefs[i]._enabledButtons();
+			if (!(index === i)) {
+				this.rowRefs[i]._enabledButtons();
+			}
 		}
 	}
 

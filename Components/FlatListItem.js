@@ -106,7 +106,7 @@ export default class FlatListItem extends Component {
 					</View>
 					<View style={styles.iconFlatList}>
 						<TouchableWithoutFeedback
-							onPress={async () => this.props.playItemRecord(item, this._updateScreenForSoundStatus)}
+							onPress={async () => this.props.playItemRecord(item, index, 'name')}
 							disabled={this.state.disabled}
 						>
 							<View style={{ opacity: this.state.opacity }}>
@@ -118,7 +118,7 @@ export default class FlatListItem extends Component {
 						</TouchableWithoutFeedback>
 
 						<TouchableWithoutFeedback
-							onPress={() => this.props.stopItemRecord()}
+							onPress={() => this.props.stopItemRecord(index, 'name')}
 							disabled={this.state.disabled}
 						>
 							<View style={{ opacity: this.state.opacity }}>

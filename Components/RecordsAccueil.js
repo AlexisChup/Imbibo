@@ -125,9 +125,23 @@ class RecordsAccueil extends Component {
 	};
 	z;
 
-	async _playItemRecord(item) {
+	/*
+		@params: item : the Audio Object
+		@params: index : the index in the Flatlist Of records
+		@params: orgin : Where the function come from ? "name" : "action"
+
+	*/
+	async _playItemRecord(item, index, origin) {
 		if (this.state.soundEnded) {
+			//disabled Sound buttons
 			this.props.disablePopUp();
+			if (origin === 'name') {
+				this.rowRefs[0].disabledButtons(index);
+				this.rowRefs[1].disabledButtons(null);
+			} else if (origin === 'action') {
+				this.rowRefs[0].disabledButtons(null);
+				this.rowRefs[1].disabledButtons(index);
+			}
 			if (this.soundPlayBack == item) {
 				await this.soundPlayBack.replayAsync();
 				this.setState({ soundEnded: false });
@@ -142,18 +156,44 @@ class RecordsAccueil extends Component {
 		} else {
 		}
 	}
+	/*
+		@params: index : the index in the Flatlist Of records
+		@params: orgin : Where the function come from ? "name" : "action"
 
-	_stopItemRecord = () => {
+	*/
+	_stopItemRecord = (index, origin) => {
 		if (this.soundPlayBack != null) {
 			this.soundPlayBack.stopAsync();
-			this.setState({ soundEnded: true }, () => this.props.enablePopUp());
+			this.setState({ soundEnded: true }, () => {
+				this.props.enablePopUp();
+				if (origin === 'name') {
+					this.rowRefs[0].enabledButtons(index);
+					this.rowRefs[1].enabledButtons(null);
+				} else if (origin === 'action') {
+					this.rowRefs[0].enabledButtons(null);
+					this.rowRefs[1].enabledButtons(index);
+				}
+			});
 		}
 	};
 
+	/*
+		@params: index : the index in the Flatlist Of records
+		@params: orgin : Where the function come from ? "name" : "action"
+
+	*/
 	_deleteItemRecord(i, origin) {
 		if (!this.state.soundEnded) {
 			this.soundPlayBack.stopAsync();
 			this.props.enablePopUp();
+
+			if (origin === 'name') {
+				this.rowRefs[0].enabledButtons(i);
+				this.rowRefs[1].enabledButtons(null);
+			} else if (origin === 'action') {
+				this.rowRefs[0].enabledButtons(null);
+				this.rowRefs[1].enabledButtons(i);
+			}
 		}
 		if (origin == 'name') {
 			this.rowRefs[0]._deleteName(i);
@@ -270,7 +310,9 @@ class RecordsAccueil extends Component {
 				{
 					soundEnded: true
 				},
-				() => this.props.enablePopUp()
+				() => this.props.enablePopUp(),
+				this.rowRefs[0].enabledButtons(),
+				this.rowRefs[1].enabledButtons()
 			);
 			if (this.soundPlayBack != null) {
 				this.soundPlayBack.pauseAsync();

@@ -61,7 +61,8 @@ export const containerBottom = {
 // FOR CONTAINER VIEW (THE REST)
 export const containerView = {
 	backgroundColor: green,
-	flex: 1
+	flex: 1,
+	paddingBottom: 10
 };
 
 // FOR BUTTON BOTTOM BAR
