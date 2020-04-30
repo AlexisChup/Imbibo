@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StatusBar, StyleSheet, Text, View, SafeAreaView, Dimensions, Image, Animated, Switch } from 'react-native';
-
+import * as RNLocalize from 'react-native-localize';
 import * as stl from '../assets/styles/styles';
 import HomeTabNaviga from './HomeTabNaviga';
 
@@ -141,9 +141,22 @@ class Home extends Component {
 
 	async UNSAFE_componentWillMount() {
 		const isFirstLaunch = await checkIfFirstLaunch();
+		if (isFirstLaunch) {
+			this._setLanguageFirstLaunch();
+		}
 		SplashScreen.hide();
 		this.setState({ isFirstLaunch, hasCheckedAsyncStorage: true, showIntroSliders: isFirstLaunch });
 	}
+
+	//  Set the language when is it the first time
+	_setLanguageFirstLaunch = () => {
+		const countryCode = RNLocalize.getCountry();
+		if (countryCode == 'EN') {
+			this._setLanguage('SET_EN', 'EN');
+		} else {
+			this._setLanguage('SET_FR', 'FR');
+		}
+	};
 
 	async componentDidMount() {
 		// Disable back button
@@ -151,19 +164,7 @@ class Home extends Component {
 		// 	return true;
 		// });
 
-		const { language } = this.props;
 		setTimeout(() => this._animateLogo(), 1000);
-
-		//get the device's language only if there wasn't already a langage set by the user
-		if (language == null) {
-			this.language = 'FR';
-			// this.language = Localization.locale;
-			if (this.language == 'fr-FR' || this.language == 'FR' || this.language == 'fr') {
-				this._setLanguage('SET_FR', 'FR');
-			} else {
-				this._setLanguage('SET_EN', 'EN');
-			}
-		}
 
 		//warning message
 		// this._displayWarning()

@@ -19,13 +19,15 @@ export default class AlertRecord extends Component {
 		this.props.hideAlert();
 	};
 
-	handleOnConfirmPressed = () => {
+	handleOnConfirmPressed = (orgin) => {
 		const { showPermissionAlert } = this.props;
 		if (showPermissionAlert === undefined) {
 			this.hideAlert();
 		} else {
 			this.hideAlert();
-			this.props.showPermissionAlert();
+			if (orgin !== 'permissionAskAgain') {
+				this.props.showPermissionAlert();
+			}
 		}
 	};
 
@@ -103,6 +105,16 @@ export default class AlertRecord extends Component {
 					cancelText = 'Later';
 				}
 				showCancelButton = true;
+			} else if (showAlertPremiumOrigin == 'permissionAskAgain') {
+				if (language == 'FR') {
+					textAlertTitle = 'PROBLÈME !';
+					textAlert =
+						"Vous avez choisis l'option 'Ne plus redemander l'autorisation'.\n Veuillez désinstaller Imbibo puis le réinstaller pour pouvoir autoriser l'accès au microphone.";
+				} else if (language == 'EN') {
+					textAlertTitle = 'PROBLEM !';
+					textAlert =
+						'You choose never ask again. \n To allow access to your microphone you need to uninstall Imbibo then reinstall.';
+				}
 			} else if (showAlertPremiumOrigin == 'undefined') {
 				if (language == 'FR') {
 					textAlertTitle = 'PROBLÈME !';
@@ -151,7 +163,7 @@ export default class AlertRecord extends Component {
 						this.handleOnCancelPressed();
 					}}
 					onConfirmPressed={() => {
-						this.handleOnConfirmPressed();
+						this.handleOnConfirmPressed(showAlertPremiumOrigin);
 					}}
 					onDismiss={() => {
 						this.hideAlert();

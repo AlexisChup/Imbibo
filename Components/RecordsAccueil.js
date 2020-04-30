@@ -87,6 +87,12 @@ class RecordsAccueil extends Component {
 		this.setState({
 			haveRecordingPermissions: response.status === 'granted'
 		});
+		//  If the user choose 'Don"t ask again"
+		if (!response.permissions.audioRecording.canAskAgain) {
+			setTimeout(() => {
+				this.props.showAlertFunc('permissionAskAgain');
+			}, 500);
+		}
 	};
 	z;
 
