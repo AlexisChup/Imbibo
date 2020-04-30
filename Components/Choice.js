@@ -67,7 +67,6 @@ class Choice extends Component {
 		const valuesSlider = this.valuesSlider;
 		//mode de jeu
 		const mod = this.mod;
-
 		this.props.navigation.navigate('GameScreen', {
 			records: records,
 			valuesSlider: valuesSlider,

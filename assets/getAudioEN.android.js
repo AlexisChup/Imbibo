@@ -13,11 +13,15 @@ export const entryWelcome = [
 export const fewActionDis = [
 	{
 		actionAudio: { uri: 'asset:/1_en.m4a' },
-		actionName: 'give out 1 sip'
+		actionName: 'give out 1 sip',
+		sipsDrank: 0,
+		sipsGiven: 1
 	},
 	{
 		actionAudio: { uri: 'asset:/2_en.m4a' },
-		actionName: 'give out 2 sips'
+		actionName: 'give out 2 sips',
+		sipsDrank: 0,
+		sipsGiven: 2
 	}
 	// {
 	//     actionAudio  : require('./audios/EN/few/distribute/.m4a'),
@@ -31,11 +35,15 @@ export const fewActionDis = [
 export const fewActionTak = [
 	{
 		actionAudio: { uri: 'asset:/3_en.m4a' },
-		actionName: 'drink 1 sip'
+		actionName: 'drink 1 sip',
+		sipsDrank: 1,
+		sipsGiven: 0
 	},
 	{
 		actionAudio: { uri: 'asset:/4_en.m4a' },
-		actionName: 'drink 2 sips'
+		actionName: 'drink 2 sips',
+		sipsDrank: 2,
+		sipsGiven: 0
 	}
 	// {
 	//     actionAudio  : require('./audios/EN/few/take/.m4a'),
@@ -49,11 +57,15 @@ export const fewActionTak = [
 export const mediumActionDis = [
 	{
 		actionAudio: { uri: 'asset:/5_en.m4a' },
-		actionName: 'give out 3 sips'
+		actionName: 'give out 3 sips',
+		sipsDrank: 0,
+		sipsGiven: 3
 	},
 	{
 		actionAudio: { uri: 'asset:/6_en.m4a' },
-		actionName: 'give out 4 sips'
+		actionName: 'give out 4 sips',
+		sipsDrank: 0,
+		sipsGiven: 4
 	}
 	// {
 	//     actionAudio  : require('./audios/EN/medium/distribute/.m4a'),
@@ -67,11 +79,15 @@ export const mediumActionDis = [
 export const mediumActionTak = [
 	{
 		actionAudio: { uri: 'asset:/7_en.m4a' },
-		actionName: 'drink 3 sips'
+		actionName: 'drink 3 sips',
+		sipsDrank: 3,
+		sipsGiven: 0
 	},
 	{
 		actionAudio: { uri: 'asset:/8_en.m4a' },
-		actionName: 'drink 4 sips'
+		actionName: 'drink 4 sips',
+		sipsDrank: 4,
+		sipsGiven: 0
 	}
 	// {
 	//     actionAudio  : require('./audios/EN/medium/take/.m4a'),
@@ -85,11 +101,15 @@ export const mediumActionTak = [
 export const manyActionDis = [
 	{
 		actionAudio: { uri: 'asset:/9_en.m4a' },
-		actionName: 'give out 5 sips'
+		actionName: 'give out 5 sips',
+		sipsDrank: 0,
+		sipsGiven: 5
 	},
 	{
 		actionAudio: { uri: 'asset:/10_en.m4a' },
-		actionName: 'give out 6 sips'
+		actionName: 'give out 6 sips',
+		sipsDrank: 0,
+		sipsGiven: 6
 	}
 	// {
 	//     actionAudio  : require('./audios/EN/many/distribute/.m4a'),
@@ -103,11 +123,15 @@ export const manyActionDis = [
 export const manyActionTak = [
 	{
 		actionAudio: { uri: 'asset:/11_en.m4a' },
-		actionName: 'drink 5 sips'
+		actionName: 'drink 5 sips',
+		sipsDrank: 5,
+		sipsGiven: 0
 	},
 	{
 		actionAudio: { uri: 'asset:/12_en.m4a' },
-		actionName: 'drink 6 sips'
+		actionName: 'drink 6 sips',
+		sipsDrank: 6,
+		sipsGiven: 0
 	}
 	// {
 	//     actionAudio  : require('./audios/EN/many/distribute/.m4a'),
@@ -121,7 +145,9 @@ export const manyActionTak = [
 export const calActionDis = [
 	{
 		actionAudio: { uri: 'asset:/10_en.m4a' },
-		actionName: 'give a bottom up'
+		actionName: 'give a bottom up',
+		sipsDrank: 0,
+		sipsGiven: 10
 	}
 	// {
 	//     actionAudio  : require('./audios/EN/cal/distribute/.m4a'),
@@ -131,7 +157,9 @@ export const calActionDis = [
 export const calActionTak = [
 	{
 		actionAudio: { uri: 'asset:/12_en.m4a' },
-		actionName: 'finish you drink'
+		actionName: 'finish you drink',
+		sipsDrank: 0,
+		sipsGiven: 10
 	}
 	// {
 	//     actionAudio  : require('./audios/EN/cal/take/.m4a'),
@@ -141,7 +169,9 @@ export const calActionTak = [
 export const shotActionDis = [
 	{
 		actionAudio: { uri: 'asset:/10_en.m4a' },
-		actionName: 'give out a shooter'
+		actionName: 'give out a shooter',
+		sipsDrank: 0,
+		sipsGiven: 6
 	}
 	// {
 	//     actionAudio  : require('./audios/EN/shot/distribute/.m4a'),
@@ -151,7 +181,9 @@ export const shotActionDis = [
 export const shotActionTak = [
 	{
 		actionAudio: { uri: 'asset:/12_en.m4a' },
-		actionName: 'take a shooter'
+		actionName: 'take a shooter',
+		sipsDrank: 6,
+		sipsGiven: 0
 	}
 	// {
 	//     actionAudio  : require('./audios/EN/shot/take/.m4a'),
@@ -161,11 +193,15 @@ export const shotActionTak = [
 export const ebyAction = [
 	{
 		actionAudio: { uri: 'asset:/18_en.mp3' },
-		actionName: 'Everybody drinks 1 sips'
+		actionName: 'Everybody drinks 1 sips',
+		sipsDrank: 1,
+		sipsGiven: 0
 	},
 	{
 		actionAudio: { uri: 'asset:/19_en.mp3' },
-		actionName: 'Everybody drinks  sips'
+		actionName: 'Everybody drinks 3 sips',
+		sipsDrank: 3,
+		sipsGiven: 0
 	}
 	// {
 	//     actionAudio  : require('./audios/EN/all/.m4a'),

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, StyleSheet, View, SafeAreaView, Dimensions, StatusBar, FlatList } from 'react-native';
+import { Text, StyleSheet, View, SafeAreaView, Dimensions, StatusBar, FlatList, Button } from 'react-native';
 import { connect } from 'react-redux';
 import Chronometer from './Chronometer';
 import GameTabNav from './GameTabNav';
@@ -48,12 +48,18 @@ class Game extends Component {
 	}
 
 	_goToEndScreen() {
-		const records = this.props.navigation.getParam('records');
+		// const records = this.props.navigation.getParam('records');
 		this.refs.chrono._stopChrono();
+		const arrayName = this.refs.chrono._returnAmountOfSips();
 		this.props.navigation.navigate('EndScreen', {
-			names: records.namesName
+			names: arrayName
 		});
 	}
+
+	_returnSipsByPlayer = () => {
+		const arrayName = this.refs.chrono._returnAmountOfSips();
+		console.log(JSON.stringify(arrayName, null, 2));
+	};
 
 	// Pres on Play/Pause
 	_onPlayPausePressedTabNav() {
@@ -116,6 +122,7 @@ class Game extends Component {
 						<Text style={stl.headerTitle}> {displayNameNaviga} </Text>
 					</View>
 				</View>
+				{/* <Button title="Augmentation" onPress={() => this._returnSipsByPlayer()} /> */}
 
 				<View style={[ stl.containerView ]}>
 					<View style={styles.containerTitle}>

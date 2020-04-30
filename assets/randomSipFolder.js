@@ -58,10 +58,8 @@ export function randomSipFolder(mod, nbActionsUser, langage, groupAction) {
 		}
 
 		if (actionUser) {
-			console.log('USER ACTION');
 			return 'UserAction';
 		} else {
-			console.log('GROUP ACTION');
 			const randomIndex = Math.floor(Math.random() * audio.ebyAction.length);
 			// console.log('Every body action ' + randomIndex);
 			return audio.ebyAction[randomIndex];
@@ -85,10 +83,8 @@ export function randomSipFolder(mod, nbActionsUser, langage, groupAction) {
 		}
 
 		if (actionUser) {
-			console.log('USER ACTION');
 			return 'UserAction';
 		} else {
-			console.log('INDIVIDUAL ACTION');
 			//no action's user
 			//mod normal
 			if (mod == 0) {

@@ -228,6 +228,19 @@ class Home extends Component {
 			});
 		} else {
 			this.records = this.rowRefs[0]._getDatasBeforeNavigate();
+
+			const recordsNameNames = this.records.namesName;
+			const iterator = recordsNameNames.values();
+			let arrayName = [];
+			for (const name of iterator) {
+				arrayName.push({
+					name: name,
+					sipsDrank: 0,
+					sipsGiven: 0
+				});
+			}
+			this.records.namesName = arrayName;
+			console.log('Array object of nameName : ' + JSON.stringify(arrayName, null, 4));
 			this.props.navigation.navigate('ChoiceScreen', {
 				nbJoueurs: nb,
 				records: this.records

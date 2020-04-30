@@ -30,6 +30,7 @@ export default class Chronometer extends React.Component {
 
 		//this.goToChild = this.props._goToChild
 		this.audioSampleAction;
+		this.indexNameArray = 0;
 		this._tickInterval = null;
 		this._rN = 0;
 		this._rNInit1 = 0;
@@ -37,6 +38,7 @@ export default class Chronometer extends React.Component {
 		this._rTimeLimit = -1;
 		this.actualName = '';
 		this.actualAction = '';
+		this.namesName = [];
 		this.groupAction = false;
 		this.originAudioRecorded = 'name';
 		this.state = {
@@ -56,7 +58,7 @@ export default class Chronometer extends React.Component {
 
 	componentDidMount() {
 		const { records } = this.props;
-
+		this.namesName = records.namesName;
 		this.setState({
 			nbJoueurs: records.names.length
 		});
@@ -171,6 +173,9 @@ export default class Chronometer extends React.Component {
 			displayTimeLimit: 0
 		});
 
+		// INIT for amount of sips
+		this.indexNameArray = null;
+
 		//Si le jeu n'est pas en pause on joue
 		if (this.state.isPlaying) {
 			this._initInterval();
@@ -250,7 +255,8 @@ export default class Chronometer extends React.Component {
 				const index = Math.round(Math.random() * (records.names.length - 1));
 
 				audioObjectNames = records.names[index];
-				this.actualName = records.namesName[index];
+				this.actualName = records.namesName[index].name;
+				this.indexNameArray = index;
 				try {
 					audioObjectNames.setOnPlaybackStatusUpdate(this._onPlaybackStatusUpdateName);
 					//await audioObject.loadAsync(records.names[index])
@@ -268,6 +274,17 @@ export default class Chronometer extends React.Component {
 		}
 	}
 
+	// Increase number of sips
+	_updateRecordSips = (index, sipsDrank, sipsGiven) => {
+		this.namesName[index].sipsDrank = this.namesName[index].sipsDrank + sipsDrank;
+		this.namesName[index].sipsGiven = this.namesName[index].sipsGiven + sipsGiven;
+	};
+
+	// Return all sips of all players
+	_returnAmountOfSips = () => {
+		return this.namesName;
+	};
+
 	async _playRandomAction() {
 		if (this.state.isPlaying && this.state.gameStarted) {
 			//add to the history with appropriate language
@@ -279,19 +296,21 @@ export default class Chronometer extends React.Component {
 
 			//si ce n'est pas un user action
 			if (audio != 'UserAction') {
-				console.log('ON VA JOUER INDIVIDUAL ACTION');
 				try {
 					this.actualAction = audio.actionName;
+
+					if (this.indexNameArray !== null) {
+						this._updateRecordSips(this.indexNameArray, audio.sipsDrank, audio.sipsGiven);
+					}
 					audioObjectActions.setOnPlaybackStatusUpdate(this._onPlaybackStatusUpdateAction);
 					// await audioObjectActions.loadAsync({ uri: 'asset:/19_fr.mp3' });
 					await audioObjectActions.loadAsync(audio.actionAudio);
 
-					await audioObjectActions.playAsync().then(() => console.log('LECTURE CORRECt'));
+					await audioObjectActions.playAsync();
 				} catch (error) {
 					console.log('error : ' + JSON.stringify(error, null, 2));
 				}
 			} else {
-				console.log("On prépare l'audio USER");
 				this.originAudioRecorded = 'action';
 				//user actions
 				audioObjectNames = null;

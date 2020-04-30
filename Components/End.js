@@ -110,53 +110,7 @@ class End extends Component {
 				drank = 'Drank';
 				given = 'Given';
 			}
-			const recordsTest = {
-				names: [
-					{
-						name: 'John',
-						sipsDrank: 16,
-						sipsGiven: 12
-					},
-					{
-						name: 'Spiloi',
-						sipsDrank: 7,
-						sipsGiven: 42
-					},
-					{
-						name: 'PasDeChance',
-						sipsDrank: 107,
-						sipsGiven: 2
-					},
-					{
-						name: 'LaChatte',
-						sipsDrank: 4,
-						sipsGiven: 105
-					},
-					{
-						name: 'Spiloi',
-						sipsDrank: 7,
-						sipsGiven: 42
-					},
-					{
-						name: 'Spiloi',
-						sipsDrank: 7,
-						sipsGiven: 42
-					},
-					{
-						name: 'Spiloi',
-						sipsDrank: 7,
-						sipsGiven: 42
-					},
-					{
-						name: 'Spiloi',
-						sipsDrank: 7,
-						sipsGiven: 42
-					}
-				],
-				namesName: [ null ],
-				actions: [ null ],
-				actionsName: [ null ]
-			};
+
 			return (
 				<View style={styles.scoreBoard}>
 					<View style={styles.scoreBoardHeader}>
@@ -165,7 +119,7 @@ class End extends Component {
 						<Text style={[ styles.scoreBoardTitle ]}>{given}</Text>
 					</View>
 					<FlatList
-						data={recordsTest.names}
+						data={names}
 						keyExtractor={(item, index) => index.toString()}
 						renderItem={({ item, index }) => (
 							<View style={[ styles.scoreBoardItem ]}>
