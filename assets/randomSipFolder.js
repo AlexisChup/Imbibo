@@ -5,6 +5,27 @@ import * as audioEN from './getAudioEN';
 // eval(fs.readFileSync(__dirname + '/getAudioFR.js')+'');
 // eval(fs.readFileSync(__dirname + '/getAudioEN.js')+'');
 
+/*function to search the index of random folder to define the entry's vocal
+    @parmams :
+        langage : default langage
+*/
+export function randomEntryFolder(language) {
+	let audio;
+	if (language == 'FR') {
+		audio = audioFR;
+		// Search random index within the folder
+		const randomIndex = Math.floor(Math.random() * audio.entryWelcome.length);
+		return audio.entryWelcome[randomIndex];
+	} else if (language == 'EN') {
+		audio = audioEN;
+		// Search random index within the folder
+		const randomIndex = Math.floor(Math.random() * audio.entryWelcome.length);
+		return audio.entryWelcome[randomIndex];
+	} else {
+		console.log('PROBLEME WITH LANGUAGE SOURCE IN randomEntryFolder, language : ' + language);
+	}
+}
+
 /*function to search the index of random folder to define the number of sips
     @parmams :
         mod : mod choose by the user

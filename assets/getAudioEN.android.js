@@ -3,6 +3,13 @@
 
 */
 
+export const entryWelcome = [
+	{
+		actionAudio: { uri: 'asset:/33_en_1.mp3' },
+		actionName: "Let's go !"
+	}
+];
+
 export const fewActionDis = [
 	{
 		actionAudio: { uri: 'asset:/1_en.m4a' },

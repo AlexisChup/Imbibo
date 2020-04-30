@@ -3,6 +3,38 @@
 
 */
 
+// Audio Entry
+export const entryWelcome = [
+	{
+		actionAudio: { uri: 'asset:/33_fr_1.mp3' },
+		actionName: "Allez c'est partie !"
+	},
+	{
+		actionAudio: { uri: 'asset:/33_fr_2.mp3' },
+		actionName: "Allez c'est partie !"
+	},
+	{
+		actionAudio: { uri: 'asset:/33_fr_3.mp3' },
+		actionName: "Allez c'est partie !"
+	},
+	{
+		actionAudio: { uri: 'asset:/33_fr_4.mp3' },
+		actionName: "Allez c'est partie !"
+	},
+	{
+		actionAudio: { uri: 'asset:/33_fr_5.mp3' },
+		actionName: "Allez c'est partie !"
+	},
+	{
+		actionAudio: { uri: 'asset:/33_fr_6.mp3' },
+		actionName: "Allez c'est partie !"
+	},
+	{
+		actionAudio: { uri: 'asset:/33_fr_7.mp3' },
+		actionName: "Allez c'est partie !"
+	}
+];
+
 export const fewActionDis = [
 	{
 		actionAudio: { uri: 'asset:/1_fr.m4a' },

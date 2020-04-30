@@ -72,8 +72,44 @@ export default class Chronometer extends React.Component {
 		//this._initNeedle()
 
 		//let time to load images
-		setTimeout(() => this._animate(), this._initNeedle(), 500);
+		setTimeout(async () => {
+			this._animate(), this._welcomeSound();
+		}, 1000);
 	}
+
+	// Sound entry welcome
+	_welcomeSound = async () => {
+		const { language } = this.props;
+
+		//find random index
+		const audio = random.randomEntryFolder(language);
+
+		try {
+			audioObjectActions.setOnPlaybackStatusUpdate(this._onPlaybackStatusUpdateWelcome);
+			await audioObjectActions.loadAsync(audio.actionAudio);
+			await audioObjectActions.playAsync();
+		} catch (error) {
+			console.log('error : ' + JSON.stringify(error, null, 2));
+		}
+	};
+
+	_onPlaybackStatusUpdateWelcome = async (playbackStatus) => {
+		if (!playbackStatus.isLoaded) {
+			// Update your UI for the unloaded state
+			if (playbackStatus.error) {
+				console.log(`Encountered a fatal error during playback: ${playbackStatus.error}`);
+				// Send Expo team the error on Slack or the forums so we can help you debug!
+			}
+		} else {
+			if (playbackStatus.didJustFinish && !playbackStatus.isLooping) {
+				// To fix duck on android
+				await audioObjectActions.pauseAsync();
+				await audioObjectActions.unloadAsync().then(() => {
+					this._initNeedle();
+				});
+			}
+		}
+	};
 
 	_animate = () => {
 		const scaleStaggerAnimations = this.state.scales.map((animated) => {
