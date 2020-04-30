@@ -328,61 +328,67 @@ class RecordsAccueil extends Component {
 	// WHEN RECORDING
 	_toggleModalRecord = (origin) => {
 		const { language } = this.props;
-		if (this._timer == null) {
-			//_stopPlaybackAndBeginRecording
-			if (!this.state.isModalVisible) {
-				let addRecordTitle;
-				if (origin == 'name') {
-					if (language == 'FR') {
-						addRecordTitle = text.addRecordNameFR;
-					} else if (language == 'EN') {
-						addRecordTitle = text.addRecordNameEN;
+		const { haveRecordingPermissions } = this.state;
+		// If the user hasn't allow persmission to records -> PopUp Warning
+		if (!haveRecordingPermissions) {
+			this.props.showAlertFunc('permission');
+		} else {
+			if (this._timer == null) {
+				//_stopPlaybackAndBeginRecording
+				if (!this.state.isModalVisible) {
+					let addRecordTitle;
+					if (origin == 'name') {
+						if (language == 'FR') {
+							addRecordTitle = text.addRecordNameFR;
+						} else if (language == 'EN') {
+							addRecordTitle = text.addRecordNameEN;
+						}
+					} else if (origin == 'action') {
+						if (language == 'FR') {
+							addRecordTitle = text.addRecordActionFR;
+						} else if (language == 'EN') {
+							addRecordTitle = text.addRecordActionEN;
+						}
 					}
-				} else if (origin == 'action') {
-					if (language == 'FR') {
-						addRecordTitle = text.addRecordActionFR;
-					} else if (language == 'EN') {
-						addRecordTitle = text.addRecordActionEN;
-					}
+					//disabled Sound buttons
+					this.props.disablePopUp();
+					this.rowRefs[0].disabledButtons(null);
+					this.rowRefs[1].disabledButtons(null);
+					//Pour indiquer un chargement
+					this.setState(
+						{
+							isLoading: true,
+							origin: origin,
+							soundEnded: true,
+							addRecordTitle,
+							isModalVisible: true,
+							isRecording: true
+						},
+						() => this._initTimer(),
+						this._onRecordPressed(origin)
+					);
+
+					this._intervall = setInterval(() => {
+						this.setState({
+							recordingDurationTest: this.state.recordingDurationTest + 1
+						});
+					}, 1000);
+				} else {
+					// _stopRecordingAndEnablePlayback
+					this.setState(
+						{
+							isLoading: true,
+							recordingDurationTest: 0,
+							isModalVisible: false,
+							isRecording: false
+						},
+						() => this._initTimer(),
+						this._onRecordPressed(this.state.origin)
+					);
+
+					clearInterval(this._intervall);
+					this._intervall = null;
 				}
-				//disabled Sound buttons
-				this.props.disablePopUp();
-				this.rowRefs[0].disabledButtons(null);
-				this.rowRefs[1].disabledButtons(null);
-				//Pour indiquer un chargement
-				this.setState(
-					{
-						isLoading: true,
-						origin: origin,
-						soundEnded: true,
-						addRecordTitle,
-						isModalVisible: true,
-						isRecording: true
-					},
-					() => this._initTimer(),
-					this._onRecordPressed(origin)
-				);
-
-				this._intervall = setInterval(() => {
-					this.setState({
-						recordingDurationTest: this.state.recordingDurationTest + 1
-					});
-				}, 1000);
-			} else {
-				// _stopRecordingAndEnablePlayback
-				this.setState(
-					{
-						isLoading: true,
-						recordingDurationTest: 0,
-						isModalVisible: false,
-						isRecording: false
-					},
-					() => this._initTimer(),
-					this._onRecordPressed(this.state.origin)
-				);
-
-				clearInterval(this._intervall);
-				this._intervall = null;
 			}
 		}
 	};

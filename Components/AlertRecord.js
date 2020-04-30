@@ -19,8 +19,32 @@ export default class AlertRecord extends Component {
 		this.props.hideAlert();
 	};
 
+	handleOnConfirmPressed = () => {
+		const { showPermissionAlert } = this.props;
+		if (showPermissionAlert === undefined) {
+			this.hideAlert();
+		} else {
+			this.hideAlert();
+			this.props.showPermissionAlert();
+		}
+	};
+
+	handleOnCancelPressed = () => {
+		const { showPermissionAlert } = this.props;
+		if (!showPermissionAlert) {
+			this.hideAlert();
+		} else {
+			this.hideAlert();
+		}
+	};
+
 	render() {
-		const { showAlert, language, listText, showAlertPremiumOrigin } = this.props;
+		const { showAlert, language, listText, showAlertPremiumOrigin, showPermissionAlert } = this.props;
+		let confirmText;
+		let cancelText;
+		let showCancelButton = false;
+		confirmText = 'Ok';
+		cancelText = null;
 		let textAlert;
 		let textAlertTitle;
 
@@ -66,6 +90,19 @@ export default class AlertRecord extends Component {
 					textAlertTitle = 'PROBLEM !';
 					textAlert = 'You have internet connection issue.';
 				}
+			} else if (showAlertPremiumOrigin == 'permission') {
+				if (language == 'FR') {
+					textAlertTitle = 'PERMISSION';
+					textAlert = "Vous devez autoriser l'accès au micro.";
+					confirmText = 'Autoriser';
+					cancelText = 'Plus tard';
+				} else if (language == 'EN') {
+					textAlertTitle = 'PERMISSION';
+					textAlert = 'You need to allow microphone acces.';
+					confirmText = 'Allow';
+					cancelText = 'Later';
+				}
+				showCancelButton = true;
 			} else if (showAlertPremiumOrigin == 'undefined') {
 				if (language == 'FR') {
 					textAlertTitle = 'PROBLÈME !';
@@ -103,15 +140,18 @@ export default class AlertRecord extends Component {
 					closeOnTouchOutside={true}
 					closeOnHardwareBackPress={true}
 					showConfirmButton={true}
-					confirmText="Ok"
+					showCancelButton={showCancelButton}
+					confirmText={confirmText}
+					cancelText={cancelText}
 					cancelButtonColor={red}
 					confirmButtonColor={green}
+					cancelButtonTextStyle={{ fontFamily: 'montserrat-extra-bold' }}
 					confirmButtonTextStyle={{ fontFamily: 'montserrat-extra-bold' }}
 					onCancelPressed={() => {
-						this.hideAlert();
+						this.handleOnCancelPressed();
 					}}
 					onConfirmPressed={() => {
-						this.hideAlert();
+						this.handleOnConfirmPressed();
 					}}
 					onDismiss={() => {
 						this.hideAlert();

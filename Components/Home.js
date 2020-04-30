@@ -190,6 +190,7 @@ class Home extends Component {
 		});
 	}
 
+	// For Record permission or Purchase Premium error
 	_showAlertFuncPremium(origin) {
 		this.setState({
 			showAlertPremium: true,
@@ -317,6 +318,11 @@ class Home extends Component {
 		this._showAlertFuncPremium('premium');
 	}
 
+	// ASK PERMISSION FOR RECORD
+	showPermissionAlert = () => {
+		this.rowRefs[0]._askForPermissions();
+	};
+
 	render() {
 		const animLogo = this.state.animationLogo;
 		const { nbActions, nbJoueurs, hasCheckedAsyncStorage, isFirstLaunch, showIntroSliders } = this.state;
@@ -398,6 +404,7 @@ class Home extends Component {
 									triggerPopUp={this._triggerPopUp}
 									disablePopUp={this.disablePopUp}
 									enablePopUp={this.enablePopUp}
+									showAlertFunc={this._showAlertFuncPremium}
 								/>
 							</View>
 						</View>
@@ -422,6 +429,7 @@ class Home extends Component {
 						<AlertRecord
 							showAlert={this.state.showAlertPremium}
 							showAlertFunc={this._showAlertFuncPremium}
+							showPermissionAlert={this.showPermissionAlert}
 							hideAlert={this._hideAlertPremium}
 							language={this.props.language}
 							showAlertPremiumOrigin={this.state.showAlertPremiumOrigin}
