@@ -134,22 +134,20 @@ export default class Chronometer extends React.Component {
 	_stopChrono = async () => {
 		BackgroundTimer.clearInterval(this._tickInterval);
 		this._tickInterval = null;
-		if (this.state.isPlaying && this.state.gameStarted) {
-			if (audioObjectNames !== null) {
-				try {
-					await audioObjectNames.pauseAsync();
-					audioObjectNames = null;
-				} catch (error) {
-					console.log('ERROR STOP CHRONO NAMES: ' + JSON.stringify(error, null, 4));
-				}
+		if (audioObjectNames !== null) {
+			try {
+				await audioObjectNames.pauseAsync();
+				audioObjectNames = null;
+			} catch (error) {
+				console.log('ERROR STOP CHRONO NAMES: ' + JSON.stringify(error, null, 4));
 			}
-			if (audioObjectActions !== null) {
-				try {
-					await audioObjectActions.pauseAsync();
-					audioSampleAction = null;
-				} catch (error) {
-					console.log('ERROR STOP CHRONO ACTIONS: ' + JSON.stringify(error, null, 4));
-				}
+		}
+		if (audioObjectActions !== null) {
+			try {
+				await audioObjectActions.pauseAsync();
+				audioSampleAction = null;
+			} catch (error) {
+				console.log('ERROR STOP CHRONO ACTIONS: ' + JSON.stringify(error, null, 4));
 			}
 		}
 	};

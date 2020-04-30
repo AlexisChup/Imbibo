@@ -1,14 +1,25 @@
 import React, { Component } from 'react';
-import { Text, StyleSheet, View, Image, SafeAreaView, Dimensions, AsyncStorage, StatusBar } from 'react-native';
+import {
+	Text,
+	StyleSheet,
+	View,
+	Image,
+	SafeAreaView,
+	AsyncStorage,
+	StatusBar,
+	ScrollView,
+	FlatList,
+	Dimensions
+} from 'react-native';
 import EndTabNav from './EndTabNav';
 import AlertRate from './AlertRate';
 import * as stl from '../assets/styles/styles';
 import * as text from '../assets/textInGame/listTextEnd';
-import { green, blue, white } from '../assets/colors';
+import { green, blue, white, red } from '../assets/colors';
 import AlertRecord from './AlertRecord';
 import AnimatedEndGame from '../Animations/AnimatedEndGame';
 import { connect } from 'react-redux';
-const { width } = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 class End extends Component {
 	constructor(props) {
 		super(props);
@@ -16,6 +27,7 @@ class End extends Component {
 		this._hideAlertPremium = this._hideAlertPremium.bind(this);
 		this._showAlertFuncPremium = this._showAlertFuncPremium.bind(this);
 		this._becomePremium = this._becomePremium.bind(this);
+		this.names = this.props.navigation.getParam('names');
 		this.state = {
 			showAlert: false,
 			showAlertPremium: false,
@@ -29,10 +41,13 @@ class End extends Component {
 		const isAlreadyRate = await AsyncStorage.getItem('isAlreadyRate');
 		const countStartApp = await AsyncStorage.getItem('countStartApp');
 		const count = countStartApp ? parseInt(countStartApp) : 1;
-		if (!isAlreadyRate && count % 3 === 0) {
+		if (!isAlreadyRate && count % 3000 === 0) {
+			// if (!isAlreadyRate && count % 3 === 0) {
 			this._showAlert();
 		}
 		await AsyncStorage.setItem('countStartApp', `${count + 1}`);
+
+		console.log('NAMes : ' + JSON.stringify(this.names, null, 2));
 	}
 
 	// 1 time / 3 we put the AlertRate
@@ -80,16 +95,126 @@ class End extends Component {
 		this._showAlertFuncPremium('premium');
 	}
 
+	// Display scoreBorard or Animations
+	_displayScoreBoard = () => {
+		const names = this.names;
+		const { language } = this.props;
+		if (names.length > 0) {
+			let players, drank, given;
+			if (language == 'FR') {
+				players = 'Joueurs';
+				drank = 'Prises';
+				given = 'Données';
+			} else if (language == 'EN') {
+				players = 'Players';
+				drank = 'Drank';
+				given = 'Given';
+			}
+			const recordsTest = {
+				names: [
+					{
+						name: 'John',
+						sipsDrank: 16,
+						sipsGiven: 12
+					},
+					{
+						name: 'Spiloi',
+						sipsDrank: 7,
+						sipsGiven: 42
+					},
+					{
+						name: 'PasDeChance',
+						sipsDrank: 107,
+						sipsGiven: 2
+					},
+					{
+						name: 'LaChatte',
+						sipsDrank: 4,
+						sipsGiven: 105
+					},
+					{
+						name: 'Spiloi',
+						sipsDrank: 7,
+						sipsGiven: 42
+					},
+					{
+						name: 'Spiloi',
+						sipsDrank: 7,
+						sipsGiven: 42
+					},
+					{
+						name: 'Spiloi',
+						sipsDrank: 7,
+						sipsGiven: 42
+					},
+					{
+						name: 'Spiloi',
+						sipsDrank: 7,
+						sipsGiven: 42
+					}
+				],
+				namesName: [ null ],
+				actions: [ null ],
+				actionsName: [ null ]
+			};
+			return (
+				<View style={styles.scoreBoard}>
+					<View style={styles.scoreBoardHeader}>
+						<Text style={[ styles.scoreBoardTitle, { flex: 2, textAlign: 'left' } ]}>{players}</Text>
+						<Text style={[ styles.scoreBoardTitle ]}>{drank}</Text>
+						<Text style={[ styles.scoreBoardTitle ]}>{given}</Text>
+					</View>
+					<FlatList
+						data={recordsTest.names}
+						keyExtractor={(item, index) => index.toString()}
+						renderItem={({ item, index }) => (
+							<View style={[ styles.scoreBoardItem ]}>
+								<Text style={[ styles.scoreBoardItemText, { flex: 2, textAlign: 'left' } ]}>
+									{item.name}
+								</Text>
+								<Text style={styles.scoreBoardItemText}>{item.sipsDrank}</Text>
+								<Text style={styles.scoreBoardItemText}>{item.sipsGiven}</Text>
+							</View>
+						)}
+					/>
+				</View>
+			);
+		}
+	};
+
+	_displayAnimationLogo = () => {
+		if (this.names.length <= 0) {
+			return (
+				<View style={styles.containerRest}>
+					<AnimatedEndGame style={styles.containerLogo}>
+						<Image style={styles.logo} source={require('../assets/logo-in-game.png')} />
+					</AnimatedEndGame>
+				</View>
+			);
+		}
+	};
+
 	render() {
 		const { language, premium } = this.props;
 		const { showAlert, showAlertPremium } = this.state;
 		let end, displayNameNaviga;
-		if (language == 'FR') {
-			end = text.endFR;
-			displayNameNaviga = text.titleFR;
-		} else if (language == 'EN') {
-			end = text.endEN;
-			displayNameNaviga = text.titleEN;
+		// if (true) {
+		if (this.names.length <= 0) {
+			if (language == 'FR') {
+				end = text.endFR;
+				displayNameNaviga = text.titleFR;
+			} else if (language == 'EN') {
+				end = text.endEN;
+				displayNameNaviga = text.titleEN;
+			}
+		} else {
+			if (language == 'FR') {
+				end = text.endWithPlayerFR;
+				displayNameNaviga = text.titleFR;
+			} else if (language == 'EN') {
+				end = text.endWithPlayerEN;
+				displayNameNaviga = text.titleEN;
+			}
 		}
 
 		return (
@@ -102,22 +227,21 @@ class End extends Component {
 						<Text style={stl.headerTitle}> {displayNameNaviga} </Text>
 					</View>
 				</View>
-				<View style={stl.containerView}>
+				<View style={[ stl.containerView, { justifyContent: 'center' } ]}>
 					<View style={{ width: width, height: 1, backgroundColor: green }} />
 					<View style={styles.containerTitle}>
 						<Text style={styles.title}>{end}</Text>
+						{/* <Text style={styles.title}>{end}</Text> */}
 					</View>
-					<View style={styles.containerRest}>
-						<AnimatedEndGame style={styles.containerLogo}>
-							<Image style={styles.logo} source={require('../assets/logo-in-game.png')} />
-						</AnimatedEndGame>
-					</View>
+
+					{this._displayScoreBoard()}
+					{this._displayAnimationLogo()}
 				</View>
 				<EndTabNav
 					goToHomeScreen={this._goToHomeScreen}
 					language={language}
-					// premium={true}
-					premium={premium}
+					premium={true}
+					// premium={premium}
 					showAlertFuncPremium={this._showAlertFuncPremium}
 					becomePremium={this._becomePremium}
 				/>
@@ -149,6 +273,50 @@ const styles = StyleSheet.create({
 		borderBottomLeftRadius: 70,
 		width: width - 100,
 		alignSelf: 'center'
+	},
+	scoreBoard: {
+		marginTop: 10,
+		backgroundColor: blue,
+		flexDirection: 'column',
+		borderColor: blue,
+		borderWidth: 10,
+		width: width - 50,
+		maxHeight: height / 2,
+		borderRadius: 20
+		// borderTopLeftRadius: 30,
+		// borderTopRightRadius: 30,
+		// paddingVertical: 10
+	},
+	scoreBoardHeader: {
+		flexDirection: 'row',
+		backgroundColor: blue,
+		// borderTopLeftRadius: 24,
+		// borderTopRightRadius: 24,
+		paddingVertical: 15
+	},
+	scoreBoardItem: {
+		flexDirection: 'row',
+		backgroundColor: red,
+		paddingVertical: 15,
+		borderWidth: 3,
+		borderColor: blue
+		// borderBottomColor: white
+	},
+	scoreBoardTitle: {
+		fontFamily: 'montserrat-extra-bold',
+		fontSize: stl.titleItem - 4,
+		color: white,
+		textAlign: 'center',
+		marginHorizontal: 10,
+		flex: 1
+	},
+	scoreBoardItemText: {
+		fontFamily: 'montserrat-bold',
+		textAlign: 'center',
+		color: white,
+		fontSize: stl.descItem + 2,
+		marginHorizontal: 10,
+		flex: 1
 	},
 	containerRest: {
 		flex: 1,

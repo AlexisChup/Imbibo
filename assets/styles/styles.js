@@ -62,7 +62,8 @@ export const containerBottom = {
 export const containerView = {
 	backgroundColor: green,
 	flex: 1,
-	paddingBottom: 10
+	paddingBottom: 10,
+	alignItems: 'center'
 };
 
 // FOR BUTTON BOTTOM BAR

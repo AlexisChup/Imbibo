@@ -130,20 +130,16 @@ class PremiumPopUp extends React.Component {
 			const productToBuyArray = await Purchases.getProducts(itemIAP, PURCHASE_TYPE.INAPP);
 			const productToBuy = productToBuyArray[0];
 
-			const purchaserProducts = await Purchases.getOfferings();
-			const packageImbibo = purchaserProducts.current.availablePackages[0];
-			this.packageImbibo = packageImbibo;
+			// const purchaserProducts = await Purchases.getOfferings();
+			// const packageImbibo = purchaserProducts.current.availablePackages[0];
+			// this.packageImbibo = packageImbibo;
 
 			if (productToBuy !== null && productToBuy.length !== 0) {
 				// console.log('On affiche :' + JSON.stringify(productToBuy, null, 4));
 				this.productToBuy = productToBuy;
 			} else {
-				this.setState(
-					{
-						isModalVisible: false
-					},
-					() => Alert.alert('ERROR : Pas de produit à acheter')
-				);
+				this.toggleModal();
+				this.props.showAlertFuncPremium('undefined');
 			}
 		} catch (e) {
 			if (e.userInfo.readableErrorCode == 'NetworkError') {
@@ -152,13 +148,8 @@ class PremiumPopUp extends React.Component {
 				this.props.showAlertFuncPremium('network');
 			} else {
 				console.log('ERREUR DISPLAYING : ' + JSON.stringify(e, null, 2));
-				// Close modal + alert :
-				this.setState(
-					{
-						isModalVisible: false
-					},
-					() => Alert.alert('ERROR : Service non disponible')
-				);
+				this.toggleModal();
+				this.props.showAlertFuncPremium('undefined');
 			}
 		}
 	}

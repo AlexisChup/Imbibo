@@ -48,8 +48,11 @@ class Game extends Component {
 	}
 
 	_goToEndScreen() {
+		const records = this.props.navigation.getParam('records');
 		this.refs.chrono._stopChrono();
-		this.props.navigation.navigate('EndScreen');
+		this.props.navigation.navigate('EndScreen', {
+			names: records.namesName
+		});
 	}
 
 	// Pres on Play/Pause

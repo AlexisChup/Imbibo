@@ -13,7 +13,9 @@ export default class AnimatedEndGame extends Component {
 	}
 
 	componentDidMount() {
-		this._animationImage();
+		setTimeout(() => {
+			this._animationImage();
+		}, 1000);
 	}
 
 	componentWillUnmount() {
