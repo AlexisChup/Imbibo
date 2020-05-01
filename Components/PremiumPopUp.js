@@ -224,8 +224,10 @@ class PremiumPopUp extends React.Component {
 	}
 
 	_becomePremium() {
-		if (this.purchaserInfoUpdateListener !== undefined)
+		if (this.purchaserInfoUpdateListener !== undefined) {
 			Purchases.removePurchaserInfoUpdateListener(this.purchaserInfoUpdateListener);
+			this.purchaserInfoUpdateListener = undefined;
+		}
 
 		// close modal
 		// this.toggleModal();
@@ -276,8 +278,10 @@ class PremiumPopUp extends React.Component {
 		} else {
 			// hide modal ->
 			// remove listener
-			if (this.purchaserInfoUpdateListener !== undefined)
+			if (this.purchaserInfoUpdateListener !== undefined) {
 				Purchases.removePurchaserInfoUpdateListener(this.purchaserInfoUpdateListener);
+				this.purchaserInfoUpdateListener = undefined;
+			}
 		}
 
 		return (
@@ -312,7 +316,17 @@ class PremiumPopUp extends React.Component {
 								{/* <Button title="PurchaserInfo" onPress={async () => this._getPurchaserInfo()} />
 								<Button title="Reset" onPress={async () => this._resetUser()} />
 								<Button title="Restore Product" onPress={async () => this._restorPurchases()} /> */}
-								<TouchableHighlight
+								<AnimatedOnPress toggleOnPress={() => this.toggleModal()} style={styles.cross}>
+									<Icon
+										size={35}
+										type="entypo"
+										name="cross"
+										color="white"
+										iconStyle={styles.exitPopUp}
+									/>
+								</AnimatedOnPress>
+
+								{/* <TouchableWithoutFeedback
 									style={{
 										backgroundColor: red,
 										width: 35,
@@ -333,7 +347,7 @@ class PremiumPopUp extends React.Component {
 										color="white"
 										iconStyle={styles.exitPopUp}
 									/>
-								</TouchableHighlight>
+								</TouchableWithoutFeedback> */}
 							</View>
 							<View style={{ marginTop: -10 }}>
 								<Text style={styles.popUpTitle}>{title}</Text>
@@ -509,6 +523,16 @@ const styles = StyleSheet.create({
 		marginVertical: 15,
 		paddingVertical: 15,
 		paddingHorizontal: 30
+	},
+	cross: {
+		backgroundColor: red,
+		width: 35,
+		height: 35,
+		borderRadius: 30,
+		marginTop: 0,
+		marginRight: -10,
+		justifyContent: 'center',
+		alignItems: 'center'
 	}
 });
 

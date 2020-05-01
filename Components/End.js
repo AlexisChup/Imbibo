@@ -42,8 +42,7 @@ class End extends Component {
 		const isAlreadyRate = await AsyncStorage.getItem('isAlreadyRate');
 		const countStartApp = await AsyncStorage.getItem('countStartApp');
 		const count = countStartApp ? parseInt(countStartApp) : 1;
-		if (!isAlreadyRate && count % 3000 === 0) {
-			// if (!isAlreadyRate && count % 3 === 0) {
+		if (!isAlreadyRate && count % 3 === 0) {
 			this._showAlert();
 		}
 		await AsyncStorage.setItem('countStartApp', `${count + 1}`);
@@ -182,7 +181,6 @@ class End extends Component {
 						<Text style={stl.headerTitle}> {displayNameNaviga} </Text>
 					</View>
 				</View>
-				<Button titile="Test global function" onPress={() => _globlalFunction('17')} />
 				<View style={[ stl.containerView, { justifyContent: 'center' } ]}>
 					<View style={{ width: width, height: 1, backgroundColor: green }} />
 					<View style={styles.containerTitle}>
@@ -196,8 +194,8 @@ class End extends Component {
 				<EndTabNav
 					goToHomeScreen={this._goToHomeScreen}
 					language={language}
-					premium={true}
-					// premium={premium}
+					// premium={true}
+					premium={premium}
 					showAlertFuncPremium={this._showAlertFuncPremium}
 					becomePremium={this._becomePremium}
 				/>

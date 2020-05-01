@@ -27,7 +27,8 @@ export default class EndTabNav extends Component {
 			return (
 				<View style={{}}>
 					<PremiumPopUp
-						isVisible={true}
+						isVisible={false}
+						// isVisible={true}
 						language={language}
 						permitPopUp={this._permitPopUp}
 						showAlertFuncPremium={this.props.showAlertFuncPremium}

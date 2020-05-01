@@ -10,7 +10,8 @@ import {
 	TouchableWithoutFeedback,
 	Share,
 	Platform,
-	AsyncStorage
+	AsyncStorage,
+	ScrollView
 } from 'react-native';
 import { Icon, Button } from 'react-native-elements';
 import Modal from 'react-native-modal';
@@ -24,7 +25,7 @@ import AlertRecord from './AlertRecord';
 import { connect } from 'react-redux';
 
 import Purchases, { PURCHASE_TYPE } from 'react-native-purchases';
-const { width } = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 class ParamsButton extends React.Component {
 	constructor(props) {
 		super(props);
@@ -228,6 +229,7 @@ class ParamsButton extends React.Component {
 		} else if (language == 'EN') {
 			rate = text.rateEN;
 		}
+		// if (true) {
 		if (!isAlreadyRate) {
 			return (
 				<View>
@@ -254,9 +256,6 @@ class ParamsButton extends React.Component {
 	render() {
 		//set good languge
 		const { language, permitPopUp } = this.props;
-		const { isAlreadyRate } = this.state;
-
-		let flexPopUp = isAlreadyRate ? 0.53 : 0.65;
 
 		let title;
 		let share;
@@ -306,8 +305,27 @@ class ParamsButton extends React.Component {
 					backdropTransitionOutTiming={600}
 					onBackdropPress={() => this.toggleModal()}
 				>
-					<View style={[ styles.paramsPopUp, { flex: flexPopUp } ]}>
-						<View style={{ flexDirection: 'row', width: width }}>
+					<View style={[ styles.paramsPopUp ]}>
+						<View style={styles.header}>
+							<View
+								style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 15 }}
+							>
+								<View />
+								<AnimatedOnPress toggleOnPress={() => this.toggleModal()} style={styles.cross}>
+									<Icon
+										size={35}
+										type="entypo"
+										name="cross"
+										color="white"
+										iconStyle={styles.exitPopUp}
+									/>
+								</AnimatedOnPress>
+							</View>
+							<View style={{ marginTop: -10 }}>
+								<Text style={styles.popUpTitle}>{title}</Text>
+							</View>
+						</View>
+						{/* <View style={{ flexDirection: 'row', width: width }}>
 							<Button
 								title="PurchaserInfo"
 								onPress={async () => this._getPurchaserInfo()}
@@ -328,41 +346,8 @@ class ParamsButton extends React.Component {
 								onPress={async () => this._getOfferings()}
 								buttonStyle={{ width: width / 4 - 15 }}
 							/>
-						</View>
-						<View style={styles.header}>
-							<View
-								style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 15 }}
-							>
-								<View />
-								<TouchableHighlight
-									style={{
-										backgroundColor: red,
-										width: 35,
-										height: 35,
-										borderRadius: 30,
-										marginTop: 0,
-										marginRight: -10,
-										justifyContent: 'center',
-										alignItems: 'center'
-									}}
-									onPress={() => this.toggleModal()}
-									underlayColor={white}
-								>
-									<Icon
-										size={35}
-										type="entypo"
-										name="cross"
-										color="white"
-										iconStyle={styles.exitPopUp}
-									/>
-								</TouchableHighlight>
-							</View>
-							<View style={{ marginTop: -10 }}>
-								<Text style={styles.popUpTitle}>{title}</Text>
-							</View>
-						</View>
-
-						<View style={styles.containerCategories}>
+						</View> */}
+						<ScrollView style={styles.containerCategories}>
 							<View style={[ styles.subCat ]}>
 								<View style={{ flex: 1 }}>
 									<Text style={styles.popUpSubTitle}>{share}</Text>
@@ -418,7 +403,7 @@ class ParamsButton extends React.Component {
 							</View>
 							<View style={styles.div} />
 							{this._displayRate()}
-							<View style={[ styles.subCat ]}>
+							<View style={[ styles.subCat, { paddingBottom: 20 } ]}>
 								<View style={{ flex: 1 }}>
 									<Text style={styles.popUpSubTitle}>{tuto}</Text>
 								</View>
@@ -430,7 +415,7 @@ class ParamsButton extends React.Component {
 									</AnimatedOnPress>
 								</View>
 							</View>
-						</View>
+						</ScrollView>
 					</View>
 				</Modal>
 				<AlertRecord showAlert={this.state.showAlert} hideAlert={this._hideAlert} language={language} />
@@ -459,18 +444,22 @@ const styles = StyleSheet.create({
 		borderRadius: 30,
 		borderWidth: 5,
 		borderColor: blue,
-		alignContent: 'center'
+		alignContent: 'center',
+		maxHeight: height / 2,
+		flexDirection: 'column'
+		// width: width - 50,
 	},
 	containerCategories: {
-		flex: 1,
-		marginTop: 10,
-		marginBottom: 10,
-		justifyContent: 'space-around'
+		paddingTop: 10
+		// backgroundColor: 'yellow'
 	},
 	subCat: {
 		marginHorizontal: 20,
 		flexDirection: 'row',
-		alignItems: 'center'
+		alignItems: 'center',
+		paddingVertical: 5
+		// backgroundColor: red
+		// height: 40
 	},
 	posIcon: {
 		justifyContent: 'flex-end',
@@ -527,6 +516,16 @@ const styles = StyleSheet.create({
 		shadowOpacity: 0.3,
 		shadowRadius: 4.0,
 		elevation: 5
+	},
+	cross: {
+		backgroundColor: red,
+		width: 35,
+		height: 35,
+		borderRadius: 30,
+		marginTop: 0,
+		marginRight: -10,
+		justifyContent: 'center',
+		alignItems: 'center'
 	}
 });
 

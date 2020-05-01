@@ -42,7 +42,7 @@ export default class AnimatedOnPress extends Component {
 				onPressOut={() => this._toggleOnPressOut()}
 				onPress={() => this.props.toggleOnPress()}
 			>
-				<Animated.View style={[ animatedScale ]}>{this.props.children}</Animated.View>
+				<Animated.View style={[ animatedScale, this.props.style ]}>{this.props.children}</Animated.View>
 			</TouchableWithoutFeedback>
 		);
 	}
