@@ -240,7 +240,6 @@ class Home extends Component {
 				});
 			}
 			this.records.namesName = arrayName;
-			console.log('Array object of nameName : ' + JSON.stringify(arrayName, null, 4));
 			this.props.navigation.navigate('ChoiceScreen', {
 				nbJoueurs: nb,
 				records: this.records

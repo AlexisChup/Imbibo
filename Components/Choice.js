@@ -82,9 +82,9 @@ class Choice extends Component {
 			// When the user is not premium
 			// If he reachs the limits
 			// the popup will be triggered
-			if (values[0] <= 105) {
+			if (values[0] <= 105 && values[1] == this.valuesSlider[1]) {
 				this._triggerPopUp();
-			} else if (values[1] >= 165) {
+			} else if (values[1] >= 165 && values[0] == this.valuesSlider[0]) {
 				this._triggerPopUp();
 			} else {
 				this.valuesSlider = values;

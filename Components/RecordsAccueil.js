@@ -233,32 +233,32 @@ class RecordsAccueil extends Component {
 
 	_getNamesNameBeforeLaunch() {
 		this.records.namesName = this.rowRefs[0]._returnNames();
-		console.log('ALL THE NAMES : ' + this.records.namesName);
+		// console.log('ALL THE NAMES : ' + this.records.namesName);
 	}
 
 	_getNamesBeforeLaunch() {
 		this.records.names = this.soundsArray;
-		console.log('NOMBRE DE NAMES RECORDS : ' + this.records.names.length);
+		// console.log('NOMBRE DE NAMES RECORDS : ' + this.records.names.length);
 	}
 
 	_getActionsNameBeforceLaunch() {
 		this.records.actionsName = this.rowRefs[1]._returnActions();
-		console.log('ALL THE ACTIONS : ' + this.records.actionsName);
+		// console.log('ALL THE ACTIONS : ' + this.records.actionsName);
 	}
 
 	_getActionsBeforceLaunch() {
 		this.records.actions = this.actionsArray;
-		console.log('NOMBRE DE ACTIONS RECORDS : ' + this.records.actions.length);
+		// console.log('NOMBRE DE ACTIONS RECORDS : ' + this.records.actions.length);
 	}
 
 	_getDatasBeforeNavigate() {
-		console.log('##########################');
+		// console.log('##########################');
 		this._stopItemRecord();
 		this._getNamesNameBeforeLaunch();
 		this._getNamesBeforeLaunch();
 		this._getActionsNameBeforceLaunch();
 		this._getActionsBeforceLaunch();
-		console.log('##########################');
+		// console.log('##########################');
 		return this.records;
 	}
 

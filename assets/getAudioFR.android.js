@@ -38,13 +38,13 @@ export const entryWelcome = [
 export const fewActionDis = [
 	{
 		actionAudio: { uri: 'asset:/1_fr.m4a' },
-		actionName: 'Distribue 1 gorgée',
+		actionName: 'distribue 1 gorgée.',
 		sipsDrank: 0,
 		sipsGiven: 1
 	},
 	{
 		actionAudio: { uri: 'asset:/2_fr.m4a' },
-		actionName: 'Distribue 2 gorgées',
+		actionName: 'distribue 2 gorgées.',
 		sipsDrank: 0,
 		sipsGiven: 2
 	}
@@ -60,13 +60,13 @@ export const fewActionDis = [
 export const fewActionTak = [
 	{
 		actionAudio: { uri: 'asset:/3_fr.m4a' },
-		actionName: 'Bois 1 gorgée',
+		actionName: 'bois 1 gorgée.',
 		sipsDrank: 1,
 		sipsGiven: 0
 	},
 	{
 		actionAudio: { uri: 'asset:/4_fr.m4a' },
-		actionName: 'Bois 2 gorgées',
+		actionName: 'bois 2 gorgées.',
 		sipsDrank: 2,
 		sipsGiven: 0
 	}
@@ -82,13 +82,13 @@ export const fewActionTak = [
 export const mediumActionDis = [
 	{
 		actionAudio: { uri: 'asset:/5_fr.m4a' },
-		actionName: 'Distribue 3 gorgées',
+		actionName: 'distribue 3 gorgées.',
 		sipsDrank: 0,
 		sipsGiven: 3
 	},
 	{
 		actionAudio: { uri: 'asset:/6_fr.m4a' },
-		actionName: 'Distribue 4 gorgées',
+		actionName: 'distribue 4 gorgées.',
 		sipsDrank: 0,
 		sipsGiven: 4
 	}
@@ -104,13 +104,13 @@ export const mediumActionDis = [
 export const mediumActionTak = [
 	{
 		actionAudio: { uri: 'asset:/7_fr.m4a' },
-		actionName: 'Bois 3 gorgées',
+		actionName: 'bois 3 gorgées.',
 		sipsDrank: 3,
 		sipsGiven: 0
 	},
 	{
 		actionAudio: { uri: 'asset:/8_fr.m4a' },
-		actionName: 'Bois 4 gorgées',
+		actionName: 'bois 4 gorgées.',
 		sipsDrank: 4,
 		sipsGiven: 0
 	}
@@ -126,13 +126,13 @@ export const mediumActionTak = [
 export const manyActionDis = [
 	{
 		actionAudio: { uri: 'asset:/9_fr.m4a' },
-		actionName: 'Distribue 5 gorgées',
+		actionName: 'distribue 5 gorgées.',
 		sipsDrank: 0,
 		sipsGiven: 5
 	},
 	{
 		actionAudio: { uri: 'asset:/10_fr.m4a' },
-		actionName: 'Distribue 6 gorgées',
+		actionName: 'distribue 6 gorgées.',
 		sipsDrank: 0,
 		sipsGiven: 6
 	}
@@ -148,13 +148,13 @@ export const manyActionDis = [
 export const manyActionTak = [
 	{
 		actionAudio: { uri: 'asset:/11_fr.m4a' },
-		actionName: 'Bois 5 gorgées',
+		actionName: 'bois 5 gorgées.',
 		sipsDrank: 5,
 		sipsGiven: 0
 	},
 	{
 		actionAudio: { uri: 'asset:/12_fr.m4a' },
-		actionName: 'Bois 6 gorgées',
+		actionName: 'bois 6 gorgées.',
 		sipsDrank: 6,
 		sipsGiven: 0
 	}
@@ -170,7 +170,7 @@ export const manyActionTak = [
 export const calActionDis = [
 	{
 		actionAudio: { uri: 'asset:/10_fr.m4a' },
-		actionName: 'Distribue 1 cul sec',
+		actionName: 'distribue 1 cul sec.',
 		sipsDrank: 0,
 		sipsGiven: 10
 	}
@@ -182,7 +182,7 @@ export const calActionDis = [
 export const calActionTak = [
 	{
 		actionAudio: { uri: 'asset:/12_fr.m4a' },
-		actionName: 'Bois 1 cul sec',
+		actionName: 'bois 1 cul sec.',
 		sipsDrank: 10,
 		sipsGiven: 0
 	}
@@ -194,7 +194,7 @@ export const calActionTak = [
 export const shotActionDis = [
 	{
 		actionAudio: { uri: 'asset:/10_fr.m4a' },
-		actionName: 'Distribue 1 shot',
+		actionName: 'distribue 1 shot.',
 		sipsDrank: 0,
 		sipsGiven: 6
 	}
@@ -206,7 +206,7 @@ export const shotActionDis = [
 export const shotActionTak = [
 	{
 		actionAudio: { uri: 'asset:/12_fr.m4a' },
-		actionName: 'Bois 1 shot',
+		actionName: 'bois 1 shot.',
 		sipsDrank: 6,
 		sipsGiven: 0
 	}

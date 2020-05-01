@@ -35,6 +35,8 @@ class End extends Component {
 			showAlertPremiumOrigin: undefined
 		};
 		this._hideAlert = this._hideAlert.bind(this);
+		this.totalSipsDrank = 0;
+		this.totalSipsGiven = 0;
 	}
 
 	async componentDidMount() {
@@ -46,8 +48,6 @@ class End extends Component {
 			this._showAlert();
 		}
 		await AsyncStorage.setItem('countStartApp', `${count + 1}`);
-
-		console.log('NAMes : ' + JSON.stringify(this.names, null, 2));
 	}
 
 	// 1 time / 3 we put the AlertRate
@@ -121,13 +121,12 @@ class End extends Component {
 					<FlatList
 						data={names}
 						keyExtractor={(item, index) => index.toString()}
-						renderItem={({ item, index }) => (
-							<View style={[ styles.scoreBoardItem ]}>
-								<Text style={[ styles.scoreBoardItemText, { flex: 2, textAlign: 'left' } ]}>
-									{item.name}
-								</Text>
-								<Text style={styles.scoreBoardItemText}>{item.sipsDrank}</Text>
-								<Text style={styles.scoreBoardItemText}>{item.sipsGiven}</Text>
+						renderItem={({ item, index }) => this._displayScoreBoardItem(item, index)}
+						ListFooterComponent={() => (
+							<View style={styles.scoreBoardHeader}>
+								<Text style={[ styles.scoreBoardTitle, { flex: 2, textAlign: 'left' } ]}> Total</Text>
+								<Text style={[ styles.scoreBoardTitle ]}>{this.totalSipsDrank}</Text>
+								<Text style={[ styles.scoreBoardTitle ]}>{this.totalSipsGiven}</Text>
 							</View>
 						)}
 					/>
@@ -135,6 +134,18 @@ class End extends Component {
 			);
 		}
 	};
+
+	_displayScoreBoardItem(item, index) {
+		this.totalSipsDrank = this.totalSipsDrank + item.sipsDrank;
+		this.totalSipsGiven = this.totalSipsGiven + item.sipsGiven;
+		return (
+			<View style={[ styles.scoreBoardItem ]}>
+				<Text style={[ styles.scoreBoardItemText, { flex: 2, textAlign: 'left' } ]}>{item.name}</Text>
+				<Text style={styles.scoreBoardItemText}>{item.sipsDrank}</Text>
+				<Text style={styles.scoreBoardItemText}>{item.sipsGiven}</Text>
+			</View>
+		);
+	}
 
 	_displayAnimationLogo = () => {
 		if (this.names.length <= 0) {

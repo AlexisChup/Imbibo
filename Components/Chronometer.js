@@ -62,10 +62,6 @@ export default class Chronometer extends React.Component {
 		this.setState({
 			nbJoueurs: records.names.length
 		});
-		//console.log("Nombre de joueur" + records.names.length)
-		console.log(
-			"Nombre d'actions" + records.actions.length + ' State scale: : ' + this.state.scales[0].__getValue()
-		);
 		const valuesSlider = this.props.valuesSlider;
 		// maxSeconds sec = 360°
 		this._rNInit1 = valuesSlider[0] * 360 / maxSeconds;
@@ -104,6 +100,8 @@ export default class Chronometer extends React.Component {
 			}
 		} else {
 			if (playbackStatus.didJustFinish && !playbackStatus.isLooping) {
+				try {
+				} catch (error) {}
 				// To fix duck on android
 				await audioObjectActions.pauseAsync();
 				await audioObjectActions.unloadAsync().then(() => {
@@ -319,8 +317,6 @@ export default class Chronometer extends React.Component {
 
 				audioObjectNames = records.actions[index];
 				this.actualAction = records.actionsName[index];
-				console.log('action name : ' + this.actualAction);
-				console.log('type of : ' + typeof audioObjectNames);
 				try {
 					// audioObjectNames.setOnPlaybackStatusUpdate(this._onPlaybackStatusUpdateAction);
 					audioObjectNames.setOnPlaybackStatusUpdate(this._onPlaybackStatusUpdateName);
