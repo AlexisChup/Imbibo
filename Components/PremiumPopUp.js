@@ -188,16 +188,22 @@ class PremiumPopUp extends React.Component {
 	}
 
 	async _getPurchaserInfo() {
-		const purchaserInfo = await Purchases.getPurchaserInfo();
-		this.purchaserInfo = purchaserInfo;
-		console.log('###############\nPurchaser INFO : ' + JSON.stringify(purchaserInfo, null, 3));
-		checkIfPro(purchaserInfo, this._becomePremium);
+		try {
+			const purchaserInfo = await Purchases.getPurchaserInfo();
+			this.purchaserInfo = purchaserInfo;
+			console.log('###############\nPurchaser INFO : ' + JSON.stringify(purchaserInfo, null, 3));
+		} catch (error) {
+			console.log('Error _getPurchaserInfo : ' + JSON.stringify(error, null, 2));
+		}
 	}
 	async _getOfferings() {
-		const purchaserProducts = await Purchases.getOfferings();
-		const packageImbibo = purchaserProducts.current.availablePackages[0];
-		console.log('###############\n Package Imbibo INFO : \n####' + JSON.stringify(packageImbibo, null, 3));
-		// checkIfPro(purchaserInfo, this._becomePremium);
+		try {
+			const purchaserProducts = await Purchases.getOfferings();
+			const packageImbibo = purchaserProducts.current.availablePackages[0];
+			console.log('###############\n Package Imbibo INFO : \n####' + JSON.stringify(packageImbibo, null, 3));
+		} catch (error) {
+			console.log('Error _getOfferings : ' + JSON.stringify(error, null, 2));
+		}
 	}
 	async _restorPurchases() {
 		console.log('###############\nRestor Purchases : ');

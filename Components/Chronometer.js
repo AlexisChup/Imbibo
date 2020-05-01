@@ -101,12 +101,14 @@ export default class Chronometer extends React.Component {
 		} else {
 			if (playbackStatus.didJustFinish && !playbackStatus.isLooping) {
 				try {
-				} catch (error) {}
-				// To fix duck on android
-				await audioObjectActions.pauseAsync();
-				await audioObjectActions.unloadAsync().then(() => {
-					this._initNeedle();
-				});
+					// To fix duck on android
+					await audioObjectActions.pauseAsync();
+					await audioObjectActions.unloadAsync().then(() => {
+						this._initNeedle();
+					});
+				} catch (error) {
+					console.log('Error pause/unload Welcome audio :' + JSON.stringify(error, null, 2));
+				}
 			}
 		}
 	};
@@ -343,7 +345,11 @@ export default class Chronometer extends React.Component {
 				//le jeu est en cours
 				if (this.originAudioRecorded == 'name') {
 					if (this.state.isPlaying) {
-						await audioObjectNames.pauseAsync().then(() => this._playRandomAction());
+						try {
+							await audioObjectNames.pauseAsync().then(() => this._playRandomAction());
+						} catch (error) {
+							console.log('ERROR pause audioName : ' + JSON.stringify(error, null, 2));
+						}
 					} else {
 						//le jeu est en pause
 						BackgroundTimer.clearInterval(this._tickInterval);
@@ -358,12 +364,20 @@ export default class Chronometer extends React.Component {
 							},
 							() => this._initNeedle()
 						);
-						await audioObjectNames.pauseAsync();
+						try {
+							await audioObjectNames.pauseAsync();
+						} catch (error) {
+							console.log('ERROR pause audioName : ' + JSON.stringify(error, null, 2));
+						}
 					}
 				} else if (this.originAudioRecorded == 'action') {
 					this.props.addHistorique(this.actualName, this.actualAction);
 					this._initNeedle();
-					await audioObjectNames.pauseAsync();
+					try {
+						await audioObjectNames.pauseAsync();
+					} catch (error) {
+						console.log('ERROR pause audioName : ' + JSON.stringify(error, null, 2));
+					}
 				}
 			}
 		}
@@ -378,11 +392,15 @@ export default class Chronometer extends React.Component {
 			}
 		} else {
 			if (playbackStatus.didJustFinish && !playbackStatus.isLooping) {
+				try {
+					await audioObjectActions.pauseAsync();
+					await audioObjectActions.unloadAsync().then(() => {
+						this.props.addHistorique(this.actualName, this.actualAction);
+					});
+				} catch (error) {
+					JSON.stringify('Error pause/unload audioActio : ' + JSON.stringify(error, null, 2));
+				}
 				// To fix duck on android
-				await audioObjectActions.pauseAsync();
-				await audioObjectActions.unloadAsync().then(() => {
-					this.props.addHistorique(this.actualName, this.actualAction);
-				});
 				this._initNeedle();
 			}
 		}
