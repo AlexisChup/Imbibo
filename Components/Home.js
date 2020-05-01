@@ -102,6 +102,10 @@ const slidesFR = [
 	}
 ];
 
+_globlalFunction = (index) => {
+	console.log('Global function workds : ' + index);
+};
+
 import { green, red, blue, white } from '../assets/colors';
 const { height, width } = Dimensions.get('window');
 

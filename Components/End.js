@@ -9,7 +9,8 @@ import {
 	StatusBar,
 	ScrollView,
 	FlatList,
-	Dimensions
+	Dimensions,
+	Button
 } from 'react-native';
 import EndTabNav from './EndTabNav';
 import AlertRate from './AlertRate';
@@ -181,6 +182,7 @@ class End extends Component {
 						<Text style={stl.headerTitle}> {displayNameNaviga} </Text>
 					</View>
 				</View>
+				<Button titile="Test global function" onPress={() => _globlalFunction('17')} />
 				<View style={[ stl.containerView, { justifyContent: 'center' } ]}>
 					<View style={{ width: width, height: 1, backgroundColor: green }} />
 					<View style={styles.containerTitle}>
