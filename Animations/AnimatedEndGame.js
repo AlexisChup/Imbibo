@@ -110,6 +110,14 @@ export default class AnimatedEndGame extends Component {
 		this.animation.start();
 	};
 
+	_resetAnimation() {
+		this.animation.reset();
+	}
+
+	_startAnimation() {
+		this.animation.start();
+	}
+
 	render() {
 		const { scaleValue } = this.state;
 		const spin = this.state.spinValue.interpolate({

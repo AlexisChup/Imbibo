@@ -30,6 +30,9 @@ export default class EndTabNav extends Component {
 						isVisible={false}
 						// isVisible={true}
 						language={language}
+						endTabNav={true}
+						resetAnim={this.props.resetAnim}
+						startAnim={this.props.startAnim}
 						permitPopUp={this._permitPopUp}
 						showAlertFuncPremium={this.props.showAlertFuncPremium}
 						becomePremium={this.props.becomePremium}

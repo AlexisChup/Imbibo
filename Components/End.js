@@ -28,6 +28,8 @@ class End extends Component {
 		this._hideAlertPremium = this._hideAlertPremium.bind(this);
 		this._showAlertFuncPremium = this._showAlertFuncPremium.bind(this);
 		this._becomePremium = this._becomePremium.bind(this);
+		this.resetAnim = this.resetAnim.bind(this);
+		this.startAnim = this.startAnim.bind(this);
 		this.names = this.props.navigation.getParam('names');
 		this.state = {
 			showAlert: false,
@@ -37,6 +39,7 @@ class End extends Component {
 		this._hideAlert = this._hideAlert.bind(this);
 		this.totalSipsDrank = 0;
 		this.totalSipsGiven = 0;
+		this._animatedEndGame = undefined;
 	}
 
 	async componentDidMount() {
@@ -55,6 +58,18 @@ class End extends Component {
 		this.setState({
 			showAlert: true
 		});
+	}
+
+	// Reset / Start Anim when trigger popup premium
+	resetAnim() {
+		if (this.names.length <= 0) {
+			this.refs.animationEnd._resetAnimation();
+		}
+	}
+	startAnim() {
+		if (this.names.length <= 0) {
+			this.refs.animationEnd._startAnimation();
+		}
 	}
 
 	_showAlert = () => {
@@ -151,7 +166,7 @@ class End extends Component {
 		if (this.names.length <= 0) {
 			return (
 				<View style={styles.containerRest}>
-					<AnimatedEndGame style={styles.containerLogo}>
+					<AnimatedEndGame ref="animationEnd" style={styles.containerLogo}>
 						<Image style={styles.logo} source={require('../assets/logo-in-game.png')} />
 					</AnimatedEndGame>
 				</View>
@@ -208,6 +223,8 @@ class End extends Component {
 					// premium={true}
 					premium={premium}
 					showAlertFuncPremium={this._showAlertFuncPremium}
+					resetAnim={this.resetAnim}
+					startAnim={this.startAnim}
 					becomePremium={this._becomePremium}
 				/>
 				<AlertRate showAlert={showAlert} hideAlert={this._hideAlert} language={language} />

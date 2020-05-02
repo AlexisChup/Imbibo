@@ -73,8 +73,15 @@ class PremiumPopUp extends React.Component {
 	//unless there is a record
 	toggleModal() {
 		if (this.props.permitPopUp()) {
+			const stateModal = this.state.isModalVisible;
 			if (this._timer == null) {
 				this.setState({ isModalVisible: !this.state.isModalVisible }, () => this._initTimer());
+			}
+			// End animation of logo
+			if (this.props.endTabNav && !stateModal) {
+				this.props.resetAnim();
+			} else {
+				this.props.startAnim();
 			}
 		} else {
 			this.props.showAlertFunc();
