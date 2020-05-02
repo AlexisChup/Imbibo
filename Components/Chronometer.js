@@ -245,6 +245,7 @@ export default class Chronometer extends React.Component {
 		if (this.state.isPlaying && this.state.gameStarted) {
 			const random = Math.random() * 100;
 			// 90% that is individual action
+			// if (false) {
 			if (random < 90) {
 				this.originAudioRecorded = 'name';
 				// to choose an individual action
@@ -276,9 +277,16 @@ export default class Chronometer extends React.Component {
 	}
 
 	// Increase number of sips
-	_updateRecordSips = (index, sipsDrank, sipsGiven) => {
-		this.namesName[index].sipsDrank = this.namesName[index].sipsDrank + sipsDrank;
-		this.namesName[index].sipsGiven = this.namesName[index].sipsGiven + sipsGiven;
+	_updateRecordSips = (index, sipsDrank, sipsGiven, gpAction) => {
+		if (!gpAction) {
+			this.namesName[index].sipsDrank = this.namesName[index].sipsDrank + sipsDrank;
+			this.namesName[index].sipsGiven = this.namesName[index].sipsGiven + sipsGiven;
+		} else {
+			this.namesName.forEach((user) => {
+				user.sipsDrank = user.sipsDrank + sipsDrank;
+				user.sipsGiven = user.sipsGiven + sipsGiven;
+			});
+		}
 	};
 
 	// Return all sips of all players
@@ -299,10 +307,7 @@ export default class Chronometer extends React.Component {
 			if (audio != 'UserAction') {
 				try {
 					this.actualAction = audio.actionName;
-
-					if (this.indexNameArray !== null) {
-						this._updateRecordSips(this.indexNameArray, audio.sipsDrank, audio.sipsGiven);
-					}
+					this._updateRecordSips(this.indexNameArrayl, audio.sipsDrank, audio.sipsGiven, this.groupAction);
 					audioObjectActions.setOnPlaybackStatusUpdate(this._onPlaybackStatusUpdateAction);
 					// await audioObjectActions.loadAsync({ uri: 'asset:/19_fr.mp3' });
 					await audioObjectActions.loadAsync(audio.actionAudio);
