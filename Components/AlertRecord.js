@@ -115,6 +115,16 @@ export default class AlertRecord extends Component {
 					textAlert =
 						'You choose never ask again. \n To allow access to your microphone you need to uninstall Imbibo then reinstall.';
 				}
+			} else if (showAlertPremiumOrigin == 'warningStart') {
+				if (language == 'FR') {
+					textAlertTitle = 'ATTENTION';
+					textAlert =
+						"L'abus d'alcool est dangereux pour la santé. Buvez avec modération. En poursuivant vous reconnaissez être responsable de vos actes.";
+				} else if (language == 'EN') {
+					textAlertTitle = 'WARNING';
+					textAlert =
+						'Please drink with moderation. By continuing, you agree that you are responsible for any consequences of your acts.';
+				}
 			} else if (showAlertPremiumOrigin == 'undefined') {
 				if (language == 'FR') {
 					textAlertTitle = 'PROBLÈME !';

@@ -166,8 +166,8 @@ class Home extends Component {
 
 		setTimeout(() => this._animateLogo(), 1000);
 
-		//warning message
-		// this._displayWarning()
+		// warning message
+		this._showAlertFuncPremium('warningStart');
 	}
 
 	componentWillUnmount() {

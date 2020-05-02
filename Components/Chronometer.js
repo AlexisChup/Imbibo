@@ -43,7 +43,7 @@ export default class Chronometer extends React.Component {
 		this.originAudioRecorded = 'name';
 		this.state = {
 			//Pour les animations du début
-			scales: [ ...Array(5).keys() ].map(() => new Animated.Value(0.01)),
+			scales: [ ...Array(5).keys() ].map(() => new Animated.Value(0.03)),
 
 			//Pour la rotation de l'aiguille
 			rotationNeedle: new Animated.Value(0),
@@ -147,6 +147,7 @@ export default class Chronometer extends React.Component {
 		if (audioObjectActions !== null) {
 			try {
 				await audioObjectActions.pauseAsync();
+				await audioObjectActions.unloadAsync();
 				audioSampleAction = null;
 			} catch (error) {
 				console.log('ERROR STOP CHRONO ACTIONS: ' + JSON.stringify(error, null, 4));

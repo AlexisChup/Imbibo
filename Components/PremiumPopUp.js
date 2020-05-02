@@ -168,9 +168,11 @@ class PremiumPopUp extends React.Component {
 		} catch (e) {
 			if (e.userInfo.readableErrorCode == 'ProductAlreadyPurchasedError') {
 				console.log('Déjà le produit ! ' + JSON.stringify(e, null, 2));
-				this.purchaserInfo.entitlements.active.premium = true;
+				// this.purchaserInfo.entitlements.active.premium = true;
 				checkIfPro(this.purchaserInfo, this._becomePremium);
 				// this._becomePremium();
+				this.toggleModal();
+				this.props.showAlertFuncPremium('pending');
 			} else if (e.userInfo.readableErrorCode == 'PaymentPendingError') {
 				console.log('Payment pending :/');
 				this.toggleModal();

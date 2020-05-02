@@ -325,7 +325,7 @@ class ParamsButton extends React.Component {
 								<Text style={styles.popUpTitle}>{title}</Text>
 							</View>
 						</View>
-						{/* <View style={{ flexDirection: 'row', width: width }}>
+						<View style={{ flexDirection: 'row', width: width }}>
 							<Button
 								title="PurchaserInfo"
 								onPress={async () => this._getPurchaserInfo()}
@@ -346,7 +346,7 @@ class ParamsButton extends React.Component {
 								onPress={async () => this._getOfferings()}
 								buttonStyle={{ width: width / 4 - 15 }}
 							/>
-						</View> */}
+						</View>
 						<ScrollView style={styles.containerCategories}>
 							<View style={[ styles.subCat ]}>
 								<View style={{ flex: 1 }}>
