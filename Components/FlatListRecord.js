@@ -14,13 +14,24 @@ export default class FlatListRecord extends Component {
 	}
 
 	_addName(n) {
-		this.setState((state) => {
-			const names = state.names.concat(n);
+		this.setState(
+			(state) => {
+				const names = state.names.concat(n);
 
-			return {
-				names
-			};
-		});
+				return {
+					names
+				};
+			},
+			() => {
+				this._scrollToEnd();
+			}
+		);
+	}
+
+	_scrollToEnd() {
+		setTimeout(() => {
+			this._flatlist.scrollToEnd();
+		}, 200);
 	}
 
 	_deleteName(i) {
@@ -70,7 +81,7 @@ export default class FlatListRecord extends Component {
 	}
 
 	_renderFooter() {
-		return <View style={{ height: 20 }} />;
+		return <View style={{ height: 10 }} />;
 	}
 	_renderEmptyComponent() {
 		return (

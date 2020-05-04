@@ -4,6 +4,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Hideo } from 'react-native-textinput-effects';
 
 import { green, red, blue, white } from '../assets/colors';
+import { RECORDING_OPTIONS_PRESET_LOW_QUALITY } from 'expo-av/build/Audio';
 const { height, width } = Dimensions.get('window');
 
 export default class FlatListItem extends Component {
@@ -28,10 +29,18 @@ export default class FlatListItem extends Component {
 		this._animateItem();
 	}
 
+	shouldComponentUpdate(nextProps, nextState) {
+		if (nextState == this.state) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
 	_animateItem() {
 		Animated.spring(this.state.showItem, {
 			toValue: 1,
-			tension: 18,
+			tension: 10,
 			friction: 5,
 			useNativeDriver: false
 		}).start();
@@ -105,11 +114,20 @@ export default class FlatListItem extends Component {
 	};
 
 	render() {
-		const { index, item } = this.props;
-		const { scalePlayButton, scalePauseButton, scaleStopButton } = this.state;
+		const { index, item, name } = this.props;
+		const {
+			scalePlayButton,
+			scalePauseButton,
+			scaleStopButton,
+			showItem,
+			backgroundColor,
+			disabled,
+			joueurName,
+			opacity
+		} = this.state;
 
 		const animItemTransform = {
-			transform: [ { scale: this.state.showItem } ]
+			transform: [ { scale: showItem } ]
 		};
 		const sPlayButton = {
 			transform: [ { scale: scalePlayButton } ]
@@ -124,7 +142,6 @@ export default class FlatListItem extends Component {
 		if (index == 0 && (item == null || item == undefined)) {
 			return null;
 		} else {
-			const { backgroundColor } = this.state;
 			return (
 				<Animated.View style={[ styles.itemFlatList, animItemTransform, { backgroundColor: backgroundColor } ]}>
 					<View
@@ -133,14 +150,14 @@ export default class FlatListItem extends Component {
 						}}
 					>
 						<Hideo
-							value={this.state.joueurName}
+							value={joueurName}
 							onChangeText={(text) => this.onChangeText(index, text)}
-							editable={!this.state.disabled}
+							editable={!disabled}
 							iconClass={Ionicons}
 							iconName={'md-person'}
 							iconColor={green}
 							iconBackgroundColor={backgroundColor}
-							placeholder={this.props.name}
+							placeholder={name}
 							placeholderTextColor={'#b7b7b7'}
 							inputStyle={[ styles.inputText, { backgroundColor: backgroundColor } ]}
 							style={styles.inputStyle}
@@ -152,9 +169,9 @@ export default class FlatListItem extends Component {
 							onPressIn={() => this._toggleOnPressIn(scalePlayButton)}
 							onPressOut={() => this._toggleOnPressOut(scalePlayButton)}
 							onPress={async () => this.props.playItemRecord(item, index, 'name')}
-							disabled={this.state.disabled}
+							disabled={disabled}
 						>
-							<Animated.View style={[ { opacity: this.state.opacity }, sPlayButton ]}>
+							<Animated.View style={[ { opacity: opacity }, sPlayButton ]}>
 								<Image
 									style={styles.buttonFlatList}
 									source={require('../assets/button-images/button-FL-play.png')}
@@ -166,9 +183,9 @@ export default class FlatListItem extends Component {
 							onPressIn={() => this._toggleOnPressIn(scalePauseButton)}
 							onPressOut={() => this._toggleOnPressOut(scalePauseButton)}
 							onPress={() => this.props.stopItemRecord(index, 'name')}
-							disabled={this.state.disabled}
+							disabled={disabled}
 						>
-							<Animated.View style={[ { opacity: this.state.opacity }, sPauseButton ]}>
+							<Animated.View style={[ { opacity: opacity }, sPauseButton ]}>
 								<Image
 									style={styles.buttonFlatList}
 									source={require('../assets/button-images/button-FL-stop.png')}
@@ -180,9 +197,9 @@ export default class FlatListItem extends Component {
 							onPressIn={() => this._toggleOnPressIn(scaleStopButton)}
 							onPressOut={() => this._toggleOnPressOut(scaleStopButton)}
 							onPress={() => this._deleteItem(index)}
-							disabled={this.state.disabled}
+							disabled={disabled}
 						>
-							<Animated.View style={[ { opacity: this.state.opacity }, sStopButton ]}>
+							<Animated.View style={[ { opacity: opacity }, sStopButton ]}>
 								<Image
 									style={styles.buttonFlatList}
 									source={require('../assets/button-images/button-FL-trash.png')}

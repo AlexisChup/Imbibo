@@ -34,15 +34,25 @@ class End extends Component {
 		this.state = {
 			showAlert: false,
 			showAlertPremium: false,
-			showAlertPremiumOrigin: undefined
+			showAlertPremiumOrigin: undefined,
+			totalSipsDrank: 0,
+			totalSipsGiven: 0
 		};
 		this._hideAlert = this._hideAlert.bind(this);
-		this.totalSipsDrank = 0;
-		this.totalSipsGiven = 0;
 		this._animatedEndGame = undefined;
 	}
 
 	async componentDidMount() {
+		let totalSipsDrank = 0;
+		let totalSipsGiven = 0;
+		this.names.forEach((item) => {
+			totalSipsDrank = totalSipsDrank + item.sipsDrank;
+			totalSipsGiven = totalSipsGiven + item.sipsGiven;
+		});
+		this.setState({
+			totalSipsDrank,
+			totalSipsGiven
+		});
 		// Launch AlerRate every 3 times
 		const isAlreadyRate = await AsyncStorage.getItem('isAlreadyRate');
 		const countStartApp = await AsyncStorage.getItem('countStartApp');
@@ -140,8 +150,8 @@ class End extends Component {
 						ListFooterComponent={() => (
 							<View style={styles.scoreBoardHeader}>
 								<Text style={[ styles.scoreBoardTitle, { flex: 2, textAlign: 'left' } ]}> Total</Text>
-								<Text style={[ styles.scoreBoardTitle ]}>{this.totalSipsDrank}</Text>
-								<Text style={[ styles.scoreBoardTitle ]}>{this.totalSipsGiven}</Text>
+								<Text style={[ styles.scoreBoardTitle ]}>{this.state.totalSipsDrank}</Text>
+								<Text style={[ styles.scoreBoardTitle ]}>{this.state.totalSipsGiven}</Text>
 							</View>
 						)}
 					/>
@@ -151,8 +161,6 @@ class End extends Component {
 	};
 
 	_displayScoreBoardItem(item, index) {
-		this.totalSipsDrank = this.totalSipsDrank + item.sipsDrank;
-		this.totalSipsGiven = this.totalSipsGiven + item.sipsGiven;
 		return (
 			<View style={[ styles.scoreBoardItem ]}>
 				<Text style={[ styles.scoreBoardItemText, { flex: 2, textAlign: 'left' } ]}>{item.name}</Text>

@@ -307,7 +307,7 @@ export default class Chronometer extends React.Component {
 			if (audio != 'UserAction') {
 				try {
 					this.actualAction = audio.actionName;
-					this._updateRecordSips(this.indexNameArrayl, audio.sipsDrank, audio.sipsGiven, this.groupAction);
+					this._updateRecordSips(this.indexNameArray, audio.sipsDrank, audio.sipsGiven, this.groupAction);
 					audioObjectActions.setOnPlaybackStatusUpdate(this._onPlaybackStatusUpdateAction);
 					// await audioObjectActions.loadAsync({ uri: 'asset:/19_fr.mp3' });
 					await audioObjectActions.loadAsync(audio.actionAudio);

@@ -27,6 +27,14 @@ export default class FlatListItemActions extends Component {
 		this._animateItem();
 	}
 
+	shouldComponentUpdate(nextProps, nextState) {
+		if (nextState == this.state) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
 	_animateItem() {
 		Animated.spring(this.state.showItem, {
 			toValue: 1,
@@ -104,12 +112,22 @@ export default class FlatListItemActions extends Component {
 	};
 
 	render() {
-		const { index, item } = this.props;
+		const { index, item, action } = this.props;
+		const {
+			scalePlayButton,
+			scalePauseButton,
+			scaleStopButton,
+			disabled,
+			opacity,
+			showItem,
+			actionName,
+			backgroundColor
+		} = this.state;
+
 		const animItemTransform = {
-			transform: [ { scale: this.state.showItem } ]
+			transform: [ { scale: showItem } ]
 		};
 
-		const { scalePlayButton, scalePauseButton, scaleStopButton } = this.state;
 		const sPlayButton = {
 			transform: [ { scale: scalePlayButton } ]
 		};
@@ -122,7 +140,6 @@ export default class FlatListItemActions extends Component {
 		if (index == 0 && item == null) {
 			return null;
 		} else {
-			const { backgroundColor } = this.state;
 			return (
 				<Animated.View style={[ styles.itemFlatList, animItemTransform, { backgroundColor: backgroundColor } ]}>
 					<View
@@ -131,14 +148,14 @@ export default class FlatListItemActions extends Component {
 						}}
 					>
 						<Hideo
-							value={this.state.actionName}
+							value={actionName}
 							onChangeText={(text) => this.onChangeText(index, text)}
-							editable={!this.state.disabled}
+							editable={!disabled}
 							iconClass={Entypo}
 							iconName={'game-controller'}
 							iconColor={green}
 							iconBackgroundColor={backgroundColor}
-							placeholder={this.props.action}
+							placeholder={action}
 							placeholderTextColor={'#b7b7b7'}
 							inputStyle={[ styles.inputText, { backgroundColor: backgroundColor } ]}
 							style={styles.inputStyle}
@@ -150,9 +167,9 @@ export default class FlatListItemActions extends Component {
 							onPressIn={() => this._toggleOnPressIn(scalePlayButton)}
 							onPressOut={() => this._toggleOnPressOut(scalePlayButton)}
 							onPress={async () => this.props.playItemRecord(item, index, 'action')}
-							disabled={this.state.disabled}
+							disabled={disabled}
 						>
-							<Animated.View style={[ { opacity: this.state.opacity }, sPlayButton ]}>
+							<Animated.View style={[ { opacity: opacity }, sPlayButton ]}>
 								<Image
 									style={styles.buttonFlatList}
 									source={require('../assets/button-images/button-FL-play.png')}
@@ -164,9 +181,9 @@ export default class FlatListItemActions extends Component {
 							onPressIn={() => this._toggleOnPressIn(scalePauseButton)}
 							onPressOut={() => this._toggleOnPressOut(scalePauseButton)}
 							onPress={() => this.props.stopItemRecord(index, 'action')}
-							disabled={this.state.disabled}
+							disabled={disabled}
 						>
-							<Animated.View style={[ { opacity: this.state.opacity }, sPauseButton ]}>
+							<Animated.View style={[ { opacity: opacity }, sPauseButton ]}>
 								<Image
 									style={styles.buttonFlatList}
 									source={require('../assets/button-images/button-FL-stop.png')}
@@ -178,9 +195,9 @@ export default class FlatListItemActions extends Component {
 							onPressIn={() => this._toggleOnPressIn(scaleStopButton)}
 							onPressOut={() => this._toggleOnPressOut(scaleStopButton)}
 							onPress={() => this._deleteItem(index)}
-							disabled={this.state.disabled}
+							disabled={disabled}
 						>
-							<Animated.View style={[ { opacity: this.state.opacity }, sStopButton ]}>
+							<Animated.View style={[ { opacity: opacity }, sStopButton ]}>
 								<Image
 									style={styles.buttonFlatList}
 									source={require('../assets/button-images/button-FL-trash.png')}

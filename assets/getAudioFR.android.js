@@ -160,7 +160,7 @@ export const mediumActionDis = [
 		sipsGiven: 3
 	},
 	{
-		actionAudio: { uri: 'asset:/5_fr_lucille_1.mp3s' },
+		actionAudio: { uri: 'asset:/5_fr_lucille_1.mp3' },
 		actionName: 'distribue 3 gorgées.',
 		sipsDrank: 0,
 		sipsGiven: 3

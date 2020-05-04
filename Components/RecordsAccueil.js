@@ -13,11 +13,9 @@ import * as Permissions from 'expo-permissions';
 import { Audio } from 'expo-av';
 import * as stl from '../assets/styles/styles';
 import { Icon, Button } from 'react-native-elements';
-import Modal from 'react-native-modal';
-import Spinner from 'react-native-spinkit';
 import FlatListRecord from './FlatListRecord';
 import FlatListRecordActions from './FlatListRecordActions';
-
+import ModalRecord from './ModalRecord';
 import * as text from '../assets/textInGame/listTextHome';
 import { green, red, blue, white } from '../assets/colors';
 const { width } = Dimensions.get('window');
@@ -325,75 +323,55 @@ class RecordsAccueil extends Component {
 
 		this.recording = recording;
 		await this.recording.startAsync().then(() => {
-			this.setState({
-				isLoading: false
-			});
+			// this.setState({
+			// 	isLoading: false
+			// });
 		});
 	}
 
-	// WHEN RECORDING
+	// // WHEN RECORDING
 	_toggleModalRecord = (origin) => {
-		const { language } = this.props;
+		const { language, premium } = this.props;
 		const { haveRecordingPermissions } = this.state;
 		// If the user hasn't allow persmission to records -> PopUp Warning
 		if (!haveRecordingPermissions) {
 			this.props.showAlertFunc('permission');
 		} else {
 			if (this._timer == null) {
-				//_stopPlaybackAndBeginRecording
-				if (!this.state.isModalVisible) {
-					let addRecordTitle;
-					if (origin == 'name') {
-						if (language == 'FR') {
-							addRecordTitle = text.addRecordNameFR;
-						} else if (language == 'EN') {
-							addRecordTitle = text.addRecordNameEN;
-						}
-					} else if (origin == 'action') {
-						if (language == 'FR') {
-							addRecordTitle = text.addRecordActionFR;
-						} else if (language == 'EN') {
-							addRecordTitle = text.addRecordActionEN;
-						}
-					}
-					//disabled Sound buttons
-					this.props.disablePopUp();
-					this.rowRefs[0].disabledButtons(null);
-					this.rowRefs[1].disabledButtons(null);
-					//Pour indiquer un chargement
-					this.setState(
-						{
-							isLoading: true,
-							origin: origin,
-							soundEnded: true,
-							addRecordTitle,
-							isModalVisible: true,
-							isRecording: true
-						},
-						() => this._initTimer(),
-						this._onRecordPressed(origin)
-					);
-
-					this._intervall = setInterval(() => {
-						this.setState({
-							recordingDurationTest: this.state.recordingDurationTest + 1
-						});
-					}, 1000);
+				// Trigger premium pop up
+				if (!premium && origin == 'action') {
+					this.props.triggerPopUp();
 				} else {
-					// _stopRecordingAndEnablePlayback
-					this.setState(
-						{
-							isLoading: true,
-							recordingDurationTest: 0,
-							isModalVisible: false,
-							isRecording: false
-						},
-						() => this._initTimer(),
-						this._onRecordPressed(this.state.origin)
-					);
-
-					clearInterval(this._intervall);
-					this._intervall = null;
+					//_stopPlaybackAndBeginRecording
+					if (!this.state.isLoading) {
+						//Pour indiquer un chargement
+						this.setState(
+							{
+								isLoading: true,
+								origin: origin,
+								soundEnded: true,
+								isRecording: true
+							},
+							() => this._initTimer(),
+							console.log('VISIBLZ')
+						);
+						this._onRecordPressed(origin);
+						this._modalRecord._toggleModalRecord(origin);
+						//disabled Sound buttons
+						this.props.disablePopUp();
+						this.rowRefs[0].disabledButtons(null);
+						this.rowRefs[1].disabledButtons(null);
+					} else {
+						// _stopRecordingAndEnablePlayback
+						this.setState(
+							{
+								isRecording: false
+							},
+							() => this._initTimer(),
+							this._onRecordPressed(this.state.origin),
+							this._modalRecord._toggleModalRecord(this.state.origin)
+						);
+					}
 				}
 			}
 		}
@@ -477,16 +455,13 @@ class RecordsAccueil extends Component {
 			console.log('MAUVAISE ORIGINE');
 		}
 
-		this.setState(
-			{
-				isLoading: false
-			},
-			() => {
-				this.rowRefs[0].enabledButtons();
-				this.rowRefs[1].enabledButtons();
-				this.props.enablePopUp();
-			}
-		);
+		this.props.enablePopUp();
+		this.rowRefs[0].enabledButtons();
+		this.rowRefs[1].enabledButtons();
+
+		this.setState({
+			isLoading: false
+		});
 	}
 
 	_onRecordPressed = (origin) => {
@@ -524,90 +499,67 @@ class RecordsAccueil extends Component {
 	};
 
 	render() {
+		console.log('Render');
 		const animatedStyleButtonPlayers = {
 			transform: [ { scale: this.state.buttonAnimationPlayers } ]
 		};
 		const animatedStyleButtonActions = {
 			transform: [ { scale: this.state.buttonAnimationActions } ]
 		};
-		const nbActions = this.actionsArray.length;
-		const flexWidth = nbActions > 0 ? 1 : null;
+		const flexWidth = this.actionsArray.length > 0 ? 1 : null;
 
-		let bgName = blue;
-		let borderColName = red;
-		let bgAction = blue;
-		let borderColAction = red;
-
-		// For duration records in modal
-		let lengthRecord, endRecord;
 		//From Language & premium
 		const { language, premium } = this.props;
 
-		const { itemPlayAudio, recordingDurationTest, addRecordTitle } = this.state;
+		const {
+			itemPlayAudio,
+			recordingDurationTest,
+			addRecordTitle,
+			isLoading,
+			isRecording,
+			origin,
+			isModalVisible
+		} = this.state;
 
 		let displayPlayersButtonRecord;
 		let displayActionsButtonRecord;
 		if (language == 'FR') {
 			displayPlayersButtonRecord = text.addPlayersFR;
 			displayActionsButtonRecord = text.addActionsFR;
-			endRecord = text.endRecordFR;
-			lengthRecord = text.lengthRecordFR;
 		} else if (language == 'EN') {
 			displayPlayersButtonRecord = text.addPlayersEN;
 			displayActionsButtonRecord = text.addActionsEN;
-			endRecord = text.endRecordEN;
-			lengthRecord = text.lengthRecordEN;
 		}
 
-		var disabledActionButton;
-		var opaActionButton;
+		// TEXT NAME
+		let disabledButton, opaButton;
+		// let disabledActionButton, opaActionButton, disabledNameButton, opaNameButton;
 
-		var disabledNameButton;
-		var opaNameButton;
+		// //  IF NONE ITEM PLAY AUDIO -> ACT NORMALLY
+		// if (!itemPlayAudio) {
+		// 	//Si l'on est en train de record un Name
+		// 	if (isLoading || (isRecording && origin == 'name')) {
+		// 		disabledActionButton = true;
+		// 		opaActionButton = 0.2;
+		// 	} else {
+		// 		disabledActionButton = false;
+		// 		opaActionButton = 1;
+		// 	}
 
-		//  IF NONE ITEM PLAY AUDIO -> ACT NORMALLY
-		if (!itemPlayAudio) {
-			// if (!itemPlayAudio) {
-			//Si l'on est en train de record un Name
-			if (this.state.isLoading || (this.state.isRecording && this.state.origin == 'name')) {
-				disabledActionButton = true;
-				opaActionButton = 0.2;
-				// if (this.state.isRecording && this.state.origin == 'name') {
-				// 	bgName = red;
-				// 	borderColName = blue;
-				// 	if (language == 'FR') {
-				// 		displayPlayersButtonRecord = text.addRecordingFR;
-				// 	} else if (language == 'EN') {
-				// 		displayPlayersButtonRecord = text.addRecordingEN;
-				// 	}
-				// }
-			} else {
-				disabledActionButton = false;
-				opaActionButton = 1;
-			}
-
-			//Si l'on est en train de record une Action
-			if (this.state.isLoading || (this.state.isRecording && this.state.origin == 'action')) {
-				disabledNameButton = true;
-				opaNameButton = 0.2;
-				// if (this.state.isRecording && this.state.origin == 'action') {
-				// 	bgAction = red;
-				// 	borderColAction = blue;
-				// 	if (language == 'FR') {
-				// 		displayActionsButtonRecord = text.addRecordingFR;
-				// 	} else if (language == 'EN') {
-				// 		displayActionsButtonRecord = text.addRecordingEN;
-				// 	}
-				// }
-			} else {
-				disabledNameButton = false;
-				opaNameButton = 1;
-			}
+		// 	//Si l'on est en train de record une Action
+		// 	if (isLoading || (isRecording && origin == 'action')) {
+		// 		disabledNameButton = true;
+		// 		opaNameButton = 0.2;
+		// 	} else {
+		// 		disabledNameButton = false;
+		// 		opaNameButton = 1;
+		// 	}
+		if (itemPlayAudio || isLoading) {
+			disabledButton = true;
+			opaButton = 0.2;
 		} else {
-			disabledNameButton = true;
-			opaNameButton = 0.2;
-			disabledActionButton = true;
-			opaActionButton = 0.2;
+			disabledButton = false;
+			opaButton = 1;
 		}
 
 		return (
@@ -617,14 +569,10 @@ class RecordsAccueil extends Component {
 						onPressIn={() => this._animateRecordBouton('name')}
 						onPressOut={() => this._resetScaleRecordBouton('name')}
 						onPress={() => this._toggleModalRecord('name')}
-						disabled={disabledNameButton}
+						disabled={disabledButton}
 					>
 						<Animated.View
-							style={[
-								styles.addButtons,
-								animatedStyleButtonPlayers,
-								{ backgroundColor: bgName, borderColor: borderColName, opacity: opaNameButton }
-							]}
+							style={[ styles.addButtons, animatedStyleButtonPlayers, { opacity: opaButton } ]}
 						>
 							<Text style={[ styles.addText ]}>{displayPlayersButtonRecord}</Text>
 							<View style={styles.addButtonIcon}>
@@ -653,14 +601,10 @@ class RecordsAccueil extends Component {
 						onPressIn={() => this._animateRecordBouton('action')}
 						onPressOut={() => this._resetScaleRecordBouton('action')}
 						onPress={() => this._toggleModalRecord('action')}
-						disabled={disabledActionButton}
+						disabled={disabledButton}
 					>
 						<Animated.View
-							style={[
-								styles.addButtons,
-								animatedStyleButtonActions,
-								{ backgroundColor: bgAction, borderColor: borderColAction, opacity: opaActionButton }
-							]}
+							style={[ styles.addButtons, animatedStyleButtonActions, { opacity: opaButton } ]}
 						>
 							<Text style={[ styles.addText ]}>{displayActionsButtonRecord}</Text>
 							<View style={styles.addButtonIcon}>{this._displayActionRecord()}</View>
@@ -675,62 +619,12 @@ class RecordsAccueil extends Component {
 						extraData={this.state}
 					/>
 				</View>
-				<Modal
-					// isVisible={true}
-					isVisible={this.state.isModalVisible}
-					backdropColor="#B4B3DB"
-					backdropOpacity={0.8}
-					animationIn="slideInUp"
-					animationOut="slideOutDown"
-					animationInTiming={600}
-					animationOutTiming={600}
-					backdropTransitionInTiming={600}
-					backdropTransitionOutTiming={600}
-					onBackdropPress={() => this._toggleModalRecord()}
-				>
-					<View
-						style={[
-							styles.modalRecord,
-							{
-								marginBottom: 20,
-								alignItems: 'center',
-								paddingVertical: 10,
-								width: width / 2,
-								alignSelf: 'center'
-							}
-						]}
-					>
-						<Text style={[ styles.modalText, { fontFamily: 'montserrat-regular' } ]}>{lengthRecord} :</Text>
-						<Text style={styles.modalText}>{recordingDurationTest} s</Text>
-					</View>
-					<View style={[ styles.modalRecord, { paddingTop: 30 } ]}>
-						<Text style={styles.modalText}>{addRecordTitle}</Text>
-						<Spinner
-							style={{ marginVertical: 15, alignSelf: 'center' }}
-							isVisible={this.state.isModalVisible}
-							size={100}
-							type="Bounce"
-							color={red}
-						/>
-						<Button
-							title={endRecord}
-							type="solid"
-							buttonStyle={{
-								backgroundColor: red,
-								borderBottomRightRadius: 25,
-								borderBottomLeftRadius: 25
-							}}
-							titleStyle={{
-								color: white,
-								fontFamily: 'montserrat-bold',
-								fontSize: stl.descItem
-							}}
-							onPress={() => {
-								this._toggleModalRecord();
-							}}
-						/>
-					</View>
-				</Modal>
+				<ModalRecord
+					ref={(ref) => (this._modalRecord = ref)}
+					toggleModalRecord={this._toggleModalRecord}
+					language={language}
+					origin={origin}
+				/>
 			</SafeAreaView>
 		);
 	}
@@ -743,20 +637,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignContent: 'center'
 	},
-	modalRecord: {
-		backgroundColor: blue,
-		borderRadius: 30,
-		borderWidth: 5,
-		borderColor: white,
-		alignContent: 'center',
-		justifyContent: 'center'
-	},
-	modalText: {
-		fontFamily: 'montserrat-extra-bold',
-		color: white,
-		fontSize: stl.titleItem,
-		textAlign: 'center'
-	},
+
 	addButtons: {
 		width: '100%',
 		backgroundColor: '#3B4A6B',
@@ -804,3 +685,75 @@ const styles = StyleSheet.create({
 });
 
 export default RecordsAccueil;
+// // WHEN RECORDING
+// _toggleModalRecord = (origin) => {
+// 	const { language, premium } = this.props;
+// 	const { haveRecordingPermissions } = this.state;
+// 	// If the user hasn't allow persmission to records -> PopUp Warning
+// 	if (!haveRecordingPermissions) {
+// 		this.props.showAlertFunc('permission');
+// 	} else {
+// 		if (this._timer == null) {
+// 			// Trigger premium pop up
+// 			if (!premium && origin == 'action') {
+// 				this.props.triggerPopUp();
+// 			} else {
+// 				//_stopPlaybackAndBeginRecording
+// 				if (!this.state.isModalVisible) {
+// 					let addRecordTitle;
+// 					if (origin == 'name') {
+// 						if (language == 'FR') {
+// 							addRecordTitle = text.addRecordNameFR;
+// 						} else if (language == 'EN') {
+// 							addRecordTitle = text.addRecordNameEN;
+// 						}
+// 					} else if (origin == 'action') {
+// 						if (language == 'FR') {
+// 							addRecordTitle = text.addRecordActionFR;
+// 						} else if (language == 'EN') {
+// 							addRecordTitle = text.addRecordActionEN;
+// 						}
+// 					}
+// 					//disabled Sound buttons
+// 					this.props.disablePopUp();
+// 					this.rowRefs[0].disabledButtons(null);
+// 					this.rowRefs[1].disabledButtons(null);
+// 					//Pour indiquer un chargement
+// 					this.setState(
+// 						{
+// 							isLoading: true,
+// 							origin: origin,
+// 							soundEnded: true,
+// 							addRecordTitle,
+// 							isModalVisible: true,
+// 							isRecording: true
+// 						},
+// 						() => this._initTimer(),
+// 						this._onRecordPressed(origin)
+// 					);
+
+// 					this._intervall = setInterval(() => {
+// 						this.setState({
+// 							recordingDurationTest: this.state.recordingDurationTest + 1
+// 						});
+// 					}, 1000);
+// 				} else {
+// 					// _stopRecordingAndEnablePlayback
+// 					this.setState(
+// 						{
+// 							isLoading: true,
+// 							recordingDurationTest: 0,
+// 							isModalVisible: false,
+// 							isRecording: false
+// 						},
+// 						() => this._initTimer(),
+// 						this._onRecordPressed(this.state.origin)
+// 					);
+
+// 					clearInterval(this._intervall);
+// 					this._intervall = null;
+// 				}
+// 			}
+// 		}
+// 	}
+// };

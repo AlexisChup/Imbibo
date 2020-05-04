@@ -13,13 +13,23 @@ export default class FlatListRecordActions extends Component {
 	}
 
 	_addAction(a) {
-		this.setState((state) => {
-			const actions = state.actions.concat(a);
+		this.setState(
+			(state) => {
+				const actions = state.actions.concat(a);
 
-			return {
-				actions
-			};
-		});
+				return {
+					actions
+				};
+			},
+			() => {
+				this._scrollToEnd();
+			}
+		);
+	}
+	_scrollToEnd() {
+		setTimeout(() => {
+			this._flatlist.scrollToEnd();
+		}, 200);
 	}
 
 	_deleteAction(i) {
