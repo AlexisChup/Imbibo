@@ -14,6 +14,7 @@ export default class CustomSlider extends Component {
 	}
 
 	render() {
+		console.log('Render CustomSlider');
 		const { defaultValuesSlider, premium } = this.props;
 		let min, max;
 		if (premium) {
@@ -42,10 +43,10 @@ export default class CustomSlider extends Component {
 						minMarkerOverlapDistance={30}
 						onValuesChange={(values) => this.props.toggleSliderValues(values)}
 						customMarkerLeft={(e) => {
-							return <MarkerSlider value={e.currentValue} premium={premium} />;
+							return <MarkerSlider value={e.currentValue} premium={premium} index={1} />;
 						}}
 						customMarkerRight={(e) => {
-							return <MarkerSlider value={e.currentValue} premium={premium} />;
+							return <MarkerSlider value={e.currentValue} premium={premium} index={2} />;
 						}}
 					/>
 				</View>

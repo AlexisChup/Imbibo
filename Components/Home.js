@@ -164,8 +164,6 @@ class Home extends Component {
 		// 	return true;
 		// });
 
-		setTimeout(() => this._animateLogo(), 1000);
-
 		// warning message
 		this._showAlertFuncPremium('warningStart');
 	}
@@ -400,7 +398,11 @@ class Home extends Component {
 						<View style={stl.containerView}>
 							<View style={styles.containerLogo}>
 								<Animated.View style={[ styles.containerLogo, { height: animLogo, width: animLogo } ]}>
-									<Image style={[ styles.logo ]} source={this.uriLogo} />
+									<Image
+										style={[ styles.logo ]}
+										source={this.uriLogo}
+										onLoadEnd={() => this._animateLogo()}
+									/>
 								</Animated.View>
 							</View>
 							<View style={{ alignSelf: 'center', marginVertical: 10 }}>

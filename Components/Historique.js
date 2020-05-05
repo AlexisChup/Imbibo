@@ -35,8 +35,6 @@ export default class Historique extends Component {
 
 	render() {
 		const { name, action, hours, minutes, index } = this.props;
-		console.log('Render index : ' + index);
-
 		const animItemTransform = {
 			transform: [ { scale: this.state.showItem } ]
 		};

@@ -6,6 +6,14 @@ export default class MarkerSlider extends Component {
 		super(props);
 	}
 
+	shouldComponentUpdate(nextProps, nextState) {
+		if (nextProps.value === this.props.value) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
 	render() {
 		let value = this.props.value;
 		let zero = '';

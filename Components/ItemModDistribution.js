@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { Text, StyleSheet, View, Image, Dimensions, TouchableWithoutFeedback, Animated } from 'react-native';
+import { Text, StyleSheet, View, Image, Dimensions, TouchableWithoutFeedback, Animated, Easing } from 'react-native';
 import { blue, red, white } from '../assets/colors';
 import * as stl from '../assets/styles/styles';
 const { width } = Dimensions.get('window');
 import * as text from '../assets/textInGame/listTextMods';
-
+import imgSource from '../assets/mods/mod_distribution.png';
 export default class ItemModDistribution extends Component {
 	constructor(props) {
 		super(props);
@@ -12,9 +12,20 @@ export default class ItemModDistribution extends Component {
 		this.state = {
 			colorBG: blue,
 			colorBorder: red,
-			itemScale: new Animated.Value(1)
+			itemScale: new Animated.Value(1),
+			marginLeft: new Animated.Value(width * 2)
 		};
 	}
+
+	_animatedItem = () => {
+		const { marginLeft } = this.state;
+		Animated.timing(marginLeft, {
+			useNativeDriver: false,
+			toValue: 0,
+			duration: 700,
+			easing: Easing.elastic(2)
+		}).start();
+	};
 
 	_reverseColor() {
 		if (this.state.colorBG == blue) {
@@ -85,19 +96,33 @@ export default class ItemModDistribution extends Component {
 
 		//for premiums
 		if (premium) {
-			return <Image style={styles.logoMod} source={require('../assets/mods/mod_distribution.png')} />;
+			return (
+				<Image
+					style={styles.logoMod}
+					source={imgSource}
+					onLoadEnd={() => console.log('Terluné')}
+					onLoadEnd={() => this._animatedItem()}
+				/>
+			);
 		} else {
 			//for others
-			return <Image style={styles.logoMod} source={require('../assets/button-images/button-lock-mod.png')} />;
+			return (
+				<Image
+					style={styles.logoMod}
+					source={require('../assets/button-images/button-lock-mod.png')}
+					onLoadEnd={() => this._animatedItem()}
+				/>
+			);
 		}
 	}
 
 	render() {
+		const { colorBG, colorBorder, marginLeft, itemScale } = this.state;
 		const animatedScale = {
-			transform: [ { scale: this.state.itemScale } ]
+			transform: [ { scale: itemScale } ],
+			marginLeft: marginLeft
 		};
 		const { language, premium } = this.props;
-		const { colorBG, colorBorder } = this.state;
 		let title;
 		let description;
 		if (language == 'FR') {

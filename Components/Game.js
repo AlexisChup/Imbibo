@@ -93,7 +93,8 @@ class Game extends Component {
 			{
 				hist: name
 			},
-			() => this.rowRefs[0]._animateItem()
+			() => this.rowRefs[0]._animateItem(),
+			this._flatlist.scrollToIndex({ index: 0 })
 		);
 	}
 
@@ -148,6 +149,7 @@ class Game extends Component {
 								<FlatList
 									data={this.historique}
 									extraData={this.state.hist}
+									ref={(ref) => (this._flatlist = ref)}
 									keyExtractor={(item, index) => index.toString()}
 									renderItem={({ item, index }) => (
 										<Historique
