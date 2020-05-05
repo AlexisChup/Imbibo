@@ -29,7 +29,6 @@ export default class ModalRecord extends Component {
 
 	// 	// WHEN RECORDING
 	_toggleModalRecord = (origin) => {
-		console.log('TOGGL');
 		const { isModalVisible } = this.state;
 		const { language } = this.props;
 		// If the user hasn't allow persmission to records -> PopUp Warning

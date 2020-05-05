@@ -39,15 +39,12 @@ class RecordsAccueil extends Component {
 		this.state = {
 			haveRecordingPermissions: false,
 			isLoading: false,
-			recordingDurationTest: 0,
 			isRecording: false,
 			soundEnded: true,
 			buttonAnimationPlayers: new Animated.Value(1),
 			buttonAnimationActions: new Animated.Value(1),
 			origin: 'name',
-			itemPlayAudio: false,
-			isModalVisible: false,
-			addRecordTitle: ''
+			itemPlayAudio: false
 		};
 		this.rowRefs = [];
 		this._timer = null;
@@ -352,8 +349,7 @@ class RecordsAccueil extends Component {
 								soundEnded: true,
 								isRecording: true
 							},
-							() => this._initTimer(),
-							console.log('VISIBLZ')
+							() => this._initTimer()
 						);
 						this._onRecordPressed(origin);
 						this._modalRecord._toggleModalRecord(origin);
@@ -509,17 +505,9 @@ class RecordsAccueil extends Component {
 		const flexWidth = this.actionsArray.length > 0 ? 1 : null;
 
 		//From Language & premium
-		const { language, premium } = this.props;
+		const { language } = this.props;
 
-		const {
-			itemPlayAudio,
-			recordingDurationTest,
-			addRecordTitle,
-			isLoading,
-			isRecording,
-			origin,
-			isModalVisible
-		} = this.state;
+		const { itemPlayAudio, isLoading, origin } = this.state;
 
 		let displayPlayersButtonRecord;
 		let displayActionsButtonRecord;
@@ -533,27 +521,6 @@ class RecordsAccueil extends Component {
 
 		// TEXT NAME
 		let disabledButton, opaButton;
-		// let disabledActionButton, opaActionButton, disabledNameButton, opaNameButton;
-
-		// //  IF NONE ITEM PLAY AUDIO -> ACT NORMALLY
-		// if (!itemPlayAudio) {
-		// 	//Si l'on est en train de record un Name
-		// 	if (isLoading || (isRecording && origin == 'name')) {
-		// 		disabledActionButton = true;
-		// 		opaActionButton = 0.2;
-		// 	} else {
-		// 		disabledActionButton = false;
-		// 		opaActionButton = 1;
-		// 	}
-
-		// 	//Si l'on est en train de record une Action
-		// 	if (isLoading || (isRecording && origin == 'action')) {
-		// 		disabledNameButton = true;
-		// 		opaNameButton = 0.2;
-		// 	} else {
-		// 		disabledNameButton = false;
-		// 		opaNameButton = 1;
-		// 	}
 		if (itemPlayAudio || isLoading) {
 			disabledButton = true;
 			opaButton = 0.2;
