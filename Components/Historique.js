@@ -11,18 +11,32 @@ export default class Historique extends Component {
 		};
 	}
 
+	shouldComponentUpdate(nextProps, nextState) {
+		const { index } = this.props;
+
+		if (index === 0) {
+			// console.log('SouflComponentUpdate is call , props : ' + JSON.stringify(this.props, null, 4));
+			// console.log('Nextprops : ' + JSON.stringify(nextProps, null, 4));
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	_animateItem() {
 		this.state.showItem.setValue(0.01);
 		Animated.spring(this.state.showItem, {
 			toValue: 1,
-			tension: 18,
+			tension: 10,
 			friction: 5,
 			useNativeDriver: false
 		}).start();
 	}
 
 	render() {
-		const { name, action, hours, minutes } = this.props;
+		const { name, action, hours, minutes, index } = this.props;
+		console.log('Render index : ' + index);
+
 		const animItemTransform = {
 			transform: [ { scale: this.state.showItem } ]
 		};
@@ -77,7 +91,7 @@ const styles = StyleSheet.create({
 	},
 	containerDesc: {
 		flex: 1,
-		marginLeft: 5
+		marginLeft: 10
 	},
 	containerHours: {
 		marginRight: 5
