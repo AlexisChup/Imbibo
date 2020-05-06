@@ -81,20 +81,22 @@ export const buttonBottomTabBarImage = {
 // FOR PREMIUM CONTENT
 let fontSizeM;
 let sizeI;
-let flexPNoRate;
-let flexPAlreadyRate;
 if (height > 800) {
 	fontSizeM = height / 35;
 	sizeI = width / 5;
-	flexPNoRate = 0.5;
-	flexPAlreadyRate = 0.4;
 } else {
 	fontSizeM = height / 32;
 	sizeI = width / 6;
-	flexPNoRate = 0.65;
-	flexPAlreadyRate = 0.53;
 }
 // TITLE & DESCRIPTION
+// export const titleItem = Platform.select({
+// 	ios: 18,
+// 	android: 7
+// });
+// export const descItem = Platform.select({
+// 	ios: 13,
+// 	android: 2
+// });
 export const titleItem = Platform.select({
 	ios: 18,
 	android: 16
@@ -106,10 +108,11 @@ export const descItem = Platform.select({
 
 // SIZE LOGO
 export const sizeItem = sizeI;
+// export const sizeItem = 10;
 
 //  FLEX FOR PARAMS POP UP
-export const flexParamsNoRate = flexPNoRate;
-export const flexParamsAlreadyRate = flexPAlreadyRate;
 
 export const fontSizeMenu = fontSizeM;
 export const fontSizeRecordText = fontSizeM * 0.9;
+
+export const touchableItemChoice = {};

@@ -88,14 +88,19 @@ class Game extends Component {
 			action: action
 		};
 
-		this.historique.unshift(newItem);
+		this.historique.push(newItem);
 		this.setState(
 			{
 				hist: name
 			},
-			() => this.rowRefs[0]._animateItem(),
-			this._flatlist.scrollToIndex({ index: 0 })
+			() => this._scrollToEnd()
 		);
+	}
+
+	_scrollToEnd() {
+		setTimeout(() => {
+			this._flatlist.scrollToEnd();
+		}, 200);
 	}
 
 	_renderFooter() {
@@ -125,7 +130,7 @@ class Game extends Component {
 				</View>
 				{/* <Button title="Augmentation" onPress={() => this._returnSipsByPlayer()} /> */}
 
-				<View style={[ stl.containerView ]}>
+				<View style={[ stl.containerView, { paddingBottom: 0 } ]}>
 					<View style={styles.containerTitle}>
 						<Text style={styles.title}>{time}</Text>
 					</View>
@@ -214,7 +219,6 @@ const styles = StyleSheet.create({
 	containerFlat: {
 		flex: 1,
 		borderRadius: 15,
-		marginBottom: 10,
 		shadowColor: '#000',
 		shadowOffset: {
 			width: 6,

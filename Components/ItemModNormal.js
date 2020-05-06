@@ -103,7 +103,7 @@ export default class ItemModNormal extends Component {
 				onPressIn={() => this._toggleOnPressIn()}
 				onPressOut={() => this._toggleOnPressOut()}
 				onPress={() => this._toggleOnPress()}
-				style={{ flex: 1 }}
+				style={stl.touchableItemChoice}
 			>
 				<Animated.View
 					style={[
@@ -113,7 +113,11 @@ export default class ItemModNormal extends Component {
 					]}
 				>
 					<View style={[ styles.containerImage ]}>
-						<Image style={styles.logoMod} source={imgSource} onLoadEnd={() => this._animatedItem()} />
+						<Image
+							style={styles.logoMod}
+							source={imgSource}
+							onLoadEnd={() => this.props.lauchAnimationItem()}
+						/>
 					</View>
 					<View style={styles.containerTexts}>
 						<View style={styles.containerTextTitle}>

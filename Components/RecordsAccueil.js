@@ -349,9 +349,9 @@ class RecordsAccueil extends Component {
 								soundEnded: true,
 								isRecording: true
 							},
-							() => this._initTimer()
+							() => this._initTimer(),
+							this._onRecordPressed(origin)
 						);
-						this._onRecordPressed(origin);
 						this._modalRecord._toggleModalRecord(origin);
 						//disabled Sound buttons
 						this.props.disablePopUp();

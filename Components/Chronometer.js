@@ -5,6 +5,9 @@ import { green } from '../assets/colors';
 import BackgroundTimer from 'react-native-background-timer';
 import { MultiArcCircle } from 'react-native-circles';
 import * as random from '../assets/randomSipFolder';
+import imgSource1 from '../assets/chronometer/chronometer-only-contour.png';
+import imgSource2 from '../assets/chronometer/needle-and(circle).png';
+import imgSource3 from '../assets/chronometer/needle-center.png';
 const maxSeconds = 240;
 const { width, height } = Dimensions.get('window');
 const SIZE = width * 0.9;
@@ -31,6 +34,7 @@ export default class Chronometer extends React.Component {
 		//this.goToChild = this.props._goToChild
 		this.audioSampleAction;
 		this.indexNameArray = 0;
+		this.nbImagesLoaded = 0;
 		this._tickInterval = null;
 		this._rN = 0;
 		this._rNInit1 = 0;
@@ -68,11 +72,6 @@ export default class Chronometer extends React.Component {
 		this._rNInit2 = valuesSlider[1] * 360 / maxSeconds;
 		//this._initTimeOut();
 		//this._initNeedle()
-
-		//let time to load images
-		setTimeout(async () => {
-			this._animate(), this._welcomeSound();
-		}, 1000);
 	}
 
 	// Sound entry welcome
@@ -474,6 +473,16 @@ export default class Chronometer extends React.Component {
 		});
 	}
 
+	// Launch animation of each Image
+	_lauchAnimationImage = () => {
+		this.nbImagesLoaded += 1;
+		// If all Images are loaded we launch the  animation
+		if (this.nbImagesLoaded === 3) {
+			this._animate();
+			this._welcomeSound();
+		}
+	};
+
 	render() {
 		const {
 			rotationNeedle,
@@ -497,7 +506,9 @@ export default class Chronometer extends React.Component {
 				{/* Affichage du contour du chronometre */}
 				<Animated.Image
 					style={[ styles.chronometer, { transform: [ { scale: chronometer } ] } ]}
-					source={require('../assets/chronometer/chronometer-only-contour.png')}
+					source={imgSource1}
+					onLoadEnd={() => this._lauchAnimationImage()}
+					onError={() => this.props._goToChoiceScreen()}
 				/>
 
 				{/* Zone verte */}
@@ -515,14 +526,18 @@ export default class Chronometer extends React.Component {
 				<Animated.View style={[ styles.stkChrono, { transform: [ { scale: strokeChronometer } ] } ]}>
 					<Image
 						style={styles.chronometer}
-						source={require('../assets/chronometer/needle-and(circle).png')}
+						source={imgSource2}
+						onLoadEnd={() => this._lauchAnimationImage()}
+						onError={() => this.props._goToChoiceScreen()}
 					/>
 				</Animated.View>
 
 				{/* Aiguille qui tourne */}
 				<Animated.Image
 					style={[ transformNeedle, styles.needle ]}
-					source={require('../assets/chronometer/needle-center.png')}
+					source={imgSource3}
+					onLoadEnd={() => this._lauchAnimationImage()}
+					onError={() => this.props._goToChoiceScreen()}
 				/>
 			</View>
 		);

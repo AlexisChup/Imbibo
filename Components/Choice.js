@@ -38,6 +38,7 @@ class Choice extends Component {
 		super(props);
 		this.valuesSlider = [];
 		this.mod = 0;
+		this.nbImagesLoaded = 0;
 		this._goToHomeScreen = this._goToHomeScreen.bind(this);
 		this._goToGameScreen = this._goToGameScreen.bind(this);
 		this._toggleSliderValues = this._toggleSliderValues.bind(this);
@@ -130,6 +131,19 @@ class Choice extends Component {
 		this._showAlertFuncPremium('premium');
 	}
 
+	// Launch animation of each Item
+	_lauchAnimationItem = () => {
+		this.nbImagesLoaded += 1;
+		// If all Animation are loaded we launch the  animation
+		if (this.nbImagesLoaded === 4) {
+			for (let i = 0; i < 4; i++) {
+				setTimeout(() => {
+					this.modRef[i]._animatedItem();
+				}, 200 * i);
+			}
+		}
+	};
+
 	render() {
 		const { language, premium } = this.props;
 		const records = this.props.navigation.getParam('records');
@@ -172,17 +186,22 @@ class Choice extends Component {
 					</View>
 				</View>
 
-				<View style={stl.containerView}>
+				<View style={[ stl.containerView ]}>
 					<View style={styles.containerGame}>
 						<View style={styles.containerGameTitle}>
 							<Text style={styles.titleMenu}>{textMods}</Text>
 						</View>
-						<View style={styles.containerGameMenu}>
-							<ScrollView>
+						<View style={[ styles.containerGameMenu ]}>
+							<ScrollView
+								style={{}}
+								contentContainerStyle={{ justifyContent: 'space-around', flexGrow: 1 }}
+								centerContent={true}
+							>
 								<ItemModNormal
 									premium={premium}
 									language={language}
 									toggleItemMod={this._toggleItemMod}
+									lauchAnimationItem={this._lauchAnimationItem}
 									ref={(ref) => {
 										this.modRef[0] = ref;
 									}}
@@ -193,6 +212,7 @@ class Choice extends Component {
 									premium={premium}
 									language={language}
 									toggleItemMod={this._toggleItemMod}
+									lauchAnimationItem={this._lauchAnimationItem}
 									ref={(ref) => {
 										this.modRef[1] = ref;
 									}}
@@ -203,6 +223,7 @@ class Choice extends Component {
 									premium={premium}
 									language={language}
 									toggleItemMod={this._toggleItemMod}
+									lauchAnimationItem={this._lauchAnimationItem}
 									ref={(ref) => {
 										this.modRef[2] = ref;
 									}}
@@ -213,6 +234,7 @@ class Choice extends Component {
 									premium={premium}
 									language={language}
 									toggleItemMod={this._toggleItemMod}
+									lauchAnimationItem={this._lauchAnimationItem}
 									ref={(ref) => {
 										this.modRef[3] = ref;
 									}}
@@ -279,7 +301,7 @@ const styles = StyleSheet.create({
 	},
 	containerGameMenu: {
 		width: width,
-		marginBottom: 30
+		flex: 1
 	},
 	containerGameCard: {
 		flex: 1,

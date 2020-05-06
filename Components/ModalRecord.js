@@ -75,7 +75,6 @@ export default class ModalRecord extends Component {
 	render() {
 		const { recordingDurationTest, addRecordTitle, isModalVisible } = this.state;
 		const { language, toggleModalRecord } = this.props;
-		console.log('Render, record Duration : ' + recordingDurationTest);
 		// For duration records in modal
 		let lengthRecord, endRecord;
 		if (language == 'FR') {

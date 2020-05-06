@@ -14,7 +14,6 @@ export default class CustomSlider extends Component {
 	}
 
 	render() {
-		console.log('Render CustomSlider');
 		const { defaultValuesSlider, premium } = this.props;
 		let min, max;
 		if (premium) {

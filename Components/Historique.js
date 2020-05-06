@@ -13,14 +13,15 @@ export default class Historique extends Component {
 
 	shouldComponentUpdate(nextProps, nextState) {
 		const { index } = this.props;
-
-		if (index === 0) {
-			// console.log('SouflComponentUpdate is call , props : ' + JSON.stringify(this.props, null, 4));
-			// console.log('Nextprops : ' + JSON.stringify(nextProps, null, 4));
-			return true;
-		} else {
+		if (index == nextProps.index) {
 			return false;
+		} else {
+			return true;
 		}
+	}
+
+	componentDidMount() {
+		this._animateItem();
 	}
 
 	_animateItem() {

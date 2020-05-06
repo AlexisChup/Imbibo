@@ -96,14 +96,16 @@ export default class ItemModHardcore extends Component {
 
 		//for premiums
 		if (premium) {
-			return <Image style={styles.logoMod} source={imgSource} onLoadEnd={() => this._animatedItem()} />;
+			return (
+				<Image style={styles.logoMod} source={imgSource} onLoadEnd={() => this.props.lauchAnimationItem()} />
+			);
 		} else {
 			//for others
 			return (
 				<Image
 					style={styles.logoMod}
 					source={require('../assets/button-images/button-lock-mod.png')}
-					onLoadEnd={() => this._animatedItem()}
+					onLoadEnd={() => this.props.lauchAnimationItem()}
 				/>
 			);
 		}
@@ -135,7 +137,7 @@ export default class ItemModHardcore extends Component {
 				onPressIn={() => this._toggleOnPressIn()}
 				onPressOut={() => this._toggleOnPressOut()}
 				onPress={() => this._toggleOnPress()}
-				style={{ flex: 1 }}
+				style={stl.touchableItemChoice}
 			>
 				<Animated.View
 					style={[

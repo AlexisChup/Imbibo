@@ -102,7 +102,7 @@ export default class ItemModShots extends Component {
 					style={styles.logoMod}
 					source={imgSource}
 					onLoadEnd={() => console.log('Terluné')}
-					onLoadEnd={() => this._animatedItem()}
+					onLoadEnd={() => this.props.lauchAnimationItem()}
 				/>
 			);
 		} else {
@@ -111,7 +111,7 @@ export default class ItemModShots extends Component {
 				<Image
 					style={styles.logoMod}
 					source={require('../assets/button-images/button-lock-mod.png')}
-					onLoadEnd={() => this._animatedItem()}
+					onLoadEnd={() => this.props.lauchAnimationItem()}
 				/>
 			);
 		}
@@ -143,7 +143,7 @@ export default class ItemModShots extends Component {
 				onPressIn={() => this._toggleOnPressIn()}
 				onPressOut={() => this._toggleOnPressOut()}
 				onPress={() => this._toggleOnPress()}
-				style={{ flex: 1 }}
+				style={stl.touchableItemChoice}
 			>
 				<Animated.View
 					style={[
