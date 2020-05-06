@@ -78,8 +78,9 @@ export default class MarkerSlider extends Component {
 			}
 			text = '4   min' + '\n' + zero + (value - 240) + ' s';
 		}
+
 		return (
-			<Animated.View style={[ styles.containerMarker, animatedScale ]}>
+			<Animated.View style={[ animatedScale ]}>
 				<Image
 					style={[ styles.markersImage ]}
 					source={
@@ -95,16 +96,6 @@ export default class MarkerSlider extends Component {
 }
 
 const styles = StyleSheet.create({
-	containerMarker: {
-		shadowColor: '#000',
-		shadowOffset: {
-			width: 12,
-			height: 12
-		},
-		shadowOpacity: 0.6,
-		shadowRadius: 6.0,
-		elevation: 12
-	},
 	markersImage: {
 		height: 125,
 		width: 125,

@@ -316,7 +316,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center'
 	},
 	containerInterval: {
-		height: 160,
+		height: 165,
 		backgroundColor: green
 	},
 	titleMenu: {

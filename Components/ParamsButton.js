@@ -311,7 +311,7 @@ class ParamsButton extends React.Component {
 								style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 15 }}
 							>
 								<View />
-								<AnimatedOnPress toggleOnPress={() => this.toggleModal()} style={styles.cross}>
+								<AnimatedOnPress toggleOnPress={this.toggleModal} style={styles.cross}>
 									<Icon
 										size={35}
 										type="entypo"
