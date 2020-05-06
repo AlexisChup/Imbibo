@@ -1,20 +1,54 @@
 import React, { Component } from 'react';
-import { Text, StyleSheet, View, Image } from 'react-native';
+import { Text, StyleSheet, View, Image, Animated } from 'react-native';
 
 export default class MarkerSlider extends Component {
 	constructor(props) {
 		super(props);
+		this.state = {
+			scale: new Animated.Value(1)
+		};
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
-		if (nextProps.value === this.props.value) {
+		if (nextProps.pressed === this.props.pressed && nextProps.value === this.props.value) {
 			return false;
 		} else {
+			if (nextProps.pressed && !this.props.pressed) {
+				this._reduceScale();
+			} else if (!nextProps.pressed && this.props.pressed) {
+				this._increaseScale();
+			}
 			return true;
 		}
 	}
 
+	_reduceScale() {
+		const { scale } = this.state;
+		Animated.spring(scale, {
+			toValue: 0.6,
+			friction: 15,
+			tension: 18,
+			useNativeDriver: false
+		}).start();
+	}
+
+	_increaseScale() {
+		const { scale } = this.state;
+		Animated.spring(scale, {
+			toValue: 1,
+			friction: 15,
+			tension: 18,
+			useNativeDriver: false
+		}).start();
+	}
+
 	render() {
+		const { scale } = this.state;
+		const animatedScale = {
+			transform: [ { scale } ]
+		};
+		const { pressed } = this.props;
+
 		let value = this.props.value;
 		let zero = '';
 		let text;
@@ -45,12 +79,17 @@ export default class MarkerSlider extends Component {
 			text = '4   min' + '\n' + zero + (value - 240) + ' s';
 		}
 		return (
-			<View style={styles.containerMarker}>
-				<Image style={styles.markersImage} source={require('../assets/slider/marker.png')} />
+			<Animated.View style={[ styles.containerMarker, animatedScale ]}>
+				<Image
+					style={[ styles.markersImage ]}
+					source={
+						pressed ? require('../assets/slider/markerGreen.png') : require('../assets/slider/marker.png')
+					}
+				/>
 				<View style={styles.containerMarkerText}>
 					<Text style={styles.textMarker}> {text} </Text>
 				</View>
-			</View>
+			</Animated.View>
 		);
 	}
 }

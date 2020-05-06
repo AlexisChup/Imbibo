@@ -195,7 +195,6 @@ class Choice extends Component {
 							<ScrollView
 								style={{}}
 								contentContainerStyle={{ justifyContent: 'space-around', flexGrow: 1 }}
-								centerContent={true}
 							>
 								<ItemModNormal
 									premium={premium}
