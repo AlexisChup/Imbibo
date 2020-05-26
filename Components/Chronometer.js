@@ -72,6 +72,15 @@ export default class Chronometer extends React.Component {
 		this._rNInit2 = valuesSlider[1] * 360 / maxSeconds;
 		//this._initTimeOut();
 		//this._initNeedle()
+		Audio.setAudioModeAsync({
+			allowsRecordingIOS: false,
+			staysActiveInBackground: true,
+			interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DUCK_OTHERS,
+			playsInSilentModeIOS: true,
+			playThroughEarpieceAndroid: false,
+			interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DUCK_OTHERS,
+			shouldDuckAndroid: true
+		});
 	}
 
 	// Sound entry welcome
@@ -83,10 +92,11 @@ export default class Chronometer extends React.Component {
 
 		try {
 			audioObjectActions.setOnPlaybackStatusUpdate(this._onPlaybackStatusUpdateWelcome);
+
 			await audioObjectActions.loadAsync(audio.actionAudio);
 			await audioObjectActions.playAsync();
 		} catch (error) {
-			console.log('error : ' + JSON.stringify(error, null, 2));
+			console.log('error playing welcome Sound: ' + JSON.stringify(error, null, 2));
 		}
 	};
 
@@ -104,6 +114,44 @@ export default class Chronometer extends React.Component {
 					await audioObjectActions.pauseAsync();
 					await audioObjectActions.unloadAsync().then(() => {
 						this._initNeedle();
+					});
+				} catch (error) {
+					console.log('Error pause/unload Welcome audio :' + JSON.stringify(error, null, 2));
+				}
+			}
+		}
+	};
+
+	// Sound when time is over
+	_ringBell = async () => {
+		if (this.props.ringBell.uri) {
+			try {
+				audioObjectActions.setOnPlaybackStatusUpdate(this._onPlaybackStatusUpdateRingBell);
+				await audioObjectActions.loadAsync(this.props.ringBell.uri);
+				await audioObjectActions.playAsync();
+			} catch (error) {
+				console.log('error playing ring bell :' + JSON.stringify(error, null, 2));
+			}
+		} else {
+			console.log('No ringBell');
+			this._stopInterval();
+		}
+	};
+
+	_onPlaybackStatusUpdateRingBell = async (playbackStatus) => {
+		if (!playbackStatus.isLoaded) {
+			// Update your UI for the unloaded state
+			if (playbackStatus.error) {
+				console.log(`Encountered a fatal error during playback: ${playbackStatus.error}`);
+				// Send Expo team the error on Slack or the forums so we can help you debug!
+			}
+		} else {
+			if (playbackStatus.didJustFinish && !playbackStatus.isLooping) {
+				try {
+					// To fix duck on android
+					await audioObjectActions.pauseAsync();
+					await audioObjectActions.unloadAsync().then(() => {
+						this._stopInterval();
 					});
 				} catch (error) {
 					console.log('Error pause/unload Welcome audio :' + JSON.stringify(error, null, 2));
@@ -199,7 +247,9 @@ export default class Chronometer extends React.Component {
 			});
 		} else {
 			this.state.rotationNeedle.setValue(this.state.rotationLimit.__getValue());
-			this._stopInterval();
+			BackgroundTimer.clearInterval(this._tickInterval);
+			this._ringBell();
+			// this._stopInterval();
 			this.setState({
 				displayTimeLimit: 0
 			});
@@ -207,7 +257,6 @@ export default class Chronometer extends React.Component {
 	}
 
 	_stopInterval() {
-		BackgroundTimer.clearInterval(this._tickInterval);
 		// BackgroundTimer.clearInterval(this._tickInterval);
 
 		// L'aiguille a atteint le TimeOut
@@ -215,15 +264,6 @@ export default class Chronometer extends React.Component {
 			this.state.rotationNeedle.__getValue() == this.state.rotationLimit.__getValue() &&
 			this.state.rotationNeedle.__getValue() != -1
 		) {
-			Audio.setAudioModeAsync({
-				allowsRecordingIOS: false,
-				staysActiveInBackground: true,
-				interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DUCK_OTHERS,
-				playsInSilentModeIOS: true,
-				playThroughEarpieceAndroid: false,
-				interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DUCK_OTHERS,
-				shouldDuckAndroid: true
-			});
 			this.state.rotationLimit.setValue(-1);
 			//S'il y a plus d'un joueur
 			if (this.state.nbJoueurs > 0) {
@@ -263,7 +303,7 @@ export default class Chronometer extends React.Component {
 					//await audioObject.loadAsync(records.names[index])
 					await audioObjectNames.replayAsync();
 				} catch (error) {
-					console.log('error : ' + error);
+					console.log('error playing name: ' + error);
 				}
 			} else {
 				// 10% that is Group action, we do nothing
@@ -313,7 +353,7 @@ export default class Chronometer extends React.Component {
 
 					await audioObjectActions.playAsync();
 				} catch (error) {
-					console.log('error : ' + JSON.stringify(error, null, 2));
+					console.log('error playing action : ' + JSON.stringify(error, null, 2));
 				}
 			} else {
 				this.originAudioRecorded = 'action';
@@ -330,7 +370,7 @@ export default class Chronometer extends React.Component {
 					//await audioObject.loadAsync(records.names[index])
 					await audioObjectNames.replayAsync();
 				} catch (error) {
-					console.log('error : ' + error);
+					console.log('error playing user action :' + error);
 				}
 			}
 		} else {

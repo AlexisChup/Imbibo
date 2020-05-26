@@ -142,6 +142,7 @@ class Game extends Component {
 							valuesSlider={this.valuesSlider}
 							language={language}
 							mod={this.mod}
+							ringBell={this.props.ringBell}
 						/>
 					</View>
 					<View style={styles.containerHistorique}>
@@ -239,7 +240,8 @@ const mapStateToProps = (state) => {
 	// get only what we need
 	return {
 		language: state.setLanguage.language,
-		premium: state.togglePremium.premium
+		premium: state.togglePremium.premium,
+		ringBell: state.ringBellReducer.ringBell
 	};
 };
 

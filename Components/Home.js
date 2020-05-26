@@ -202,6 +202,13 @@ class Home extends Component {
 		this.props.dispatch(action);
 	}
 
+	_setRingBell = (act) => {
+		const action = {
+			type: act
+		};
+		this.props.dispatch(action);
+	};
+
 	_animateLogo() {
 		Animated.spring(this.state.animationLogo, {
 			toValue: width / 1.7,
@@ -433,6 +440,8 @@ class Home extends Component {
 							showAlertFunc={this._showAlertFunc}
 							showAlertFuncPremium={this._showAlertFuncPremium}
 							becomePremium={this._becomePremium}
+							setRingBell={this._setRingBell}
+							ringBell={this.props.ringBell}
 						/>
 						<AlertRecord
 							showAlert={this.state.showAlert}
@@ -487,7 +496,8 @@ const mapStateToProps = (state) => {
 	// get only what we need
 	return {
 		language: state.setLanguage.language,
-		premium: state.togglePremium.premium
+		premium: state.togglePremium.premium,
+		ringBell: state.ringBellReducer.ringBell
 	};
 };
 

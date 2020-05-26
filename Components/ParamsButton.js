@@ -13,7 +13,7 @@ import {
 	AsyncStorage,
 	ScrollView
 } from 'react-native';
-import { Icon, Button } from 'react-native-elements';
+import { Icon, Button, ThemeConsumer } from 'react-native-elements';
 import Modal from 'react-native-modal';
 import AnimatedOnPress from '../Animations/AnimatedOnPress';
 import * as text from '../assets/textInGame/listTextParams';
@@ -23,6 +23,10 @@ import * as stl from '../assets/styles/styles';
 import Rate, { AndroidMarket } from 'react-native-rate';
 import AlertRecord from './AlertRecord';
 import { connect } from 'react-redux';
+import * as actions from '../Store/actionTypes';
+import { Audio } from 'expo-av';
+
+var ringBellAudioObect = new Audio.Sound();
 
 import Purchases, { PURCHASE_TYPE } from 'react-native-purchases';
 const { width, height } = Dimensions.get('window');
@@ -53,6 +57,15 @@ class ParamsButton extends React.Component {
 		const stateIsAlreadyRate = isAlreadyRate == 'true' || isAlreadyRate == true ? true : false;
 		this.setState({
 			isAlreadyRate: stateIsAlreadyRate
+		});
+		Audio.setAudioModeAsync({
+			allowsRecordingIOS: false,
+			staysActiveInBackground: true,
+			interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DUCK_OTHERS,
+			playsInSilentModeIOS: true,
+			playThroughEarpieceAndroid: false,
+			interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DUCK_OTHERS,
+			shouldDuckAndroid: true
 		});
 	}
 
@@ -219,6 +232,60 @@ class ParamsButton extends React.Component {
 		}, 500);
 	}
 
+	// Send to redux the type of ringBell
+	setRingBell(actnTypes) {
+		this.props.setRingBell(actnTypes);
+		setTimeout(async () => {
+			console.log('setTimeOUt acitve');
+			if (this.props.ringBell.uri) this._playRingBell();
+		}, 10);
+	}
+
+	_playRingBell = async () => {
+		console.log('playRingBell is called ');
+		if (ringBellAudioObect !== null) {
+			try {
+				await ringBellAudioObect.stopAsync();
+				await ringBellAudioObect.unloadAsync();
+				ringBellAudioObect = null;
+			} catch (error) {
+				console.log('ERROR STOP CHRONO ACTIONS: ' + JSON.stringify(error, null, 4));
+			}
+		}
+
+		try {
+			ringBellAudioObect = new Audio.Sound();
+			ringBellAudioObect.setOnPlaybackStatusUpdate(this._onPlaybackStatusUpdateRingBell);
+
+			await ringBellAudioObect.loadAsync(this.props.ringBell.uri);
+			await ringBellAudioObect.replayAsync();
+		} catch (error) {
+			console.log('error playing ringBell: ' + JSON.stringify(error, null, 2));
+		}
+	};
+
+	_onPlaybackStatusUpdateRingBell = async (playbackStatus) => {
+		if (!playbackStatus.isLoaded) {
+			// Update your UI for the unloaded state
+			if (playbackStatus.error) {
+				console.log(`Encountered a fatal error during playback: ${playbackStatus.error}`);
+				// Send Expo team the error on Slack or the forums so we can help you debug!
+			}
+		} else {
+			if (playbackStatus.didJustFinish && !playbackStatus.isLooping) {
+				if (ringBellAudioObect !== null) {
+					try {
+						await ringBellAudioObect.stopAsync();
+						await ringBellAudioObect.unloadAsync();
+						ringBellAudioObect = null;
+					} catch (error) {
+						console.log('ERROR STOP CHRONO ACTIONS: ' + JSON.stringify(error, null, 4));
+					}
+				}
+			}
+		}
+	};
+
 	// Determine wheter displaying rate section or not
 	_displayRate() {
 		const { isAlreadyRate } = this.state;
@@ -251,6 +318,84 @@ class ParamsButton extends React.Component {
 		} else {
 			return null;
 		}
+	}
+
+	_handleDifferentRingBell() {
+		const number = this.props.ringBell.number;
+		let titleRingBell, textItemRingBell, noRingBell;
+		if (this.props.language === 'FR') {
+			titleRingBell = text.titleRingBellFR;
+			textItemRingBell = text.textItemRingBellFR;
+			noRingBell = text.noRingBellFR;
+		} else if (this.props.language === 'EN') {
+			titleRingBell = text.titleRingBellEN;
+			textItemRingBell = text.textItemRingBellEN;
+			noRingBell = text.noRingBellEN;
+		} else {
+			titleRingBell = text.titleRingBellFR;
+			textItemRingBell = text.textItemRingBellFR;
+			noRingBell = text.noRingBellFR;
+		}
+		const bgcItem = [ '', '', '', '', '' ];
+		const arrayColor = bgcItem.map((item, index) => {
+			if (index === number) return white;
+			else return blue;
+		});
+
+		return (
+			<View style={[ styles.subCat, { flexDirection: 'column', alignItems: null } ]}>
+				<View>
+					<Text style={[ styles.popUpSubTitle, { textAlign: 'left' } ]}>{titleRingBell}</Text>
+				</View>
+				<View>
+					<View style={[ styles.itemRingBell ]}>
+						<Text style={[ styles.itemTextRingBell, { color: arrayColor[0] } ]}>{noRingBell}</Text>
+						<AnimatedOnPress
+							toggleOnPress={() => this.setRingBell(actions.RINGBELL_NO_SOUND)}
+							style={[ styles.cross, { width: 38, height: 38, backgroundColor: arrayColor[0] } ]}
+						>
+							<Icon name="cross" type="entypo" color="#B83B5E" size={25} />
+						</AnimatedOnPress>
+					</View>
+					<View style={[ styles.itemRingBell ]}>
+						<Text style={[ styles.itemTextRingBell, { color: arrayColor[1] } ]}>{textItemRingBell} 1</Text>
+						<AnimatedOnPress
+							toggleOnPress={() => this.setRingBell(actions.RINGBELL_1)}
+							style={[ styles.cross, { width: 38, height: 38, backgroundColor: arrayColor[1] } ]}
+						>
+							<Icon name="music" type="font-awesome" color="#B83B5E" size={25} />
+						</AnimatedOnPress>
+					</View>
+					<View style={[ styles.itemRingBell ]}>
+						<Text style={[ styles.itemTextRingBell, { color: arrayColor[2] } ]}>{textItemRingBell} 2</Text>
+						<AnimatedOnPress
+							toggleOnPress={() => this.setRingBell(actions.RINGBELL_2)}
+							style={[ styles.cross, { width: 38, height: 38, backgroundColor: arrayColor[2] } ]}
+						>
+							<Icon name="music" type="font-awesome" color="#B83B5E" size={25} />
+						</AnimatedOnPress>
+					</View>
+					<View style={[ styles.itemRingBell ]}>
+						<Text style={[ styles.itemTextRingBell, { color: arrayColor[3] } ]}>{textItemRingBell} 3</Text>
+						<AnimatedOnPress
+							toggleOnPress={() => this.setRingBell(actions.RINGBELL_3)}
+							style={[ styles.cross, { width: 38, height: 38, backgroundColor: arrayColor[3] } ]}
+						>
+							<Icon name="music" type="font-awesome" color="#B83B5E" size={25} />
+						</AnimatedOnPress>
+					</View>
+					<View style={[ styles.itemRingBell ]}>
+						<Text style={[ styles.itemTextRingBell, { color: arrayColor[4] } ]}>{textItemRingBell} 4</Text>
+						<AnimatedOnPress
+							toggleOnPress={() => this.setRingBell(actions.RINGBELL_4)}
+							style={[ styles.cross, { width: 38, height: 38, backgroundColor: arrayColor[4] } ]}
+						>
+							<Icon name="music" type="font-awesome" color="#B83B5E" size={25} />
+						</AnimatedOnPress>
+					</View>
+				</View>
+			</View>
+		);
 	}
 
 	render() {
@@ -325,7 +470,7 @@ class ParamsButton extends React.Component {
 								<Text style={styles.popUpTitle}>{title}</Text>
 							</View>
 						</View>
-						<View style={{ flexDirection: 'row', width: width }}>
+						{/* <View style={{ flexDirection: 'row', width: width }}>
 							<Button
 								title="PurchaserInfo"
 								onPress={async () => this._getPurchaserInfo()}
@@ -346,7 +491,7 @@ class ParamsButton extends React.Component {
 								onPress={async () => this._getOfferings()}
 								buttonStyle={{ width: width / 4 - 15 }}
 							/>
-						</View>
+						</View> */}
 						<ScrollView style={styles.containerCategories}>
 							<View style={[ styles.subCat ]}>
 								<View style={{ flex: 1 }}>
@@ -360,6 +505,7 @@ class ParamsButton extends React.Component {
 									</AnimatedOnPress>
 								</View>
 							</View>
+
 							<View style={styles.div} />
 							<View style={styles.subCat}>
 								<View style={{}}>
@@ -403,6 +549,8 @@ class ParamsButton extends React.Component {
 							</View>
 							<View style={styles.div} />
 							{this._displayRate()}
+							{this._handleDifferentRingBell()}
+							<View style={styles.div} />
 							<View style={[ styles.subCat, { paddingBottom: 20 } ]}>
 								<View style={{ flex: 1 }}>
 									<Text style={styles.popUpSubTitle}>{tuto}</Text>
@@ -526,6 +674,20 @@ const styles = StyleSheet.create({
 		marginRight: -10,
 		justifyContent: 'center',
 		alignItems: 'center'
+	},
+	itemRingBell: {
+		flexDirection: 'row',
+		paddingLeft: 20,
+		flex: 1,
+		marginVertical: 15,
+		marginRight: 50
+	},
+	itemTextRingBell: {
+		color: blue,
+		fontSize: stl.titleItem,
+		fontFamily: 'montserrat-bold',
+		alignSelf: 'center',
+		flex: 1
 	}
 });
 
