@@ -1,5 +1,16 @@
 import React, { Component } from 'react';
-import { StatusBar, StyleSheet, Text, View, SafeAreaView, Dimensions, Image, Animated, Switch } from 'react-native';
+import {
+	StatusBar,
+	StyleSheet,
+	Text,
+	View,
+	SafeAreaView,
+	Dimensions,
+	Image,
+	Animated,
+	Switch,
+	BackHandler
+} from 'react-native';
 import * as RNLocalize from 'react-native-localize';
 import * as stl from '../assets/styles/styles';
 import HomeTabNaviga from './HomeTabNaviga';
@@ -137,6 +148,7 @@ class Home extends Component {
 		this._showAlertFunc = this._showAlertFunc.bind(this);
 		this._showAlertFuncPremium = this._showAlertFuncPremium.bind(this);
 		this._becomePremium = this._becomePremium.bind(this);
+		this.onBackButtonPressed = null;
 	}
 
 	async UNSAFE_componentWillMount() {
@@ -160,16 +172,16 @@ class Home extends Component {
 
 	async componentDidMount() {
 		// Disable back button
-		// BackHandler.addEventListener('hardwareBackPress', () => {
-		// 	return true;
-		// });
+		this.onBackButtonPressed = BackHandler.addEventListener('hardwareBackPress', () => {
+			return true;
+		});
 
 		// warning message
 		this._showAlertFuncPremium('warningStart');
 	}
 
 	componentWillUnmount() {
-		// BackHandler.removeEventListener('hardwareBackPress', this.onBackButtonPressed);
+		BackHandler.removeEventListener('hardwareBackPress', this.onBackButtonPressed);
 	}
 
 	_hideAlert() {
@@ -412,9 +424,9 @@ class Home extends Component {
 									/>
 								</Animated.View>
 							</View>
-							<View style={{ alignSelf: 'center', marginVertical: 10 }}>
+							{/* <View style={{ alignSelf: 'center', marginVertical: 10 }}>
 								<Switch value={this.props.premium} onValueChange={(val) => this._toggleSwitch(val)} />
-							</View>
+							</View> */}
 
 							<View style={styles.containerButtons}>
 								<RecordsAccueil
