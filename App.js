@@ -1,66 +1,15 @@
-// import React, {Component} from 'react';
-// import {
-//   Text,
-//   View,
-//   Image,
-//   Dimensions,
-//   StyleSheet,
-//   TouchableOpacity,
-//   Animated,
-//   Button,
-// } from 'react-native';
+// import React, { Component } from 'react';
+// import { Text, View } from 'react-native';
 
-// import {Provider} from 'react-redux';
-// import Store from './Store/configureStore';
-
-// import {connect} from 'react-redux';
-
-// const {width, height} = Dimensions.get('window');
-
-// class App extends Component {
-//   constructor(props) {
-//     super(props);
-
-//     this.state = {};
-//   }
-
-//   render() {
-//     return (
-//       <Provider store={Store}>
-//         {/* <PersistGate persistor={persistor}> */}
-
-//         <View style={styles.container}>
-//           <Text>test de redux</Text>
-//           <Button
-//             title="Test des props "
-//             onPress={() => console.log(JSON.stringify(this.props, null, 4))}
-//           />
-//         </View>
-//         {/* </PersistGate> */}
-//       </Provider>
-//     );
-//   }
+// export default class App extends Component {
+// 	render() {
+// 		return (
+// 			<View>
+// 				<Text> APP works ! </Text>
+// 			</View>
+// 		);
+// 	}
 // }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//     backgroundColor: '#fff',
-//   },
-// });
-
-// const mapStateToProps = (state) => {
-//   // get only what we need
-//   return {
-//     language: state.setLanguage.language,
-//     premium: state.togglePremium.premium,
-//   };
-// };
-
-// export default App;
-// export default connect(mapStateToProps)(App);
 
 // export default App;
 

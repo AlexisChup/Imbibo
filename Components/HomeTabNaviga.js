@@ -82,6 +82,8 @@ class HomeTabNaviga extends Component {
 						language={this.props.language}
 						permitPopUp={this._permitPopUp}
 						showAlertFunc={this.props.showAlertFunc}
+						setRingBell={this.props.setRingBell}
+						ringBell={this.props.ringBell}
 					/>
 					<AnimatedOnPress toggleOnPress={this.props.goToChoiceScreen}>
 						<Image

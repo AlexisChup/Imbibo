@@ -109,11 +109,10 @@ export default class AlertRecord extends Component {
 				if (language == 'FR') {
 					textAlertTitle = 'PROBLÈME !';
 					textAlert =
-						"Vous avez choisis l'option 'Ne plus redemander l'autorisation'.\n Veuillez désinstaller Imbibo puis le réinstaller pour pouvoir autoriser l'accès au microphone.";
+						"Veuillez allez dans vos paramètres pour autoriser l'accès au microphone pour l'application Imbibo.";
 				} else if (language == 'EN') {
 					textAlertTitle = 'PROBLEM !';
-					textAlert =
-						'You choose never ask again. \n To allow access to your microphone you need to uninstall Imbibo then reinstall.';
+					textAlert = "Please go to your setting and allow access to the microphone for Imbibo's app";
 				}
 			} else if (showAlertPremiumOrigin == 'warningStart') {
 				if (language == 'FR') {

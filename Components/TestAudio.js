@@ -41,7 +41,7 @@ export default class TestAudio extends React.Component {
 		if (!playbackStatus.isLoaded) {
 			// Update your UI for the unloaded state
 			if (playbackStatus.error) {
-				console.log(`Encountered a fatal error during playback: ${playbackStatus.error}`);
+				// console.log(`Encountered a fatal error during playback: ${playbackStatus.error}`);
 				// Send Expo team the error on Slack or the forums so we can help you debug!
 			}
 		} else {

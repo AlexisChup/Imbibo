@@ -9,6 +9,7 @@ import {
   Image,
   Animated,
   Switch,
+  BackHandler,
   Platform,
 } from 'react-native';
 import * as RNLocalize from 'react-native-localize';
@@ -148,6 +149,7 @@ class Home extends Component {
     this._showAlertFunc = this._showAlertFunc.bind(this);
     this._showAlertFuncPremium = this._showAlertFuncPremium.bind(this);
     this._becomePremium = this._becomePremium.bind(this);
+    this.onBackButtonPressed = null;
   }
 
   async UNSAFE_componentWillMount() {
@@ -155,9 +157,7 @@ class Home extends Component {
     if (isFirstLaunch) {
       this._setLanguageFirstLaunch();
     }
-    if (Platform.OS === 'android') {
-      SplashScreen.hide();
-    }
+    SplashScreen.hide();
     this.setState({
       isFirstLaunch,
       hasCheckedAsyncStorage: true,
@@ -177,20 +177,26 @@ class Home extends Component {
 
   async componentDidMount() {
     // Disable back button
-    // BackHandler.addEventListener('hardwareBackPress', () => {
-    // 	return true;
-    // });
+    this.onBackButtonPressed = BackHandler.addEventListener(
+      'hardwareBackPress',
+      () => {
+        return true;
+      },
+    );
 
     // warning message
     this._showAlertFuncPremium('warningStart');
 
     if (Platform.OS === 'ios') {
-      this._animateLogo();
+      this._animateLogoiOS();
     }
   }
 
   componentWillUnmount() {
-    // BackHandler.removeEventListener('hardwareBackPress', this.onBackButtonPressed);
+    BackHandler.removeEventListener(
+      'hardwareBackPress',
+      this.onBackButtonPressed,
+    );
   }
 
   _hideAlert() {
@@ -223,7 +229,23 @@ class Home extends Component {
     this.props.dispatch(action);
   }
 
-  _animateLogo() {
+  _setRingBell = (act) => {
+    const action = {
+      type: act,
+    };
+    this.props.dispatch(action);
+  };
+
+  _animateLogoiOS() {
+    Animated.spring(this.state.animationLogo, {
+      toValue: width / 1.7,
+      friction: 4,
+      tension: 18,
+      useNativeDriver: false,
+    }).start();
+  }
+
+  _animateLogoAndroid() {
     Animated.spring(this.state.animationLogo, {
       toValue: width / 1.7,
       friction: 4,
@@ -439,17 +461,14 @@ class Home extends Component {
                   ]}>
                   <Image
                     style={[styles.logo]}
-                    source={require('../assets/logo-in-game.png')}
-                    onLoadEnd={() => this._animateLogo()}
+                    source={this.uriLogo}
+                    onLoadEnd={() => this._animateLogoAndroid()}
                   />
                 </Animated.View>
               </View>
-              <View style={{alignSelf: 'center', marginVertical: 10}}>
-                <Switch
-                  value={this.props.premium}
-                  onValueChange={(val) => this._toggleSwitch(val)}
-                />
-              </View>
+              {/* <View style={{ alignSelf: 'center', marginVertical: 10 }}>
+								<Switch value={this.props.premium} onValueChange={(val) => this._toggleSwitch(val)} />
+							</View> */}
 
               <View style={styles.containerButtons}>
                 <RecordsAccueil
@@ -475,6 +494,8 @@ class Home extends Component {
               showAlertFunc={this._showAlertFunc}
               showAlertFuncPremium={this._showAlertFuncPremium}
               becomePremium={this._becomePremium}
+              setRingBell={this._setRingBell}
+              ringBell={this.props.ringBell}
             />
             <AlertRecord
               showAlert={this.state.showAlert}
@@ -530,6 +551,7 @@ const mapStateToProps = (state) => {
   return {
     language: state.setLanguage.language,
     premium: state.togglePremium.premium,
+    ringBell: state.ringBellReducer.ringBell,
   };
 };
 

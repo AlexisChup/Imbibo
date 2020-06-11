@@ -20,8 +20,8 @@
 		2DCD954D1E0B4F2C00145EB5 /* ImbiboTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* ImbiboTests.m */; };
 		949D3DE5B14F244AEEF5F549 /* libPods-Imbibo-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6262230D064A3C3DE9223D7F /* libPods-Imbibo-tvOSTests.a */; };
 		AAFFA5F8DD888EA77435E757 /* libPods-Imbibo-ImbiboTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F2A327CAC2EA1782C605712 /* libPods-Imbibo-ImbiboTests.a */; };
-		BAC28C2F2476382E00D07FD6 /* audiosImbibo in Resources */ = {isa = PBXBuildFile; fileRef = BAC28C2E2476382E00D07FD6 /* audiosImbibo */; };
 		BAC28C3124764FFF00D07FD6 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BAC28C3024764FFF00D07FD6 /* StoreKit.framework */; };
+		BAC28C3E2492BE2E00D07FD6 /* audiosImbibo in Resources */ = {isa = PBXBuildFile; fileRef = BAC28C3D2492BE2E00D07FD6 /* audiosImbibo */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,6 +80,7 @@
 		BAC28C2E2476382E00D07FD6 /* audiosImbibo */ = {isa = PBXFileReference; lastKnownFileType = folder; path = audiosImbibo; sourceTree = "<group>"; };
 		BAC28C3024764FFF00D07FD6 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		BAC28C342476A2AD00D07FD6 /* Imbibo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Imbibo.entitlements; path = Imbibo/Imbibo.entitlements; sourceTree = "<group>"; };
+		BAC28C3D2492BE2E00D07FD6 /* audiosImbibo */ = {isa = PBXFileReference; lastKnownFileType = folder; name = audiosImbibo; path = ../assets/audiosImbibo; sourceTree = "<group>"; };
 		C02D4C68F60841E3B8EFA9AB /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
 		C1B5EDF247BE4D55AAFEC712 /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
 		C4E9F9B8350CE8D2E5B275F4 /* Pods-Imbibo-ImbiboTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Imbibo-ImbiboTests.release.xcconfig"; path = "Target Support Files/Pods-Imbibo-ImbiboTests/Pods-Imbibo-ImbiboTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -198,6 +199,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				BAC28C3D2492BE2E00D07FD6 /* audiosImbibo */,
 				13B07FAE1A68108700A75B9A /* Imbibo */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* ImbiboTests */,
@@ -389,8 +391,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BAC28C3E2492BE2E00D07FD6 /* audiosImbibo in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				BAC28C2F2476382E00D07FD6 /* audiosImbibo in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

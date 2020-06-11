@@ -22,7 +22,7 @@ export default class AlertRate extends Component {
 		// Rate the app !
 		setTimeout(() => {
 			let options = {
-				GooglePackageName: 'com.DevAle.BieRatio',
+				GooglePackageName: 'com.DevAle.Imbibo',
 				preferInApp: true,
 				openAppStoreIfInAppFails: true
 			};

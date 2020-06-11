@@ -151,7 +151,7 @@ class PremiumPopUp extends React.Component {
       // this.packageImbibo = packageImbibo;
 
       if (productToBuy !== null && productToBuy.length !== 0) {
-        // console.log('On affiche :' + JSON.stringify(productToBuy, null, 4));
+        // // console.log('On affiche :' + JSON.stringify(productToBuy, null, 4));
         this.productToBuy = productToBuy;
       } else {
         this.toggleModal();
@@ -159,11 +159,11 @@ class PremiumPopUp extends React.Component {
       }
     } catch (e) {
       if (e.userInfo.readableErrorCode == 'NetworkError') {
-        console.log('Network Problem :/');
+        // console.log('Network Problem :/');
         this.toggleModal();
         this.props.showAlertFuncPremium('network');
       } else {
-        console.log('ERREUR DISPLAYING : ' + JSON.stringify(e, null, 2));
+        // console.log('ERREUR DISPLAYING : ' + JSON.stringify(e, null, 2));
         this.toggleModal();
         this.props.showAlertFuncPremium('undefined');
       }
@@ -186,22 +186,22 @@ class PremiumPopUp extends React.Component {
       // checkIfPro(purchaserInfo, this._becomePremium);
     } catch (e) {
       if (e.userInfo.readableErrorCode == 'ProductAlreadyPurchasedError') {
-        console.log('Déjà le produit ! ' + JSON.stringify(e, null, 2));
+        // console.log('Déjà le produit ! ' + JSON.stringify(e, null, 2));
         // this.purchaserInfo.entitlements.active.premium = true;
         checkIfPro(this.purchaserInfo, this._becomePremium);
         // this._becomePremium();
         this.toggleModal();
         this.props.showAlertFuncPremium('pending');
       } else if (e.userInfo.readableErrorCode == 'PaymentPendingError') {
-        console.log('Payment pending :/');
+        // console.log('Payment pending :/');
         this.toggleModal();
         this.props.showAlertFuncPremium('pending');
       } else if (e.userInfo.readableErrorCode == 'StoreProblemError') {
-        console.log('Problème avec le store');
+        // console.log('Problème avec le store');
         this.toggleModal();
         this.props.showAlertFuncPremium('store');
       } else if (!e.userCancelled) {
-        console.log('ERROR : ', JSON.stringify(e, null, 2));
+        // console.log('ERROR : ', JSON.stringify(e, null, 2));
         this.toggleModal();
         this.props.showAlertFuncPremium('undefined');
       }
@@ -212,49 +212,41 @@ class PremiumPopUp extends React.Component {
     try {
       const purchaserInfo = await Purchases.getPurchaserInfo();
       this.purchaserInfo = purchaserInfo;
-      console.log(
-        '###############\nPurchaser INFO : ' +
-          JSON.stringify(purchaserInfo, null, 3),
-      );
+      // console.log('###############\nPurchaser INFO : ' + JSON.stringify(purchaserInfo, null, 3));
     } catch (error) {
-      console.log(
-        'Error _getPurchaserInfo : ' + JSON.stringify(error, null, 2),
-      );
+      // console.log('Error _getPurchaserInfo : ' + JSON.stringify(error, null, 2));
     }
   }
   async _getOfferings() {
     try {
       const purchaserProducts = await Purchases.getOfferings();
       const packageImbibo = purchaserProducts.current.availablePackages[0];
-      console.log(
-        '###############\n Package Imbibo INFO : \n####' +
-          JSON.stringify(packageImbibo, null, 3),
-      );
+      // console.log('###############\n Package Imbibo INFO : \n####' + JSON.stringify(packageImbibo, null, 3));
     } catch (error) {
-      console.log('Error _getOfferings : ' + JSON.stringify(error, null, 2));
+      // console.log('Error _getOfferings : ' + JSON.stringify(error, null, 2));
     }
   }
   async _restorPurchases() {
-    console.log('###############\nRestor Purchases : ');
+    // console.log('###############\nRestor Purchases : ');
     try {
       const purchaserInfo = await Purchases.restoreTransactions();
       // ... check restored purchaserInfo to see if entitlement is now active
-      console.log(JSON.stringify(purchaserInfo, null, 2));
+      // console.log(JSON.stringify(purchaserInfo, null, 2));
     } catch (e) {
-      console.log('ERROR : ' + JSON.stringify(error));
+      // console.log('ERROR : ' + JSON.stringify(error));
     }
   }
 
   async _resetUser() {
-    console.log('RESET ');
+    // console.log('RESET ');
     try {
       const purchaserInfo = await Purchases.reset();
       // ... check restored purchaserInfo to see if entitlement is now active
       this.purchaserInfo = this.purchaserInfo;
       this._isPaymentPossible();
-      console.log(JSON.stringify(purchaserInfo, null, 2));
+      // console.log(JSON.stringify(purchaserInfo, null, 2));
     } catch (e) {
-      console.log('ERROR : ' + JSON.stringify(error));
+      // console.log('ERROR : ' + JSON.stringify(error));
     }
   }
 
@@ -486,17 +478,15 @@ class PremiumPopUp extends React.Component {
 // Purchase Listenner
 function checkIfPro(purchaserInfo, callbackFunction) {
   // Check when function is called
-  console.log('checkIfPro is called ! ');
+  // console.log('checkIfPro is called ! ');
   if (typeof purchaserInfo.entitlements.active.premium !== 'undefined') {
     // Unlock premium content :
-    console.log(
-      '####################""\n JE VAIS ETRE imbibeur !\n################',
-    );
+    // console.log('####################""\n JE VAIS ETRE imbibeur !\n################');
 
     // Toggle modal & show alert & remover listener
     callbackFunction();
   } else {
-    console.log('Not premium');
+    // console.log('Not premium');
   }
 }
 

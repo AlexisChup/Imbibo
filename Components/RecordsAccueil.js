@@ -181,7 +181,7 @@ class RecordsAccueil extends Component {
 			const newArray = this.actionsArray.filter((item, index) => index !== i);
 			this.actionsArray = newArray;
 		} else {
-			console.log('MAUVAISE ORIGINE');
+			// console.log('MAUVAISE ORIGINE');
 		}
 		this.setState({ soundEnded: true, itemPlayAudio: false });
 	}
@@ -202,7 +202,7 @@ class RecordsAccueil extends Component {
 				useNativeDriver: false
 			}).start();
 		} else {
-			console.log('MAUVAISE ORIGINE');
+			// console.log('MAUVAISE ORIGINE');
 		}
 	}
 
@@ -222,38 +222,38 @@ class RecordsAccueil extends Component {
 				useNativeDriver: false
 			}).start();
 		} else {
-			console.log('MAUVAISE ORIGINE');
+			// console.log('MAUVAISE ORIGINE');
 		}
 	}
 
 	_getNamesNameBeforeLaunch() {
 		this.records.namesName = this.rowRefs[0]._returnNames();
-		// console.log('ALL THE NAMES : ' + this.records.namesName);
+		// // console.log('ALL THE NAMES : ' + this.records.namesName);
 	}
 
 	_getNamesBeforeLaunch() {
 		this.records.names = this.soundsArray;
-		// console.log('NOMBRE DE NAMES RECORDS : ' + this.records.names.length);
+		// // console.log('NOMBRE DE NAMES RECORDS : ' + this.records.names.length);
 	}
 
 	_getActionsNameBeforceLaunch() {
 		this.records.actionsName = this.rowRefs[1]._returnActions();
-		// console.log('ALL THE ACTIONS : ' + this.records.actionsName);
+		// // console.log('ALL THE ACTIONS : ' + this.records.actionsName);
 	}
 
 	_getActionsBeforceLaunch() {
 		this.records.actions = this.actionsArray;
-		// console.log('NOMBRE DE ACTIONS RECORDS : ' + this.records.actions.length);
+		// // console.log('NOMBRE DE ACTIONS RECORDS : ' + this.records.actions.length);
 	}
 
 	_getDatasBeforeNavigate() {
-		// console.log('##########################');
+		// // console.log('##########################');
 		this._stopItemRecord();
 		this._getNamesNameBeforeLaunch();
 		this._getNamesBeforeLaunch();
 		this._getActionsNameBeforceLaunch();
 		this._getActionsBeforceLaunch();
-		// console.log('##########################');
+		// // console.log('##########################');
 		return this.records;
 	}
 
@@ -279,7 +279,7 @@ class RecordsAccueil extends Component {
 			}
 		}
 		if (status.error) {
-			console.log(`FATAL PLAYER ERROR: ${status.error}`);
+			// console.log(`FATAL PLAYER ERROR: ${status.error}`);
 		}
 	};
 
@@ -287,10 +287,9 @@ class RecordsAccueil extends Component {
 	_updateScreenForRecordingStatus = (status) => {
 		const origin = this.state.origin;
 		// Si le son est trop long on le coupe
+		// console.log(status.durationMillis)
 		if (status.durationMillis >= 20000) {
-			if (!this.state.isLoading) {
 				this._toggleModalRecord(origin);
-			}
 		}
 	};
 
@@ -389,7 +388,7 @@ class RecordsAccueil extends Component {
 		try {
 			await this.recording.stopAndUnloadAsync();
 		} catch (error) {
-			console.log('ERROR STOP RECORDING : ' + JSON.stringify(error, null, 2));
+			// console.log('ERROR STOP RECORDING : ' + JSON.stringify(error, null, 2));
 		}
 
 		// ON REMET LE MODE POUR LA LECTURE DE SONS
@@ -448,7 +447,7 @@ class RecordsAccueil extends Component {
 			this.props.addActions(this.actionName - 1);
 			// this.props.addActions(this.state.actionName - 1);
 		} else {
-			console.log('MAUVAISE ORIGINE');
+			// console.log('MAUVAISE ORIGINE');
 		}
 
 		this.props.enablePopUp();

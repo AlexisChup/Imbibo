@@ -58,7 +58,7 @@ class Game extends Component {
 
 	_returnSipsByPlayer = () => {
 		const arrayName = this.refs.chrono._returnAmountOfSips();
-		console.log(JSON.stringify(arrayName, null, 2));
+		// console.log(JSON.stringify(arrayName, null, 2));
 	};
 
 	// Pres on Play/Pause
@@ -142,6 +142,7 @@ class Game extends Component {
 							valuesSlider={this.valuesSlider}
 							language={language}
 							mod={this.mod}
+							ringBell={this.props.ringBell}
 						/>
 					</View>
 					<View style={styles.containerHistorique}>
@@ -239,7 +240,8 @@ const mapStateToProps = (state) => {
 	// get only what we need
 	return {
 		language: state.setLanguage.language,
-		premium: state.togglePremium.premium
+		premium: state.togglePremium.premium,
+		ringBell: state.ringBellReducer.ringBell
 	};
 };
 

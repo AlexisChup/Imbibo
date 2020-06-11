@@ -9,6 +9,7 @@ import {
   ScrollView,
   YellowBox,
   Image,
+  Platform,
 } from 'react-native';
 import {Audio} from 'expo-av';
 import {green, red, blue, white} from '../assets/colors';
@@ -136,13 +137,15 @@ class Choice extends Component {
 
   // Launch animation of each Item
   _lauchAnimationItem = () => {
-    this.nbImagesLoaded += 1;
-    // If all Animation are loaded we launch the  animation
-    if (this.nbImagesLoaded === 4) {
-      for (let i = 0; i < 4; i++) {
-        setTimeout(() => {
-          this.modRef[i]._animatedItem();
-        }, 200 * i);
+    if (Platform.OS === 'android') {
+      this.nbImagesLoaded += 1;
+      // If all Animation are loaded we launch the  animation
+      if (this.nbImagesLoaded === 4) {
+        for (let i = 0; i < 4; i++) {
+          setTimeout(() => {
+            this.modRef[i]._animatedItem();
+          }, 200 * i);
+        }
       }
     }
   };
