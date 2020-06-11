@@ -125,41 +125,41 @@ class ParamsButton extends React.Component {
 	async _getPurchaserInfo() {
 		try {
 			const purchaserInfo = await Purchases.getPurchaserInfo();
-			console.log('###############\nPurchaser INFO : ' + JSON.stringify(purchaserInfo, null, 3));
+			// console.log('###############\nPurchaser INFO : ' + JSON.stringify(purchaserInfo, null, 3));
 		} catch (e) {
-			console.log('ERROR : ' + JSON.stringify(e));
+			// console.log('ERROR : ' + JSON.stringify(e));
 		}
 	}
 	async _getOfferings() {
 		try {
 			const purchaserProducts = await Purchases.getOfferings();
 			const packageImbibo = purchaserProducts.current.availablePackages[0];
-			console.log('###############\n Package Imbibo INFO : \n####' + JSON.stringify(packageImbibo, null, 3));
+			// console.log('###############\n Package Imbibo INFO : \n####' + JSON.stringify(packageImbibo, null, 3));
 			// checkIfPro(purchaserInfo, this._becomePremium);
 		} catch (e) {
-			console.log('ERROR : ' + JSON.stringify(e));
+			// console.log('ERROR : ' + JSON.stringify(e));
 		}
 	}
 	async _restorPurchases() {
-		console.log('###############\nRestor Purchases : ');
+		// console.log('###############\nRestor Purchases : ');
 		try {
 			const purchaserInfo = await Purchases.restoreTransactions();
 			// ... check restored purchaserInfo to see if entitlement is now active
-			console.log(JSON.stringify(purchaserInfo, null, 2));
+			// console.log(JSON.stringify(purchaserInfo, null, 2));
 		} catch (e) {
-			console.log('ERROR : ' + JSON.stringify(e));
+			// console.log('ERROR : ' + JSON.stringify(e));
 		}
 	}
 
 	async _resetUser() {
-		console.log('RESET ');
+		// console.log('RESET ');
 		try {
 			const purchaserInfo = await Purchases.reset();
 			// ... check restored purchaserInfo to see if entitlement is now active
 			this.purchaserInfo = this.purchaserInfo;
-			console.log(JSON.stringify(purchaserInfo, null, 2));
+			// console.log(JSON.stringify(purchaserInfo, null, 2));
 		} catch (e) {
-			console.log('ERROR : ' + JSON.stringify(e));
+			// console.log('ERROR : ' + JSON.stringify(e));
 		}
 	}
 
@@ -236,20 +236,20 @@ class ParamsButton extends React.Component {
 	setRingBell(actnTypes) {
 		this.props.setRingBell(actnTypes);
 		setTimeout(async () => {
-			console.log('setTimeOUt acitve');
+			// console.log('setTimeOUt acitve');
 			if (this.props.ringBell.uri) this._playRingBell();
 		}, 10);
 	}
 
 	_playRingBell = async () => {
-		console.log('playRingBell is called ');
+		// console.log('playRingBell is called ');
 		if (ringBellAudioObect !== null) {
 			try {
 				await ringBellAudioObect.stopAsync();
 				await ringBellAudioObect.unloadAsync();
 				ringBellAudioObect = null;
 			} catch (error) {
-				console.log('ERROR STOP CHRONO ACTIONS: ' + JSON.stringify(error, null, 4));
+				// console.log('ERROR STOP CHRONO ACTIONS: ' + JSON.stringify(error, null, 4));
 			}
 		}
 
@@ -260,7 +260,7 @@ class ParamsButton extends React.Component {
 			await ringBellAudioObect.loadAsync(this.props.ringBell.uri);
 			await ringBellAudioObect.replayAsync();
 		} catch (error) {
-			console.log('error playing ringBell: ' + JSON.stringify(error, null, 2));
+			// console.log('error playing ringBell: ' + JSON.stringify(error, null, 2));
 		}
 	};
 
@@ -268,7 +268,7 @@ class ParamsButton extends React.Component {
 		if (!playbackStatus.isLoaded) {
 			// Update your UI for the unloaded state
 			if (playbackStatus.error) {
-				console.log(`Encountered a fatal error during playback: ${playbackStatus.error}`);
+				// console.log(`Encountered a fatal error during playback: ${playbackStatus.error}`);
 				// Send Expo team the error on Slack or the forums so we can help you debug!
 			}
 		} else {
@@ -279,7 +279,7 @@ class ParamsButton extends React.Component {
 						await ringBellAudioObect.unloadAsync();
 						ringBellAudioObect = null;
 					} catch (error) {
-						console.log('ERROR STOP CHRONO ACTIONS: ' + JSON.stringify(error, null, 4));
+						// console.log('ERROR STOP CHRONO ACTIONS: ' + JSON.stringify(error, null, 4));
 					}
 				}
 			}

@@ -58,7 +58,7 @@ class Game extends Component {
 
 	_returnSipsByPlayer = () => {
 		const arrayName = this.refs.chrono._returnAmountOfSips();
-		console.log(JSON.stringify(arrayName, null, 2));
+		// console.log(JSON.stringify(arrayName, null, 2));
 	};
 
 	// Pres on Play/Pause

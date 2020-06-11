@@ -101,7 +101,6 @@ export default class ItemModShots extends Component {
 				<Image
 					style={styles.logoMod}
 					source={imgSource}
-					onLoadEnd={() => console.log('Terluné')}
 					onLoadEnd={() => this.props.lauchAnimationItem()}
 				/>
 			);

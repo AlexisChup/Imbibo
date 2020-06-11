@@ -96,7 +96,7 @@ export default class Chronometer extends React.Component {
 			await audioObjectActions.loadAsync(audio.actionAudio);
 			await audioObjectActions.playAsync();
 		} catch (error) {
-			console.log('error playing welcome Sound: ' + JSON.stringify(error, null, 2));
+			// console.log('error playing welcome Sound: ' + JSON.stringify(error, null, 2));
 		}
 	};
 
@@ -104,7 +104,7 @@ export default class Chronometer extends React.Component {
 		if (!playbackStatus.isLoaded) {
 			// Update your UI for the unloaded state
 			if (playbackStatus.error) {
-				console.log(`Encountered a fatal error during playback: ${playbackStatus.error}`);
+				// console.log(`Encountered a fatal error during playback: ${playbackStatus.error}`);
 				// Send Expo team the error on Slack or the forums so we can help you debug!
 			}
 		} else {
@@ -116,7 +116,7 @@ export default class Chronometer extends React.Component {
 						this._initNeedle();
 					});
 				} catch (error) {
-					console.log('Error pause/unload Welcome audio :' + JSON.stringify(error, null, 2));
+					// console.log('Error pause/unload Welcome audio :' + JSON.stringify(error, null, 2));
 				}
 			}
 		}
@@ -130,10 +130,10 @@ export default class Chronometer extends React.Component {
 				await audioObjectActions.loadAsync(this.props.ringBell.uri);
 				await audioObjectActions.playAsync();
 			} catch (error) {
-				console.log('error playing ring bell :' + JSON.stringify(error, null, 2));
+				// console.log('error playing ring bell :' + JSON.stringify(error, null, 2));
 			}
 		} else {
-			console.log('No ringBell');
+			// console.log('No ringBell');
 			this._stopInterval();
 		}
 	};
@@ -142,7 +142,7 @@ export default class Chronometer extends React.Component {
 		if (!playbackStatus.isLoaded) {
 			// Update your UI for the unloaded state
 			if (playbackStatus.error) {
-				console.log(`Encountered a fatal error during playback: ${playbackStatus.error}`);
+				// console.log(`Encountered a fatal error during playback: ${playbackStatus.error}`);
 				// Send Expo team the error on Slack or the forums so we can help you debug!
 			}
 		} else {
@@ -154,7 +154,7 @@ export default class Chronometer extends React.Component {
 						this._stopInterval();
 					});
 				} catch (error) {
-					console.log('Error pause/unload Welcome audio :' + JSON.stringify(error, null, 2));
+					// console.log('Error pause/unload Welcome audio :' + JSON.stringify(error, null, 2));
 				}
 			}
 		}
@@ -188,7 +188,7 @@ export default class Chronometer extends React.Component {
 				await audioObjectNames.pauseAsync();
 				audioObjectNames = null;
 			} catch (error) {
-				console.log('ERROR STOP CHRONO NAMES: ' + JSON.stringify(error, null, 4));
+				// console.log('ERROR STOP CHRONO NAMES: ' + JSON.stringify(error, null, 4));
 			}
 		}
 		if (audioObjectActions !== null) {
@@ -197,7 +197,7 @@ export default class Chronometer extends React.Component {
 				await audioObjectActions.unloadAsync();
 				audioSampleAction = null;
 			} catch (error) {
-				console.log('ERROR STOP CHRONO ACTIONS: ' + JSON.stringify(error, null, 4));
+				// console.log('ERROR STOP CHRONO ACTIONS: ' + JSON.stringify(error, null, 4));
 			}
 		}
 	};
@@ -269,7 +269,7 @@ export default class Chronometer extends React.Component {
 			if (this.state.nbJoueurs > 0) {
 				this._playRandomName();
 			} else {
-				//console.log("On va joueur une action")
+				//// console.log("On va joueur une action")
 				this.actualName = null;
 				this.groupAction = true;
 				this._playRandomAction();
@@ -303,7 +303,7 @@ export default class Chronometer extends React.Component {
 					//await audioObject.loadAsync(records.names[index])
 					await audioObjectNames.replayAsync();
 				} catch (error) {
-					console.log('error playing name: ' + error);
+					// console.log('error playing name: ' + error);
 				}
 			} else {
 				// 10% that is Group action, we do nothing
@@ -353,7 +353,7 @@ export default class Chronometer extends React.Component {
 
 					await audioObjectActions.playAsync();
 				} catch (error) {
-					console.log('error playing action : ' + JSON.stringify(error, null, 2));
+					// console.log('error playing action : ' + JSON.stringify(error, null, 2));
 				}
 			} else {
 				this.originAudioRecorded = 'action';
@@ -370,7 +370,7 @@ export default class Chronometer extends React.Component {
 					//await audioObject.loadAsync(records.names[index])
 					await audioObjectNames.replayAsync();
 				} catch (error) {
-					console.log('error playing user action :' + error);
+					// console.log('error playing user action :' + error);
 				}
 			}
 		} else {
@@ -382,7 +382,7 @@ export default class Chronometer extends React.Component {
 		if (!playbackStatus.isLoaded) {
 			// Update your UI for the unloaded state
 			if (playbackStatus.error) {
-				console.log(`Encountered a fatal error during playback: ${playbackStatus.error}`);
+				// console.log(`Encountered a fatal error during playback: ${playbackStatus.error}`);
 				// Send Expo team the error on Slack or the forums so we can help you debug!
 			}
 		} else {
@@ -393,7 +393,7 @@ export default class Chronometer extends React.Component {
 						try {
 							await audioObjectNames.pauseAsync().then(() => this._playRandomAction());
 						} catch (error) {
-							console.log('ERROR pause audioName : ' + JSON.stringify(error, null, 2));
+							// console.log('ERROR pause audioName : ' + JSON.stringify(error, null, 2));
 						}
 					} else {
 						//le jeu est en pause
@@ -412,7 +412,7 @@ export default class Chronometer extends React.Component {
 						try {
 							await audioObjectNames.pauseAsync();
 						} catch (error) {
-							console.log('ERROR pause audioName : ' + JSON.stringify(error, null, 2));
+							// console.log('ERROR pause audioName : ' + JSON.stringify(error, null, 2));
 						}
 					}
 				} else if (this.originAudioRecorded == 'action') {
@@ -421,7 +421,7 @@ export default class Chronometer extends React.Component {
 					try {
 						await audioObjectNames.pauseAsync();
 					} catch (error) {
-						console.log('ERROR pause audioName : ' + JSON.stringify(error, null, 2));
+						// console.log('ERROR pause audioName : ' + JSON.stringify(error, null, 2));
 					}
 				}
 			}
@@ -432,7 +432,7 @@ export default class Chronometer extends React.Component {
 		if (!playbackStatus.isLoaded) {
 			// Update your UI for the unloaded state
 			if (playbackStatus.error) {
-				console.log(`Encountered a fatal error during playback: ${playbackStatus.error}`);
+				// console.log(`Encountered a fatal error during playback: ${playbackStatus.error}`);
 				// Send Expo team the error on Slack or the forums so we can help you debug!
 			}
 		} else {
