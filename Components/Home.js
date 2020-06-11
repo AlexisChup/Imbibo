@@ -168,7 +168,7 @@ class Home extends Component {
   //  Set the language when is it the first time
   _setLanguageFirstLaunch = () => {
     const countryCode = RNLocalize.getCountry();
-    if (countryCode == 'EN') {
+    if (countryCode === 'EN') {
       this._setLanguage('SET_EN', 'EN');
     } else {
       this._setLanguage('SET_FR', 'FR');

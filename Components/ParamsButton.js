@@ -223,6 +223,7 @@ class ParamsButton extends React.Component {
   _toggleRating() {
     setTimeout(() => {
       let options = {
+        AppleAppID: '1505766839',
         GooglePackageName: 'com.DevAle.BieRatio',
         preferInApp: true,
         openAppStoreIfInAppFails: true,
@@ -305,7 +306,6 @@ class ParamsButton extends React.Component {
     } else if (language == 'EN') {
       rate = text.rateEN;
     }
-    // if (true) {
     if (!isAlreadyRate) {
       return (
         <View>
@@ -515,17 +515,19 @@ class ParamsButton extends React.Component {
                   marginHorizontal: 15,
                 }}>
                 <View />
-                <AnimatedOnPress
-                  toggleOnPress={this.toggleModal}
-                  style={styles.cross}>
-                  <Icon
-                    size={35}
-                    type="entypo"
-                    name="cross"
-                    color="white"
-                    iconStyle={styles.exitPopUp}
-                  />
-                </AnimatedOnPress>
+                <View style={[{marginHorizontal: 10, marginVertical: 10}]}>
+                  <AnimatedOnPress
+                    toggleOnPress={this.toggleModal}
+                    style={[styles.cross, {}]}>
+                    <Icon
+                      size={35}
+                      type="entypo"
+                      name="cross"
+                      color="white"
+                      iconStyle={styles.exitPopUp}
+                    />
+                  </AnimatedOnPress>
+                </View>
               </View>
               <View style={{marginTop: -10}}>
                 <Text style={styles.popUpTitle}>{title}</Text>

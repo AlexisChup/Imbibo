@@ -373,7 +373,7 @@ export const manyActionDis = [
   {
     actionAudio: {uri: 'asset:/64_fr_leo_1.mp3'},
     actionName:
-      "désigne quelque chose que tu n'as jamais fait. Ceux qui l'on fait boit 5 gorgées.",
+      "désigne quelque chose que tu n'as jamais fait. 5 gorgées pour ceux qui l'on fait.",
     sipsDrank: 0,
     sipsGiven: 5,
   },
@@ -411,7 +411,7 @@ export const manyActionDis = [
   {
     actionAudio: {uri: 'asset:/65_fr_leo_1.mp3'},
     actionName:
-      "désigne quelque chose que tu as fait et que personne n'a fait. Ceux qui ne l'on pas fait boit 5 gorgées.",
+      "désigne quelque chose que tu as fait et que personne n'a fait. 5 gorgées pour ceux qui ne l'on jamais fait.",
     sipsDrank: 0,
     sipsGiven: 5,
   },
@@ -441,7 +441,7 @@ export const manyActionDis = [
   },
   {
     actionAudio: {uri: 'asset:/21_fr_lea_1.mp3'},
-    actionName: 'distribue 5 gorgées ou bois en 2.',
+    actionName: 'distribue 5 gorgées ou bois-en 2.',
     sipsDrank: 0,
     sipsGiven: 5,
   },

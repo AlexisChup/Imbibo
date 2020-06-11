@@ -22,13 +22,13 @@ const SIZE = width * 0.9;
 
 //Ne pas y toucher :
 // Permet de faire 90° en 50 secondes
-// const TICK_INTERVAL = 50;
-// const DECREMENT = 0.12;
+const TICK_INTERVAL = 50;
+const DECREMENT = 0.12;
 
 //Pour les Test
 // Permet de faire 90° en 5 secondes
-const TICK_INTERVAL = 50;
-const DECREMENT = 2;
+// const TICK_INTERVAL = 50;
+// const DECREMENT = 2;
 
 var audioObjectNames = new Audio.Sound();
 var audioObjectActions = new Audio.Sound();
