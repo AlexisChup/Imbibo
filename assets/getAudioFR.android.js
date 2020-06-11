@@ -232,7 +232,7 @@ export const mediumActionDis = [
 		sipsGiven: 3
 	},
 	{
-		actionAudio: { uri: 'asset:/58_fr_leo_1.m4a' },
+		actionAudio: { uri: 'asset:/58_fr_leo_1.mp3' },
 		actionName: "si tu as déjà eu le corona distribue 4 gorgées, tu reviens de loin.",
 		sipsDrank: 0,
 		sipsGiven: 4
@@ -366,13 +366,13 @@ export const mediumActionTak = [
 // 5 || 6 D
 export const manyActionDis = [
 	{
-		actionAudio: { uri: 'asset:/64_fr_leo_1.m4a' },
+		actionAudio: { uri: 'asset:/64_fr_leo_1.mp3' },
 		actionName: "désigne quelque chose que tu n'as jamais fait. Ceux qui l'on fait boit 5 gorgées.",
 		sipsDrank: 0,
 		sipsGiven: 5
 	},
 	{
-		actionAudio: { uri: 'asset:/67_fr_leo_1.m4a' },
+		actionAudio: { uri: 'asset:/67_fr_leo_1.mp3' },
 		actionName: "désigne le plus suceptible qui va boire 5 gorgées, ça endurcit.",
 		sipsDrank: 0,
 		sipsGiven: 5
