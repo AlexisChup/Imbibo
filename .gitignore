@@ -61,5 +61,10 @@ buck-out/
 # CocoaPods
 /ios/Pods/
 
+/ios
+
 # avoid duplicate audios
 /assets/audiosImbibo
+
+# avoid error compatipility android / ios
+/android
