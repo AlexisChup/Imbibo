@@ -25,6 +25,11 @@ import * as text from '../assets/textInGame/listTextHome';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import SplashScreen from 'react-native-splash-screen';
 
+import imgMod1 from '../assets/mods/mod_normal.png';
+import imgMod2 from '../assets/mods/mod_shots.png';
+import imgMod3 from '../assets/mods/mod_distribution.png';
+import imgMod4 from '../assets/mods/mod_hardcore.png';
+
 const slidesEN = [
   {
     key: 'intro_1',
@@ -255,15 +260,8 @@ class Home extends Component {
   }
 
   _goToChoicescreen(nb) {
-    const {language} = this.props;
     const stateRecords = this.rowRefs[0]._returnState();
     if (stateRecords[0] || stateRecords[1]) {
-      // let textAlert;
-      // if (language == 'FR') {
-      // 	textAlert = text.alertRecordFR;
-      // } else if (language == 'EN') {
-      // 	textAlert = text.alertRecordEN;
-      // }
       this.setState({
         showAlert: true,
       });
@@ -271,8 +269,11 @@ class Home extends Component {
       this.records = this.rowRefs[0]._getDatasBeforeNavigate();
 
       const recordsNameNames = this.records.namesName;
+
       const iterator = recordsNameNames.values();
+
       let arrayName = [];
+
       for (const name of iterator) {
         arrayName.push({
           name: name,
