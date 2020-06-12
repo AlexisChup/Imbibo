@@ -1,476 +1,539 @@
 import React from 'react';
 import {
-	Text,
-	TouchableHighlight,
-	View,
-	StyleSheet,
-	Image,
-	Dimensions,
-	Animated,
-	TouchableWithoutFeedback,
-	Share,
-	Platform,
-	AsyncStorage,
-	ScrollView
+  Text,
+  TouchableHighlight,
+  View,
+  StyleSheet,
+  Image,
+  Dimensions,
+  Animated,
+  TouchableWithoutFeedback,
+  Share,
+  Platform,
+  AsyncStorage,
+  ScrollView,
 } from 'react-native';
-import { Icon, Button, ThemeConsumer } from 'react-native-elements';
+import {Icon, Button, ThemeConsumer} from 'react-native-elements';
 import Modal from 'react-native-modal';
 import AnimatedOnPress from '../Animations/AnimatedOnPress';
 import * as text from '../assets/textInGame/listTextParams';
 import * as textShare from '../assets/textInGame/listTextSelectLanguage';
-import { white, red, blue, green } from '../assets/colors';
+import {white, red, blue, green} from '../assets/colors';
 import * as stl from '../assets/styles/styles';
-import Rate, { AndroidMarket } from 'react-native-rate';
+import Rate, {AndroidMarket} from 'react-native-rate';
 import AlertRecord from './AlertRecord';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import * as actions from '../Store/actionTypes';
-import { Audio } from 'expo-av';
+import {Audio} from 'expo-av';
 
 var ringBellAudioObect = new Audio.Sound();
 
-import Purchases, { PURCHASE_TYPE } from 'react-native-purchases';
-const { width, height } = Dimensions.get('window');
+import Purchases, {PURCHASE_TYPE} from 'react-native-purchases';
+const {width, height} = Dimensions.get('window');
 class ParamsButton extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			isModalVisible: this.props.isVisible,
-			language: this.props.language,
-			scaleLogoFR: new Animated.Value(1),
-			scaleLogoEN: new Animated.Value(1),
-			showAlert: false,
-			isAlreadyRate: false
-		};
+  constructor(props) {
+    super(props);
+    this.state = {
+      isModalVisible: this.props.isVisible,
+      language: this.props.language,
+      scaleLogoFR: new Animated.Value(1),
+      scaleLogoEN: new Animated.Value(1),
+      showAlert: false,
+      isAlreadyRate: false,
+    };
 
-		this._interval = null;
-		this._timer = null;
-		this.triggerIntroSliders = this.triggerIntroSliders.bind(this);
-		this._toggleSharing = this._toggleSharing.bind(this);
-		this.toggleModal = this.toggleModal.bind(this);
-		this._toggleRating = this._toggleRating.bind(this);
-		this._setStateRating = this._setStateRating.bind(this);
-	}
+    this._interval = null;
+    this._timer = null;
+    this.triggerIntroSliders = this.triggerIntroSliders.bind(this);
+    this._toggleSharing = this._toggleSharing.bind(this);
+    this.toggleModal = this.toggleModal.bind(this);
+    this._toggleRating = this._toggleRating.bind(this);
+    this._setStateRating = this._setStateRating.bind(this);
+  }
 
-	async componentDidMount() {
-		// User have rated the app ?
-		const isAlreadyRate = await AsyncStorage.getItem('isAlreadyRate');
-		const stateIsAlreadyRate = isAlreadyRate == 'true' || isAlreadyRate == true ? true : false;
-		this.setState({
-			isAlreadyRate: stateIsAlreadyRate
-		});
-		Audio.setAudioModeAsync({
-			allowsRecordingIOS: false,
-			staysActiveInBackground: true,
-			interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DUCK_OTHERS,
-			playsInSilentModeIOS: true,
-			playThroughEarpieceAndroid: false,
-			interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DUCK_OTHERS,
-			shouldDuckAndroid: true
-		});
-	}
+  async componentDidMount() {
+    // User have rated the app ?
+    const isAlreadyRate = await AsyncStorage.getItem('isAlreadyRate');
+    const stateIsAlreadyRate =
+      isAlreadyRate == 'true' || isAlreadyRate == true ? true : false;
+    this.setState({
+      isAlreadyRate: stateIsAlreadyRate,
+    });
+    Audio.setAudioModeAsync({
+      allowsRecordingIOS: false,
+      staysActiveInBackground: true,
+      interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DUCK_OTHERS,
+      playsInSilentModeIOS: true,
+      playThroughEarpieceAndroid: false,
+      interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DUCK_OTHERS,
+      shouldDuckAndroid: true,
+    });
+  }
 
-	//action for reducer setLanguage
-	_setLanguage(type, value) {
-		const action = { type: type, value: value };
-		this.props.dispatch(action);
-	}
+  //action for reducer setLanguage
+  _setLanguage(type, value) {
+    const action = {type: type, value: value};
+    this.props.dispatch(action);
+  }
 
-	_toggleOnPressIn(type, value) {
-		if (value == 'FR') {
-			Animated.spring(this.state.scaleLogoFR, {
-				toValue: 0.4,
-				friction: 15,
-				tension: 18,
-				useNativeDriver: false
-			}).start();
-		} else if (value == 'EN') {
-			Animated.spring(this.state.scaleLogoEN, {
-				toValue: 0.4,
-				friction: 15,
-				tension: 18,
-				useNativeDriver: false
-			}).start();
-		}
-	}
+  _toggleOnPressIn(type, value) {
+    if (value == 'FR') {
+      Animated.spring(this.state.scaleLogoFR, {
+        toValue: 0.4,
+        friction: 15,
+        tension: 18,
+        useNativeDriver: false,
+      }).start();
+    } else if (value == 'EN') {
+      Animated.spring(this.state.scaleLogoEN, {
+        toValue: 0.4,
+        friction: 15,
+        tension: 18,
+        useNativeDriver: false,
+      }).start();
+    }
+  }
 
-	_toggleOnPressOut(type, value) {
-		if (value == 'FR') {
-			Animated.spring(this.state.scaleLogoFR, {
-				toValue: 1,
-				friction: 4,
-				tension: 18,
-				useNativeDriver: false
-			}).start();
-		} else if (value == 'EN') {
-			Animated.spring(this.state.scaleLogoEN, {
-				toValue: 1,
-				friction: 4,
-				tension: 18,
-				useNativeDriver: false
-			}).start();
-		}
-		// this._setLanguage(type, value);
-	}
+  _toggleOnPressOut(type, value) {
+    if (value == 'FR') {
+      Animated.spring(this.state.scaleLogoFR, {
+        toValue: 1,
+        friction: 4,
+        tension: 18,
+        useNativeDriver: false,
+      }).start();
+    } else if (value == 'EN') {
+      Animated.spring(this.state.scaleLogoEN, {
+        toValue: 1,
+        friction: 4,
+        tension: 18,
+        useNativeDriver: false,
+      }).start();
+    }
+    // this._setLanguage(type, value);
+  }
 
-	_toggleOnPress(type, value) {
-		this._setLanguage(type, value);
-	}
+  _toggleOnPress(type, value) {
+    this._setLanguage(type, value);
+  }
 
-	triggerIntroSliders() {
-		this.toggleModal();
-		this.props.triggerIntroSliders();
-	}
+  triggerIntroSliders() {
+    this.toggleModal();
+    this.props.triggerIntroSliders();
+  }
 
-	// DELETE THIS IN PROD
-	async _getPurchaserInfo() {
-		try {
-			const purchaserInfo = await Purchases.getPurchaserInfo();
-			// console.log('###############\nPurchaser INFO : ' + JSON.stringify(purchaserInfo, null, 3));
-		} catch (e) {
-			// console.log('ERROR : ' + JSON.stringify(e));
-		}
-	}
-	async _getOfferings() {
-		try {
-			const purchaserProducts = await Purchases.getOfferings();
-			const packageImbibo = purchaserProducts.current.availablePackages[0];
-			// console.log('###############\n Package Imbibo INFO : \n####' + JSON.stringify(packageImbibo, null, 3));
-			// checkIfPro(purchaserInfo, this._becomePremium);
-		} catch (e) {
-			// console.log('ERROR : ' + JSON.stringify(e));
-		}
-	}
-	async _restorPurchases() {
-		// console.log('###############\nRestor Purchases : ');
-		try {
-			const purchaserInfo = await Purchases.restoreTransactions();
-			// ... check restored purchaserInfo to see if entitlement is now active
-			// console.log(JSON.stringify(purchaserInfo, null, 2));
-		} catch (e) {
-			// console.log('ERROR : ' + JSON.stringify(e));
-		}
-	}
+  // DELETE THIS IN PROD
+  async _getPurchaserInfo() {
+    try {
+      const purchaserInfo = await Purchases.getPurchaserInfo();
+      // console.log('###############\nPurchaser INFO : ' + JSON.stringify(purchaserInfo, null, 3));
+    } catch (e) {
+      // console.log('ERROR : ' + JSON.stringify(e));
+    }
+  }
+  async _getOfferings() {
+    try {
+      const purchaserProducts = await Purchases.getOfferings();
+      const packageImbibo = purchaserProducts.current.availablePackages[0];
+      // console.log('###############\n Package Imbibo INFO : \n####' + JSON.stringify(packageImbibo, null, 3));
+      // checkIfPro(purchaserInfo, this._becomePremium);
+    } catch (e) {
+      // console.log('ERROR : ' + JSON.stringify(e));
+    }
+  }
+  async _restorPurchases() {
+    // console.log('###############\nRestor Purchases : ');
+    try {
+      const purchaserInfo = await Purchases.restoreTransactions();
+      // ... check restored purchaserInfo to see if entitlement is now active
+      // console.log(JSON.stringify(purchaserInfo, null, 2));
+    } catch (e) {
+      // console.log('ERROR : ' + JSON.stringify(e));
+    }
+  }
 
-	async _resetUser() {
-		// console.log('RESET ');
-		try {
-			const purchaserInfo = await Purchases.reset();
-			// ... check restored purchaserInfo to see if entitlement is now active
-			this.purchaserInfo = this.purchaserInfo;
-			// console.log(JSON.stringify(purchaserInfo, null, 2));
-		} catch (e) {
-			// console.log('ERROR : ' + JSON.stringify(e));
-		}
-	}
+  async _resetUser() {
+    // console.log('RESET ');
+    try {
+      const purchaserInfo = await Purchases.reset();
+      // ... check restored purchaserInfo to see if entitlement is now active
+      this.purchaserInfo = this.purchaserInfo;
+      // console.log(JSON.stringify(purchaserInfo, null, 2));
+    } catch (e) {
+      // console.log('ERROR : ' + JSON.stringify(e));
+    }
+  }
 
-	async _toggleSharing() {
-		const { language } = this.props;
-		let message;
-		if (language == 'FR') {
-			if (Platform.OS == 'ios') {
-				message = textShare.iOSMsgFR;
-			} else {
-				message = textShare.androidMsgFR;
-			}
-		} else if (language == 'EN') {
-			if (Platform.select == 'ios') {
-				message = textShare.iOSMsgEN;
-			} else {
-				message = textShare.androidMsgEN;
-			}
-		}
-		Share.share({
-			title: 'IMBIBO \n',
-			message: message
-		});
-	}
+  async _toggleSharing() {
+    const {language} = this.props;
+    let message;
+    if (language == 'FR') {
+      if (Platform.OS == 'ios') {
+        message = textShare.iOSMsgFR;
+      } else {
+        message = textShare.androidMsgFR;
+      }
+    } else if (language == 'EN') {
+      if (Platform.select == 'ios') {
+        message = textShare.iOSMsgEN;
+      } else {
+        message = textShare.androidMsgEN;
+      }
+    }
+    Share.share({
+      title: 'IMBIBO \n',
+      message: message,
+    });
+  }
 
-	// Nécessaire car si l'utilisateur clique trop vite il va quitter et revenir sur le Modal
-	_initTimer() {
-		this._timer = true;
-		setTimeout(() => this._destroyTimer(), 1000);
-	}
+  // Nécessaire car si l'utilisateur clique trop vite il va quitter et revenir sur le Modal
+  _initTimer() {
+    this._timer = true;
+    setTimeout(() => this._destroyTimer(), 1000);
+  }
 
-	_destroyTimer() {
-		this._timer = null;
-	}
+  _destroyTimer() {
+    this._timer = null;
+  }
 
-	//unless there is a record
-	toggleModal() {
-		if (this.props.permitPopUp()) {
-			if (this._timer == null) {
-				this.setState({ isModalVisible: !this.state.isModalVisible }, () => this._initTimer());
-			}
-		} else {
-			this.props.showAlertFunc();
-		}
-	}
+  //unless there is a record
+  toggleModal() {
+    if (this.props.permitPopUp()) {
+      if (this._timer == null) {
+        this.setState({isModalVisible: !this.state.isModalVisible}, () =>
+          this._initTimer(),
+        );
+      }
+    } else {
+      this.props.showAlertFunc();
+    }
+  }
 
-	// Call just after rate succes
-	_setStateRating() {
-		this.setState(
-			{
-				isAlreadyRate: true
-			},
-			() => this.toggleModal()
-		);
-	}
+  // Call just after rate succes
+  _setStateRating() {
+    this.setState(
+      {
+        isAlreadyRate: true,
+      },
+      () => this.toggleModal(),
+    );
+  }
 
-	// When user tap on Rate
-	_toggleRating() {
-		setTimeout(() => {
-			let options = {
-				GooglePackageName: 'com.DevAle.BieRatio',
-				preferInApp: true,
-				openAppStoreIfInAppFails: true
-			};
-			Rate.rate(options, async (success) => {
-				if (success) {
-					await AsyncStorage.setItem('isAlreadyRate', 'true').then(() => this._setStateRating());
-				}
-			});
-		}, 500);
-	}
+  // When user tap on Rate
+  _toggleRating() {
+    setTimeout(() => {
+      let options = {
+        AppleAppID: '1505766839',
+        GooglePackageName: 'com.DevAle.BieRatio',
+        preferInApp: true,
+        openAppStoreIfInAppFails: true,
+      };
+      Rate.rate(options, async (success) => {
+        if (success) {
+          await AsyncStorage.setItem('isAlreadyRate', 'true').then(() =>
+            this._setStateRating(),
+          );
+        }
+      });
+    }, 500);
+  }
 
-	// Send to redux the type of ringBell
-	setRingBell(actnTypes) {
-		this.props.setRingBell(actnTypes);
-		setTimeout(async () => {
-			// console.log('setTimeOUt acitve');
-			if (this.props.ringBell.uri) this._playRingBell();
-		}, 10);
-	}
+  // Send to redux the type of ringBell
+  setRingBell(actnTypes) {
+    this.props.setRingBell(actnTypes);
+    setTimeout(async () => {
+      // console.log('setTimeOUt acitve');
+      if (this.props.ringBell.uri) this._playRingBell();
+    }, 10);
+  }
 
-	_playRingBell = async () => {
-		// console.log('playRingBell is called ');
-		if (ringBellAudioObect !== null) {
-			try {
-				await ringBellAudioObect.stopAsync();
-				await ringBellAudioObect.unloadAsync();
-				ringBellAudioObect = null;
-			} catch (error) {
-				// console.log('ERROR STOP CHRONO ACTIONS: ' + JSON.stringify(error, null, 4));
-			}
-		}
+  _playRingBell = async () => {
+    // console.log('playRingBell is called ');
+    if (ringBellAudioObect !== null) {
+      try {
+        await ringBellAudioObect.stopAsync();
+        await ringBellAudioObect.unloadAsync();
+        ringBellAudioObect = null;
+      } catch (error) {
+        console.log(
+          'ERROR STOP CHRONO ACTIONS: ' + JSON.stringify(error, null, 4),
+        );
+      }
+    }
 
-		try {
-			ringBellAudioObect = new Audio.Sound();
-			ringBellAudioObect.setOnPlaybackStatusUpdate(this._onPlaybackStatusUpdateRingBell);
+    try {
+      ringBellAudioObect = new Audio.Sound();
+      ringBellAudioObect.setOnPlaybackStatusUpdate(
+        this._onPlaybackStatusUpdateRingBell,
+      );
 
-			await ringBellAudioObect.loadAsync(this.props.ringBell.uri);
-			await ringBellAudioObect.replayAsync();
-		} catch (error) {
-			// console.log('error playing ringBell: ' + JSON.stringify(error, null, 2));
-		}
-	};
+      await ringBellAudioObect.loadAsync(this.props.ringBell.uri);
+      await ringBellAudioObect.replayAsync();
+    } catch (error) {
+      // console.log('error playing ringBell: ' + JSON.stringify(error, null, 2));
+    }
+  };
 
-	_onPlaybackStatusUpdateRingBell = async (playbackStatus) => {
-		if (!playbackStatus.isLoaded) {
-			// Update your UI for the unloaded state
-			if (playbackStatus.error) {
-				// console.log(`Encountered a fatal error during playback: ${playbackStatus.error}`);
-				// Send Expo team the error on Slack or the forums so we can help you debug!
-			}
-		} else {
-			if (playbackStatus.didJustFinish && !playbackStatus.isLooping) {
-				if (ringBellAudioObect !== null) {
-					try {
-						await ringBellAudioObect.stopAsync();
-						await ringBellAudioObect.unloadAsync();
-						ringBellAudioObect = null;
-					} catch (error) {
-						// console.log('ERROR STOP CHRONO ACTIONS: ' + JSON.stringify(error, null, 4));
-					}
-				}
-			}
-		}
-	};
+  _onPlaybackStatusUpdateRingBell = async (playbackStatus) => {
+    if (!playbackStatus.isLoaded) {
+      // Update your UI for the unloaded state
+      if (playbackStatus.error) {
+        // console.log(`Encountered a fatal error during playback: ${playbackStatus.error}`);
+        // Send Expo team the error on Slack or the forums so we can help you debug!
+      }
+    } else {
+      if (playbackStatus.didJustFinish && !playbackStatus.isLooping) {
+        if (ringBellAudioObect !== null) {
+          try {
+            await ringBellAudioObect.stopAsync();
+            await ringBellAudioObect.unloadAsync();
+            ringBellAudioObect = null;
+          } catch (error) {
+            // console.log('ERROR STOP CHRONO ACTIONS: ' + JSON.stringify(error, null, 4));
+          }
+        }
+      }
+    }
+  };
 
-	// Determine wheter displaying rate section or not
-	_displayRate() {
-		const { isAlreadyRate } = this.state;
-		const { language } = this.props;
-		let rate;
-		if (language == 'FR') {
-			rate = text.rateFR;
-		} else if (language == 'EN') {
-			rate = text.rateEN;
-		}
-		// if (true) {
-		if (!isAlreadyRate) {
-			return (
-				<View>
-					<View style={[ styles.subCat ]}>
-						<View style={{ flex: 1 }}>
-							<Text style={styles.popUpSubTitle}>{rate}</Text>
-						</View>
-						<View style={[ styles.shadow, { alignItems: 'center' } ]}>
-							<AnimatedOnPress toggleOnPress={this._toggleRating}>
-								<View style={[ styles.posIcon, { marginBottom: 5 } ]}>
-									<Icon name="star" type="font-awesome" color="#B83B5E" size={30} />
-								</View>
-							</AnimatedOnPress>
-						</View>
-					</View>
-					<View style={styles.div} />
-				</View>
-			);
-		} else {
-			return null;
-		}
-	}
+  // Determine wheter displaying rate section or not
+  _displayRate() {
+    const {isAlreadyRate} = this.state;
+    const {language} = this.props;
+    let rate;
+    if (language == 'FR') {
+      rate = text.rateFR;
+    } else if (language == 'EN') {
+      rate = text.rateEN;
+    }
+    if (!isAlreadyRate) {
+      return (
+        <View>
+          <View style={[styles.subCat]}>
+            <View style={{flex: 1}}>
+              <Text style={styles.popUpSubTitle}>{rate}</Text>
+            </View>
+            <View style={[styles.shadow, {alignItems: 'center'}]}>
+              <AnimatedOnPress toggleOnPress={this._toggleRating}>
+                <View style={[styles.posIcon, {marginBottom: 5}]}>
+                  <Icon
+                    name="star"
+                    type="font-awesome"
+                    color="#B83B5E"
+                    size={30}
+                  />
+                </View>
+              </AnimatedOnPress>
+            </View>
+          </View>
+          <View style={styles.div} />
+        </View>
+      );
+    } else {
+      return null;
+    }
+  }
 
-	_handleDifferentRingBell() {
-		const number = this.props.ringBell.number;
-		let titleRingBell, textItemRingBell, noRingBell;
-		if (this.props.language === 'FR') {
-			titleRingBell = text.titleRingBellFR;
-			textItemRingBell = text.textItemRingBellFR;
-			noRingBell = text.noRingBellFR;
-		} else if (this.props.language === 'EN') {
-			titleRingBell = text.titleRingBellEN;
-			textItemRingBell = text.textItemRingBellEN;
-			noRingBell = text.noRingBellEN;
-		} else {
-			titleRingBell = text.titleRingBellFR;
-			textItemRingBell = text.textItemRingBellFR;
-			noRingBell = text.noRingBellFR;
-		}
-		const bgcItem = [ '', '', '', '', '' ];
-		const arrayColor = bgcItem.map((item, index) => {
-			if (index === number) return white;
-			else return blue;
-		});
+  _handleDifferentRingBell() {
+    const number = this.props.ringBell.number;
+    let titleRingBell, textItemRingBell, noRingBell;
+    if (this.props.language === 'FR') {
+      titleRingBell = text.titleRingBellFR;
+      textItemRingBell = text.textItemRingBellFR;
+      noRingBell = text.noRingBellFR;
+    } else if (this.props.language === 'EN') {
+      titleRingBell = text.titleRingBellEN;
+      textItemRingBell = text.textItemRingBellEN;
+      noRingBell = text.noRingBellEN;
+    } else {
+      titleRingBell = text.titleRingBellFR;
+      textItemRingBell = text.textItemRingBellFR;
+      noRingBell = text.noRingBellFR;
+    }
+    const bgcItem = ['', '', '', '', ''];
+    const arrayColor = bgcItem.map((item, index) => {
+      if (index === number) return white;
+      else return blue;
+    });
 
-		return (
-			<View style={[ styles.subCat, { flexDirection: 'column', alignItems: null } ]}>
-				<View>
-					<Text style={[ styles.popUpSubTitle, { textAlign: 'left' } ]}>{titleRingBell}</Text>
-				</View>
-				<View>
-					<View style={[ styles.itemRingBell ]}>
-						<Text style={[ styles.itemTextRingBell, { color: arrayColor[0] } ]}>{noRingBell}</Text>
-						<AnimatedOnPress
-							toggleOnPress={() => this.setRingBell(actions.RINGBELL_NO_SOUND)}
-							style={[ styles.cross, { width: 38, height: 38, backgroundColor: arrayColor[0] } ]}
-						>
-							<Icon name="cross" type="entypo" color="#B83B5E" size={25} />
-						</AnimatedOnPress>
-					</View>
-					<View style={[ styles.itemRingBell ]}>
-						<Text style={[ styles.itemTextRingBell, { color: arrayColor[1] } ]}>{textItemRingBell} 1</Text>
-						<AnimatedOnPress
-							toggleOnPress={() => this.setRingBell(actions.RINGBELL_1)}
-							style={[ styles.cross, { width: 38, height: 38, backgroundColor: arrayColor[1] } ]}
-						>
-							<Icon name="music" type="font-awesome" color="#B83B5E" size={25} />
-						</AnimatedOnPress>
-					</View>
-					<View style={[ styles.itemRingBell ]}>
-						<Text style={[ styles.itemTextRingBell, { color: arrayColor[2] } ]}>{textItemRingBell} 2</Text>
-						<AnimatedOnPress
-							toggleOnPress={() => this.setRingBell(actions.RINGBELL_2)}
-							style={[ styles.cross, { width: 38, height: 38, backgroundColor: arrayColor[2] } ]}
-						>
-							<Icon name="music" type="font-awesome" color="#B83B5E" size={25} />
-						</AnimatedOnPress>
-					</View>
-					<View style={[ styles.itemRingBell ]}>
-						<Text style={[ styles.itemTextRingBell, { color: arrayColor[3] } ]}>{textItemRingBell} 3</Text>
-						<AnimatedOnPress
-							toggleOnPress={() => this.setRingBell(actions.RINGBELL_3)}
-							style={[ styles.cross, { width: 38, height: 38, backgroundColor: arrayColor[3] } ]}
-						>
-							<Icon name="music" type="font-awesome" color="#B83B5E" size={25} />
-						</AnimatedOnPress>
-					</View>
-					<View style={[ styles.itemRingBell ]}>
-						<Text style={[ styles.itemTextRingBell, { color: arrayColor[4] } ]}>{textItemRingBell} 4</Text>
-						<AnimatedOnPress
-							toggleOnPress={() => this.setRingBell(actions.RINGBELL_4)}
-							style={[ styles.cross, { width: 38, height: 38, backgroundColor: arrayColor[4] } ]}
-						>
-							<Icon name="music" type="font-awesome" color="#B83B5E" size={25} />
-						</AnimatedOnPress>
-					</View>
-				</View>
-			</View>
-		);
-	}
+    return (
+      <View
+        style={[styles.subCat, {flexDirection: 'column', alignItems: null}]}>
+        <View>
+          <Text style={[styles.popUpSubTitle, {textAlign: 'left'}]}>
+            {titleRingBell}
+          </Text>
+        </View>
+        <View>
+          <View style={[styles.itemRingBell]}>
+            <Text style={[styles.itemTextRingBell, {color: arrayColor[0]}]}>
+              {noRingBell}
+            </Text>
+            <AnimatedOnPress
+              toggleOnPress={() => this.setRingBell(actions.RINGBELL_NO_SOUND)}
+              style={[
+                styles.cross,
+                {width: 38, height: 38, backgroundColor: arrayColor[0]},
+              ]}>
+              <Icon name="cross" type="entypo" color="#B83B5E" size={25} />
+            </AnimatedOnPress>
+          </View>
+          <View style={[styles.itemRingBell]}>
+            <Text style={[styles.itemTextRingBell, {color: arrayColor[1]}]}>
+              {textItemRingBell} 1
+            </Text>
+            <AnimatedOnPress
+              toggleOnPress={() => this.setRingBell(actions.RINGBELL_1)}
+              style={[
+                styles.cross,
+                {width: 38, height: 38, backgroundColor: arrayColor[1]},
+              ]}>
+              <Icon
+                name="music"
+                type="font-awesome"
+                color="#B83B5E"
+                size={25}
+              />
+            </AnimatedOnPress>
+          </View>
+          <View style={[styles.itemRingBell]}>
+            <Text style={[styles.itemTextRingBell, {color: arrayColor[2]}]}>
+              {textItemRingBell} 2
+            </Text>
+            <AnimatedOnPress
+              toggleOnPress={() => this.setRingBell(actions.RINGBELL_2)}
+              style={[
+                styles.cross,
+                {width: 38, height: 38, backgroundColor: arrayColor[2]},
+              ]}>
+              <Icon
+                name="music"
+                type="font-awesome"
+                color="#B83B5E"
+                size={25}
+              />
+            </AnimatedOnPress>
+          </View>
+          <View style={[styles.itemRingBell]}>
+            <Text style={[styles.itemTextRingBell, {color: arrayColor[3]}]}>
+              {textItemRingBell} 3
+            </Text>
+            <AnimatedOnPress
+              toggleOnPress={() => this.setRingBell(actions.RINGBELL_3)}
+              style={[
+                styles.cross,
+                {width: 38, height: 38, backgroundColor: arrayColor[3]},
+              ]}>
+              <Icon
+                name="music"
+                type="font-awesome"
+                color="#B83B5E"
+                size={25}
+              />
+            </AnimatedOnPress>
+          </View>
+          <View style={[styles.itemRingBell]}>
+            <Text style={[styles.itemTextRingBell, {color: arrayColor[4]}]}>
+              {textItemRingBell} 4
+            </Text>
+            <AnimatedOnPress
+              toggleOnPress={() => this.setRingBell(actions.RINGBELL_4)}
+              style={[
+                styles.cross,
+                {width: 38, height: 38, backgroundColor: arrayColor[4]},
+              ]}>
+              <Icon
+                name="music"
+                type="font-awesome"
+                color="#B83B5E"
+                size={25}
+              />
+            </AnimatedOnPress>
+          </View>
+        </View>
+      </View>
+    );
+  }
 
-	render() {
-		//set good languge
-		const { language, permitPopUp } = this.props;
+  render() {
+    //set good languge
+    const {language, permitPopUp} = this.props;
 
-		let title;
-		let share;
-		let flag;
-		let tuto;
-		// Border color des flags
-		const borderColorFR = language == 'FR' ? red : white;
-		const borderColorEN = language == 'EN' ? red : white;
-		if (language == 'FR') {
-			title = text.titleFR;
-			share = text.shareFR;
-			flag = text.flagFR;
-			tuto = text.tutoFR;
-		} else if (language == 'EN') {
-			title = text.titleEN;
-			share = text.shareEN;
-			flag = text.flagEN;
-			tuto = text.tutoEN;
-		}
+    let title;
+    let share;
+    let flag;
+    let tuto;
+    // Border color des flags
+    const borderColorFR = language == 'FR' ? red : white;
+    const borderColorEN = language == 'EN' ? red : white;
+    if (language == 'FR') {
+      title = text.titleFR;
+      share = text.shareFR;
+      flag = text.flagFR;
+      tuto = text.tutoFR;
+    } else if (language == 'EN') {
+      title = text.titleEN;
+      share = text.shareEN;
+      flag = text.flagEN;
+      tuto = text.tutoEN;
+    }
 
-		const animatedScaleFR = {
-			transform: [ { scale: this.state.scaleLogoFR } ]
-		};
+    const animatedScaleFR = {
+      transform: [{scale: this.state.scaleLogoFR}],
+    };
 
-		const animatedScaleEN = {
-			transform: [ { scale: this.state.scaleLogoEN } ]
-		};
+    const animatedScaleEN = {
+      transform: [{scale: this.state.scaleLogoEN}],
+    };
 
-		return (
-			<View style={{}}>
-				<AnimatedOnPress toggleOnPress={this.toggleModal}>
-					<View style={styles.iconContainer}>
-						<Icon name="settings" color="#B83B5E" size={35} />
-					</View>
-				</AnimatedOnPress>
+    return (
+      <View style={{}}>
+        <AnimatedOnPress toggleOnPress={this.toggleModal}>
+          <View style={styles.iconContainer}>
+            <Icon name="settings" color="#B83B5E" size={35} />
+          </View>
+        </AnimatedOnPress>
 
-				<Modal
-					// isVisible={true}
-					isVisible={this.state.isModalVisible}
-					backdropColor="#B4B3DB"
-					backdropOpacity={0.8}
-					animationIn="slideInUp"
-					animationOut="slideOutDown"
-					animationInTiming={600}
-					animationOutTiming={600}
-					backdropTransitionInTiming={600}
-					backdropTransitionOutTiming={600}
-					onBackdropPress={() => this.toggleModal()}
-				>
-					<View style={[ styles.paramsPopUp ]}>
-						<View style={styles.header}>
-							<View
-								style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 15 }}
-							>
-								<View />
-								<AnimatedOnPress toggleOnPress={this.toggleModal} style={styles.cross}>
-									<Icon
-										size={35}
-										type="entypo"
-										name="cross"
-										color="white"
-										iconStyle={styles.exitPopUp}
-									/>
-								</AnimatedOnPress>
-							</View>
-							<View style={{ marginTop: -10 }}>
-								<Text style={styles.popUpTitle}>{title}</Text>
-							</View>
-						</View>
-						{/* <View style={{ flexDirection: 'row', width: width }}>
+        <Modal
+          // isVisible={true}
+          isVisible={this.state.isModalVisible}
+          backdropColor="#B4B3DB"
+          backdropOpacity={0.8}
+          animationIn="slideInUp"
+          animationOut="slideOutDown"
+          animationInTiming={600}
+          animationOutTiming={600}
+          backdropTransitionInTiming={600}
+          backdropTransitionOutTiming={600}
+          onBackdropPress={() => this.toggleModal()}>
+          <View style={[styles.paramsPopUp]}>
+            <View style={styles.header}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  marginHorizontal: 15,
+                }}>
+                <View />
+                <View style={[{marginHorizontal: 10, marginVertical: 10}]}>
+                  <AnimatedOnPress
+                    toggleOnPress={this.toggleModal}
+                    style={[styles.cross, {}]}>
+                    <Icon
+                      size={35}
+                      type="entypo"
+                      name="cross"
+                      color="white"
+                      iconStyle={styles.exitPopUp}
+                    />
+                  </AnimatedOnPress>
+                </View>
+              </View>
+              <View style={{marginTop: -10}}>
+                <Text style={styles.popUpTitle}>{title}</Text>
+              </View>
+            </View>
+            {/* <View style={{ flexDirection: 'row', width: width }}>
 							<Button
 								title="PurchaserInfo"
 								onPress={async () => this._getPurchaserInfo()}
@@ -492,211 +555,232 @@ class ParamsButton extends React.Component {
 								buttonStyle={{ width: width / 4 - 15 }}
 							/>
 						</View> */}
-						<ScrollView style={styles.containerCategories}>
-							<View style={[ styles.subCat ]}>
-								<View style={{ flex: 1 }}>
-									<Text style={styles.popUpSubTitle}>{share}</Text>
-								</View>
-								<View style={styles.shadow}>
-									<AnimatedOnPress toggleOnPress={this._toggleSharing}>
-										<View style={styles.posIcon}>
-											<Icon name="share-alt" type="font-awesome" color="#B83B5E" size={30} />
-										</View>
-									</AnimatedOnPress>
-								</View>
-							</View>
+            <ScrollView style={styles.containerCategories}>
+              <View style={[styles.subCat]}>
+                <View style={{flex: 1}}>
+                  <Text style={styles.popUpSubTitle}>{share}</Text>
+                </View>
+                <View style={styles.shadow}>
+                  <AnimatedOnPress toggleOnPress={this._toggleSharing}>
+                    <View style={styles.posIcon}>
+                      <Icon
+                        name="share-alt"
+                        type="font-awesome"
+                        color="#B83B5E"
+                        size={30}
+                      />
+                    </View>
+                  </AnimatedOnPress>
+                </View>
+              </View>
 
-							<View style={styles.div} />
-							<View style={styles.subCat}>
-								<View style={{}}>
-									<Text style={[ styles.popUpSubTitle, { textAlign: 'left' } ]}>{flag}</Text>
-								</View>
-								<View style={styles.containerFlags}>
-									<TouchableWithoutFeedback
-										onPress={() => this._toggleOnPress('SET_FR', 'FR')}
-										onPressIn={() => this._toggleOnPressIn('SET_FR', 'FR')}
-										onPressOut={() => this._toggleOnPressOut('SET_FR', 'FR')}
-									>
-										<Animated.View style={animatedScaleFR}>
-											<View style={[ styles.borderFlag, { backgroundColor: borderColorFR } ]}>
-												<Image
-													source={require('../assets/flags/france.png')}
-													style={[ styles.flag ]}
-												/>
-											</View>
-										</Animated.View>
-									</TouchableWithoutFeedback>
-									<TouchableWithoutFeedback
-										onPress={() => this._toggleOnPress('SET_EN', 'EN')}
-										onPressIn={() => this._toggleOnPressIn('SET_EN', 'EN')}
-										onPressOut={() => this._toggleOnPressOut('SET_EN', 'EN')}
-									>
-										<Animated.View style={animatedScaleEN}>
-											<View
-												style={[
-													styles.borderFlag,
-													{ backgroundColor: borderColorEN, marginRight: -6, marginLeft: 30 }
-												]}
-											>
-												<Image
-													source={require('../assets/flags/united-kingdom.png')}
-													style={[ styles.flag ]}
-												/>
-											</View>
-										</Animated.View>
-									</TouchableWithoutFeedback>
-								</View>
-							</View>
-							<View style={styles.div} />
-							{this._displayRate()}
-							{this._handleDifferentRingBell()}
-							<View style={styles.div} />
-							<View style={[ styles.subCat, { paddingBottom: 20 } ]}>
-								<View style={{ flex: 1 }}>
-									<Text style={styles.popUpSubTitle}>{tuto}</Text>
-								</View>
-								<View style={styles.shadow}>
-									<AnimatedOnPress toggleOnPress={this.triggerIntroSliders}>
-										<View style={styles.posIcon}>
-											<Icon name="question" type="font-awesome" color="#B83B5E" size={30} />
-										</View>
-									</AnimatedOnPress>
-								</View>
-							</View>
-						</ScrollView>
-					</View>
-				</Modal>
-				<AlertRecord showAlert={this.state.showAlert} hideAlert={this._hideAlert} language={language} />
-			</View>
-		);
-	}
+              <View style={styles.div} />
+              <View style={styles.subCat}>
+                <View style={{}}>
+                  <Text style={[styles.popUpSubTitle, {textAlign: 'left'}]}>
+                    {flag}
+                  </Text>
+                </View>
+                <View style={styles.containerFlags}>
+                  <TouchableWithoutFeedback
+                    onPress={() => this._toggleOnPress('SET_FR', 'FR')}
+                    onPressIn={() => this._toggleOnPressIn('SET_FR', 'FR')}
+                    onPressOut={() => this._toggleOnPressOut('SET_FR', 'FR')}>
+                    <Animated.View style={animatedScaleFR}>
+                      <View
+                        style={[
+                          styles.borderFlag,
+                          {backgroundColor: borderColorFR},
+                        ]}>
+                        <Image
+                          source={require('../assets/flags/france.png')}
+                          style={[styles.flag]}
+                        />
+                      </View>
+                    </Animated.View>
+                  </TouchableWithoutFeedback>
+                  <TouchableWithoutFeedback
+                    onPress={() => this._toggleOnPress('SET_EN', 'EN')}
+                    onPressIn={() => this._toggleOnPressIn('SET_EN', 'EN')}
+                    onPressOut={() => this._toggleOnPressOut('SET_EN', 'EN')}>
+                    <Animated.View style={animatedScaleEN}>
+                      <View
+                        style={[
+                          styles.borderFlag,
+                          {
+                            backgroundColor: borderColorEN,
+                            marginRight: -6,
+                            marginLeft: 30,
+                          },
+                        ]}>
+                        <Image
+                          source={require('../assets/flags/united-kingdom.png')}
+                          style={[styles.flag]}
+                        />
+                      </View>
+                    </Animated.View>
+                  </TouchableWithoutFeedback>
+                </View>
+              </View>
+              <View style={styles.div} />
+              {this._displayRate()}
+              {this._handleDifferentRingBell()}
+              <View style={styles.div} />
+              <View style={[styles.subCat, {paddingBottom: 20}]}>
+                <View style={{flex: 1}}>
+                  <Text style={styles.popUpSubTitle}>{tuto}</Text>
+                </View>
+                <View style={styles.shadow}>
+                  <AnimatedOnPress toggleOnPress={this.triggerIntroSliders}>
+                    <View style={styles.posIcon}>
+                      <Icon
+                        name="question"
+                        type="font-awesome"
+                        color="#B83B5E"
+                        size={30}
+                      />
+                    </View>
+                  </AnimatedOnPress>
+                </View>
+              </View>
+            </ScrollView>
+          </View>
+        </Modal>
+        <AlertRecord
+          showAlert={this.state.showAlert}
+          hideAlert={this._hideAlert}
+          language={language}
+        />
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
-	iconContainer: {
-		justifyContent: 'center',
-		alignItems: 'center',
-		backgroundColor: white,
-		borderRadius: 30,
-		width: 40,
-		height: 40
-	},
-	header: {
-		backgroundColor: blue,
-		borderTopLeftRadius: 24,
-		borderTopRightRadius: 24,
-		paddingBottom: 10
-	},
-	paramsPopUp: {
-		backgroundColor: green,
-		borderRadius: 30,
-		borderWidth: 5,
-		borderColor: blue,
-		alignContent: 'center',
-		maxHeight: height / 2,
-		flexDirection: 'column'
-		// width: width - 50,
-	},
-	containerCategories: {
-		paddingTop: 10
-		// backgroundColor: 'yellow'
-	},
-	subCat: {
-		marginHorizontal: 20,
-		flexDirection: 'row',
-		alignItems: 'center',
-		paddingVertical: 5
-		// backgroundColor: red
-		// height: 40
-	},
-	posIcon: {
-		justifyContent: 'flex-end',
-		width: 44,
-		height: 44,
-		backgroundColor: white,
-		borderRadius: 30,
-		justifyContent: 'center',
-		alignContent: 'center'
-	},
-	borderFlag: {
-		height: 56,
-		width: 56,
-		borderRadius: 45,
-		justifyContent: 'center',
-		alignItems: 'center'
-	},
-	flag: {
-		width: 44,
-		height: 44,
-		resizeMode: 'contain'
-	},
-	containerFlags: {
-		flex: 1,
-		flexDirection: 'row',
-		justifyContent: 'flex-end'
-	},
-	popUpTitle: {
-		fontSize: stl.fontSizeMenu,
-		color: white,
-		textAlign: 'center',
-		marginTop: -15,
-		fontFamily: 'montserrat-extra-bold'
-	},
-	popUpSubTitle: {
-		fontSize: stl.fontSizeRecordText,
-		color: white,
-		fontFamily: 'montserrat-bold'
-	},
-	div: {
-		width: width - 40,
-		height: 3,
-		backgroundColor: blue,
-		alignSelf: 'center',
-		borderRadius: 30,
-		marginVertical: 5
-	},
-	shadow: {
-		shadowColor: '#000',
-		shadowOffset: {
-			width: 6,
-			height: 5
-		},
-		shadowOpacity: 0.3,
-		shadowRadius: 4.0,
-		elevation: 5
-	},
-	cross: {
-		backgroundColor: red,
-		width: 35,
-		height: 35,
-		borderRadius: 30,
-		marginTop: 0,
-		marginRight: -10,
-		justifyContent: 'center',
-		alignItems: 'center'
-	},
-	itemRingBell: {
-		flexDirection: 'row',
-		paddingLeft: 20,
-		flex: 1,
-		marginVertical: 15,
-		marginRight: 50
-	},
-	itemTextRingBell: {
-		color: blue,
-		fontSize: stl.titleItem,
-		fontFamily: 'montserrat-bold',
-		alignSelf: 'center',
-		flex: 1
-	}
+  iconContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: white,
+    borderRadius: 30,
+    width: 40,
+    height: 40,
+  },
+  header: {
+    backgroundColor: blue,
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
+    paddingBottom: 10,
+  },
+  paramsPopUp: {
+    backgroundColor: green,
+    borderRadius: 30,
+    borderWidth: 5,
+    borderColor: blue,
+    alignContent: 'center',
+    maxHeight: height / 2,
+    flexDirection: 'column',
+    // width: width - 50,
+  },
+  containerCategories: {
+    paddingTop: 10,
+    // backgroundColor: 'yellow'
+  },
+  subCat: {
+    marginHorizontal: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 5,
+    // backgroundColor: red
+    // height: 40
+  },
+  posIcon: {
+    justifyContent: 'flex-end',
+    width: 44,
+    height: 44,
+    backgroundColor: white,
+    borderRadius: 30,
+    justifyContent: 'center',
+    alignContent: 'center',
+  },
+  borderFlag: {
+    height: 56,
+    width: 56,
+    borderRadius: 45,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  flag: {
+    width: 44,
+    height: 44,
+    resizeMode: 'contain',
+  },
+  containerFlags: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
+  popUpTitle: {
+    fontSize: stl.fontSizeMenu,
+    color: white,
+    textAlign: 'center',
+    marginTop: -15,
+    fontFamily: 'montserrat-extra-bold',
+  },
+  popUpSubTitle: {
+    fontSize: stl.fontSizeRecordText,
+    color: white,
+    fontFamily: 'montserrat-bold',
+  },
+  div: {
+    width: width - 40,
+    height: 3,
+    backgroundColor: blue,
+    alignSelf: 'center',
+    borderRadius: 30,
+    marginVertical: 5,
+  },
+  shadow: {
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 6,
+      height: 5,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 4.0,
+    elevation: 5,
+  },
+  cross: {
+    backgroundColor: red,
+    width: 35,
+    height: 35,
+    borderRadius: 30,
+    marginTop: 0,
+    marginRight: -10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  itemRingBell: {
+    flexDirection: 'row',
+    paddingLeft: 20,
+    flex: 1,
+    marginVertical: 15,
+    marginRight: 50,
+  },
+  itemTextRingBell: {
+    color: blue,
+    fontSize: stl.titleItem,
+    fontFamily: 'montserrat-bold',
+    alignSelf: 'center',
+    flex: 1,
+  },
 });
 
 const mapStateToProps = (state) => {
-	// get only what we need
-	return {
-		language: state.setLanguage.language,
-		premium: state.togglePremium.premium
-	};
+  // get only what we need
+  return {
+    language: state.setLanguage.language,
+    premium: state.togglePremium.premium,
+  };
 };
 
 export default connect(mapStateToProps)(ParamsButton);

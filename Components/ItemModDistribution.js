@@ -1,206 +1,224 @@
-import React, { Component } from 'react';
-import { Text, StyleSheet, View, Image, Dimensions, TouchableWithoutFeedback, Animated, Easing } from 'react-native';
-import { blue, red, white } from '../assets/colors';
+import React, {Component} from 'react';
+import {
+  Text,
+  StyleSheet,
+  View,
+  Image,
+  Dimensions,
+  TouchableWithoutFeedback,
+  Animated,
+  Easing,
+  Platform,
+} from 'react-native';
+import {blue, red, white} from '../assets/colors';
 import * as stl from '../assets/styles/styles';
-const { width } = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 import * as text from '../assets/textInGame/listTextMods';
 import imgSource from '../assets/mods/mod_distribution.png';
 export default class ItemModDistribution extends Component {
-	constructor(props) {
-		super(props);
-		this.mod = 2;
-		this.state = {
-			colorBG: blue,
-			colorBorder: red,
-			itemScale: new Animated.Value(1),
-			marginLeft: new Animated.Value(width * 2)
-		};
-	}
+  constructor(props) {
+    super(props);
+    this.mod = 2;
+    this.state = {
+      colorBG: blue,
+      colorBorder: red,
+      itemScale: new Animated.Value(1),
+      marginLeft: new Animated.Value(width * 2),
+    };
+  }
 
-	_animatedItem = () => {
-		const { marginLeft } = this.state;
-		Animated.timing(marginLeft, {
-			useNativeDriver: false,
-			toValue: 0,
-			duration: 700,
-			easing: Easing.elastic(2)
-		}).start();
-	};
+  componentDidMount() {
+    if (Platform.OS === 'ios') {
+      this._animatedItem();
+    }
+  }
 
-	_reverseColor() {
-		if (this.state.colorBG == blue) {
-			this.setState({
-				colorBG: red,
-				colorBorder: blue
-			});
-		} else {
-			this.setState({
-				colorBG: blue,
-				colorBorder: red
-			});
-		}
-	}
+  _animatedItem = () => {
+    const {marginLeft} = this.state;
+    Animated.timing(marginLeft, {
+      useNativeDriver: false,
+      toValue: 0,
+      duration: 700,
+      easing: Easing.elastic(2),
+    }).start();
+  };
 
-	_handleToggleMod() {
-		// get the current mod
-		const modActual = this.props.returnMod();
+  _reverseColor() {
+    if (this.state.colorBG == blue) {
+      this.setState({
+        colorBG: red,
+        colorBorder: blue,
+      });
+    } else {
+      this.setState({
+        colorBG: blue,
+        colorBorder: red,
+      });
+    }
+  }
 
-		//change only if it's a different mod
-		if (modActual != this.mod) {
-			this._reverseColor();
-			this.props.toggleItemMod(this.mod);
-		}
-	}
+  _handleToggleMod() {
+    // get the current mod
+    const modActual = this.props.returnMod();
 
-	_toggleOnPressIn() {
-		const { premium } = this.props;
-		//animations only for premium
-		if (premium) {
-			Animated.spring(this.state.itemScale, {
-				toValue: 0.7,
-				friction: 15,
-				tension: 18,
-				useNativeDriver: false
-			}).start();
-		}
-	}
+    //change only if it's a different mod
+    if (modActual != this.mod) {
+      this._reverseColor();
+      this.props.toggleItemMod(this.mod);
+    }
+  }
 
-	_toggleOnPressOut() {
-		const { premium } = this.props;
-		//animations only for premium
-		if (premium) {
-			Animated.spring(this.state.itemScale, {
-				toValue: 1,
-				friction: 4,
-				tension: 20,
-				useNativeDriver: false
-			}).start();
-		}
-	}
+  _toggleOnPressIn() {
+    const {premium} = this.props;
+    //animations only for premium
+    if (premium) {
+      Animated.spring(this.state.itemScale, {
+        toValue: 0.7,
+        friction: 15,
+        tension: 18,
+        useNativeDriver: false,
+      }).start();
+    }
+  }
 
-	_toggleOnPress() {
-		const { premium } = this.props;
+  _toggleOnPressOut() {
+    const {premium} = this.props;
+    //animations only for premium
+    if (premium) {
+      Animated.spring(this.state.itemScale, {
+        toValue: 1,
+        friction: 4,
+        tension: 20,
+        useNativeDriver: false,
+      }).start();
+    }
+  }
 
-		//change mod only if premium
-		if (premium) {
-			this._handleToggleMod(this.mod);
-		} else {
-			//if no-premium trigger PopUp
-			this.props.triggerPopUp();
-		}
-	}
+  _toggleOnPress() {
+    const {premium} = this.props;
 
-	//display locked or Premium image
-	_displayLogoMod() {
-		const { premium } = this.props;
+    //change mod only if premium
+    if (premium) {
+      this._handleToggleMod(this.mod);
+    } else {
+      //if no-premium trigger PopUp
+      this.props.triggerPopUp();
+    }
+  }
 
-		//for premiums
-		if (premium) {
-			return (
-				<Image style={styles.logoMod} source={imgSource} onLoadEnd={() => this.props.lauchAnimationItem()} />
-			);
-		} else {
-			//for others
-			return (
-				<Image
-					style={styles.logoMod}
-					source={require('../assets/button-images/button-lock-mod.png')}
-					onLoadEnd={() => this.props.lauchAnimationItem()}
-				/>
-			);
-		}
-	}
+  //display locked or Premium image
+  _displayLogoMod() {
+    const {premium} = this.props;
 
-	render() {
-		const { colorBG, colorBorder, marginLeft, itemScale } = this.state;
-		const animatedScale = {
-			transform: [ { scale: itemScale } ],
-			marginLeft: marginLeft
-		};
-		const { language, premium } = this.props;
-		let title;
-		let description;
-		if (language == 'FR') {
-			title = text.distributionTitleFR;
-			description = text.distributionFR;
-		} else if (language == 'EN') {
-			title = text.distributionTitleEN;
-			description = text.distributionEN;
-		}
+    //for premiums
+    if (premium) {
+      return (
+        <Image
+          style={styles.logoMod}
+          source={imgSource}
+          onLoadEnd={() => this.props.lauchAnimationItem()}
+        />
+      );
+    } else {
+      //for others
+      return (
+        <Image
+          style={styles.logoMod}
+          source={require('../assets/button-images/button-lock-mod.png')}
+          onLoadEnd={() => this.props.lauchAnimationItem()}
+        />
+      );
+    }
+  }
 
-		let opa = 0.4;
-		if (premium) {
-			opa = 1;
-		}
-		return (
-			<TouchableWithoutFeedback
-				onPressIn={() => this._toggleOnPressIn()}
-				onPressOut={() => this._toggleOnPressOut()}
-				onPress={() => this._toggleOnPress()}
-				style={stl.touchableItemChoice}
-			>
-				<Animated.View
-					style={[
-						styles.containerGameCard,
-						animatedScale,
-						{ backgroundColor: colorBG, borderColor: colorBorder, opacity: opa }
-					]}
-				>
-					<View style={[ styles.containerImage ]}>{this._displayLogoMod()}</View>
-					<View style={styles.containerTexts}>
-						<View style={styles.containerTextTitle}>
-							<Text style={[ styles.textTitle ]}>{title}</Text>
-						</View>
-						<View style={styles.containerTextDesc}>
-							<Text style={styles.textDesc}>{description}</Text>
-						</View>
-					</View>
-				</Animated.View>
-			</TouchableWithoutFeedback>
-		);
-	}
+  render() {
+    const {colorBG, colorBorder, marginLeft, itemScale} = this.state;
+    const animatedScale = {
+      transform: [{scale: itemScale}],
+      marginLeft: marginLeft,
+    };
+    const {language, premium} = this.props;
+    let title;
+    let description;
+    if (language == 'FR') {
+      title = text.distributionTitleFR;
+      description = text.distributionFR;
+    } else if (language == 'EN') {
+      title = text.distributionTitleEN;
+      description = text.distributionEN;
+    }
+
+    let opa = 0.4;
+    if (premium) {
+      opa = 1;
+    }
+    return (
+      <TouchableWithoutFeedback
+        onPressIn={() => this._toggleOnPressIn()}
+        onPressOut={() => this._toggleOnPressOut()}
+        onPress={() => this._toggleOnPress()}
+        style={stl.touchableItemChoice}>
+        <Animated.View
+          style={[
+            styles.containerGameCard,
+            animatedScale,
+            {backgroundColor: colorBG, borderColor: colorBorder, opacity: opa},
+          ]}>
+          <View style={[styles.containerImage]}>{this._displayLogoMod()}</View>
+          <View style={styles.containerTexts}>
+            <View style={styles.containerTextTitle}>
+              <Text style={[styles.textTitle]}>{title}</Text>
+            </View>
+            <View style={styles.containerTextDesc}>
+              <Text style={styles.textDesc}>{description}</Text>
+            </View>
+          </View>
+        </Animated.View>
+      </TouchableWithoutFeedback>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
-	containerGameCard: {
-		marginVertical: 5,
-		borderRadius: 15,
-		width: width - 30,
-		borderWidth: 3,
-		alignSelf: 'center',
-		flexDirection: 'row'
-	},
-	containerImage: {
-		flex: 2,
-		borderRadius: 30,
-		marginLeft: 10,
-		marginRight: 10,
-		marginVertical: 5,
-		alignItems: 'center',
-		justifyContent: 'center'
-	},
-	containerTexts: {
-		flex: 5,
-		flexDirection: 'column',
-		marginLeft: 10,
-		marginRight: 10,
-		marginVertical: 10
-	},
-	containerTextTitle: {},
-	containerTextDesc: {},
-	textTitle: {
-		fontSize: stl.titleItem,
-		fontFamily: 'montserrat-bold',
-		color: white
-	},
-	textDesc: {
-		fontSize: stl.descItem,
-		color: white,
-		fontFamily: 'montserrat-regular'
-	},
-	logoMod: {
-		height: stl.sizeItem,
-		width: stl.sizeItem,
-		resizeMode: 'contain'
-	}
+  containerGameCard: {
+    marginVertical: 5,
+    borderRadius: 15,
+    width: width - 30,
+    borderWidth: 3,
+    alignSelf: 'center',
+    flexDirection: 'row',
+  },
+  containerImage: {
+    flex: 2,
+    borderRadius: 30,
+    marginLeft: 10,
+    marginRight: 10,
+    marginVertical: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  containerTexts: {
+    flex: 5,
+    flexDirection: 'column',
+    marginLeft: 10,
+    marginRight: 10,
+    marginVertical: 10,
+  },
+  containerTextTitle: {},
+  containerTextDesc: {},
+  textTitle: {
+    fontSize: stl.titleItem,
+    fontFamily: 'montserrat-bold',
+    color: white,
+  },
+  textDesc: {
+    fontSize: stl.descItem,
+    color: white,
+    fontFamily: 'montserrat-regular',
+  },
+  logoMod: {
+    height: stl.sizeItem,
+    width: stl.sizeItem,
+    resizeMode: 'contain',
+  },
 });
