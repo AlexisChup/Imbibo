@@ -7,16 +7,16 @@ import {
   Dimensions,
   Image,
 } from 'react-native';
-import {Audio} from 'expo-av';
-import {green} from '../assets/colors';
+import { Audio } from 'expo-av';
+import { green } from '../assets/colors';
 import BackgroundTimer from 'react-native-background-timer';
-import {MultiArcCircle} from 'react-native-circles';
+import { MultiArcCircle } from 'react-native-circles';
 import * as random from '../assets/randomSipFolder';
 import imgSource1 from '../assets/chronometer/chronometer-only-contour.png';
 import imgSource2 from '../assets/chronometer/needle-and(circle).png';
 import imgSource3 from '../assets/chronometer/needle-center.png';
 const maxSeconds = 240;
-const {width, height} = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 const SIZE = width * 0.9;
 //const ROT_ECART_NEEDLE = ECART_NEEDLE /18
 
@@ -68,7 +68,7 @@ export default class Chronometer extends React.Component {
   }
 
   componentDidMount() {
-    const {records} = this.props;
+    const { records } = this.props;
     this.namesName = records.namesName;
     this.setState({
       nbJoueurs: records.names.length,
@@ -92,7 +92,7 @@ export default class Chronometer extends React.Component {
 
   // Sound entry welcome
   _welcomeSound = async () => {
-    const {language} = this.props;
+    const { language } = this.props;
 
     //find random index
     const audio = random.randomEntryFolder(language);
@@ -278,7 +278,7 @@ export default class Chronometer extends React.Component {
     // L'aiguille a atteint le TimeOut
     if (
       this.state.rotationNeedle.__getValue() ==
-        this.state.rotationLimit.__getValue() &&
+      this.state.rotationLimit.__getValue() &&
       this.state.rotationNeedle.__getValue() != -1
     ) {
       this.state.rotationLimit.setValue(-1);
@@ -357,7 +357,7 @@ export default class Chronometer extends React.Component {
   async _playRandomAction() {
     if (this.state.isPlaying && this.state.gameStarted) {
       //add to the history with appropriate language
-      const {language, mod, records} = this.props;
+      const { language, mod, records } = this.props;
 
       //find random index
       //const index = Math.round(Math.random() * (this.audioSampleAction.length-1))
@@ -578,8 +578,8 @@ export default class Chronometer extends React.Component {
 
     const transformNeedle = {
       transform: [
-        {rotate: rotationNeedle.interpolate(interpolated)},
-        {scale: needle},
+        { rotate: rotationNeedle.interpolate(interpolated) },
+        { scale: needle },
       ],
     };
 
@@ -589,17 +589,17 @@ export default class Chronometer extends React.Component {
 
         {/* Affichage du contour du chronometre */}
         <Animated.Image
-          style={[styles.chronometer, {transform: [{scale: chronometer}]}]}
+          style={[styles.chronometer, { transform: [{ scale: chronometer }] }]}
           source={imgSource1}
           onLoadEnd={() => this._lauchAnimationImage()}
           onError={() => this.props._goToChoiceScreen()}
         />
 
         {/* Zone verte */}
-        <Animated.View style={[styles.area, {transform: [{scale: area}]}]}>
+        <Animated.View style={[styles.area, { transform: [{ scale: area }] }]}>
           <MultiArcCircle
             radius={width / 3.55}
-            intervals={[{start: this._rNInit1, end: this._rNInit2}]}
+            intervals={[{ start: this._rNInit1, end: this._rNInit2 }]}
             color={green}
             backgroundColor="transparent"
             width={50}
@@ -608,7 +608,7 @@ export default class Chronometer extends React.Component {
 
         {/* Traits du chronometre */}
         <Animated.View
-          style={[styles.stkChrono, {transform: [{scale: strokeChronometer}]}]}>
+          style={[styles.stkChrono, { transform: [{ scale: strokeChronometer }] }]}>
           <Image
             style={styles.chronometer}
             source={imgSource2}
