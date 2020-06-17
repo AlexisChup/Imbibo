@@ -14,7 +14,6 @@ import {blue, red, white} from '../assets/colors';
 import * as stl from '../assets/styles/styles';
 const {width} = Dimensions.get('window');
 import * as text from '../assets/textInGame/listTextMods';
-import imgSource from '../assets/mods/mod_distribution.png';
 export default class ItemModDistribution extends Component {
   constructor(props) {
     super(props);
@@ -25,12 +24,6 @@ export default class ItemModDistribution extends Component {
       itemScale: new Animated.Value(1),
       marginLeft: new Animated.Value(width * 2),
     };
-  }
-
-  componentDidMount() {
-    if (Platform.OS === 'ios') {
-      this._animatedItem();
-    }
   }
 
   _animatedItem = () => {
@@ -115,8 +108,8 @@ export default class ItemModDistribution extends Component {
       return (
         <Image
           style={styles.logoMod}
-          source={imgSource}
-          onLoadEnd={() => this.props.lauchAnimationItem()}
+          source={require('../assets/mods/mod_distribution.png')}
+          // onLoadEnd={() => this.props.lauchAnimationItem()}
         />
       );
     } else {
@@ -125,7 +118,7 @@ export default class ItemModDistribution extends Component {
         <Image
           style={styles.logoMod}
           source={require('../assets/button-images/button-lock-mod.png')}
-          onLoadEnd={() => this.props.lauchAnimationItem()}
+          // onLoadEnd={() => this.props.lauchAnimationItem()}
         />
       );
     }

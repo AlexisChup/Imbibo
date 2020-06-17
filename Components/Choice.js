@@ -7,11 +7,7 @@ import {
   Dimensions,
   StatusBar,
   ScrollView,
-  YellowBox,
-  Image,
-  Platform,
 } from 'react-native';
-import {Audio} from 'expo-av';
 import {green, red, blue, white} from '../assets/colors';
 import ChoiceTabNav from './ChoiceTabNav';
 import CustomSlider from './CustomSlider';
@@ -25,18 +21,11 @@ import ItemModHardcore from './ItemModHardcore';
 import AlertRecord from './AlertRecord';
 import {connect} from 'react-redux';
 import * as text from '../assets/textInGame/listTextChoice';
-import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
-const {height, width} = Dimensions.get('window');
-
-YellowBox.ignoreWarnings([
-  'Warning: componentWillReceiveProps',
-  'Warning: componentWillMount',
-]);
+const {width} = Dimensions.get('window');
 
 const defaultValuesSlider = [115, 155];
 const defaultValuesSliderPremium = [90, 180];
 
-var audioObject = new Audio.Sound();
 class Choice extends Component {
   constructor(props) {
     super(props);
@@ -61,6 +50,7 @@ class Choice extends Component {
     //init default value for slider
     this.valuesSlider = defaultValuesSlider;
     this.modRef[this.mod]._reverseColor();
+    this._lauchAnimationItem();
   }
 
   _goToHomeScreen() {
@@ -137,20 +127,21 @@ class Choice extends Component {
 
   // Launch animation of each Item
   _lauchAnimationItem = () => {
-    if (Platform.OS === 'android') {
-      this.nbImagesLoaded += 1;
-      // If all Animation are loaded we launch the  animation
-      if (this.nbImagesLoaded === 4) {
-        for (let i = 0; i < 4; i++) {
-          setTimeout(() => {
-            this.modRef[i]._animatedItem();
-          }, 200 * i);
-        }
-      }
+    // if (Platform.OS === 'android') {
+    // this.nbImagesLoaded += 1;
+    // If all Animation are loaded we launch the  animation
+    // if (this.nbImagesLoaded === 4) {
+    for (let i = 0; i < 4; i++) {
+      setTimeout(() => {
+        this.modRef[i]._animatedItem();
+      }, 200 * i);
     }
+    // }
+    // }
   };
 
   render() {
+    console.log('render [Choice.js]');
     const {language, premium} = this.props;
     const records = this.props.navigation.getParam('records');
     const nbJoueurs = records.names.length;

@@ -224,7 +224,7 @@ class ParamsButton extends React.Component {
     setTimeout(() => {
       let options = {
         AppleAppID: '1505766839',
-        GooglePackageName: 'com.DevAle.BieRatio',
+        GooglePackageName: 'com.imbibo',
         preferInApp: true,
         openAppStoreIfInAppFails: true,
       };

@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, PureComponent} from 'react';
 import {
   Text,
   StyleSheet,
@@ -14,8 +14,7 @@ import {blue, red, white} from '../assets/colors';
 import * as stl from '../assets/styles/styles';
 const {width} = Dimensions.get('window');
 import * as text from '../assets/textInGame/listTextMods';
-import imgSource from '../assets/mods/mod_normal.png';
-export default class ItemModNormal extends Component {
+export default class ItemModNormal extends PureComponent {
   constructor(props) {
     super(props);
     this.mod = 0;
@@ -25,12 +24,6 @@ export default class ItemModNormal extends Component {
       itemScale: new Animated.Value(1),
       marginLeft: new Animated.Value(width * 2),
     };
-  }
-
-  componentDidMount() {
-    if (Platform.OS === 'ios') {
-      this._animatedItem();
-    }
   }
 
   _animatedItem = () => {
@@ -129,8 +122,8 @@ export default class ItemModNormal extends Component {
           <View style={[styles.containerImage]}>
             <Image
               style={styles.logoMod}
-              source={imgSource}
-              onLoadEnd={() => this.props.lauchAnimationItem()}
+              source={require('../assets/mods/mod_normal.png')}
+              // onLoadEnd={() => this.props.lauchAnimationItem()}
             />
           </View>
           <View style={styles.containerTexts}>

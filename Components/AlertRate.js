@@ -23,7 +23,7 @@ export default class AlertRate extends Component {
     setTimeout(() => {
       let options = {
         AppleAppID: '1505766839',
-        GooglePackageName: 'com.DevAle.Imbibo',
+        GooglePackageName: 'com.imbibo',
         preferInApp: true,
         openAppStoreIfInAppFails: true,
       };
