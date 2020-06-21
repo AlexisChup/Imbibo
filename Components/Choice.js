@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   Text,
   StyleSheet,
@@ -8,7 +8,7 @@ import {
   StatusBar,
   ScrollView,
 } from 'react-native';
-import {green, red, blue, white} from '../assets/colors';
+import { green, red, blue, white } from '../assets/colors';
 import ChoiceTabNav from './ChoiceTabNav';
 import CustomSlider from './CustomSlider';
 import * as stl from '../assets/styles/styles';
@@ -19,9 +19,9 @@ import ItemModShots from './ItemModShots';
 import ItemModDistribution from './ItemModDistribution';
 import ItemModHardcore from './ItemModHardcore';
 import AlertRecord from './AlertRecord';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import * as text from '../assets/textInGame/listTextChoice';
-const {width} = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 const defaultValuesSlider = [115, 155];
 const defaultValuesSliderPremium = [90, 180];
@@ -43,7 +43,7 @@ class Choice extends Component {
     this._becomePremium = this._becomePremium.bind(this);
     this.modRef = [];
     this.rowRefs = [];
-    this.state = {showAlertPremiumOrigin: undefined, showAlertPremium: false};
+    this.state = { showAlertPremiumOrigin: undefined, showAlertPremium: false };
   }
 
   componentDidMount() {
@@ -70,7 +70,7 @@ class Choice extends Component {
   }
 
   _toggleSliderValues(values) {
-    const {premium} = this.props;
+    const { premium } = this.props;
     if (premium) {
       this.valuesSlider = values;
     } else {
@@ -118,7 +118,7 @@ class Choice extends Component {
 
   // Dispatch actions to redux
   _becomePremium() {
-    const action = {type: 'TOGGLE_PREMIUM', value: true};
+    const action = { type: 'TOGGLE_PREMIUM', value: true };
     this.props.dispatch(action);
 
     // Show alert
@@ -141,8 +141,7 @@ class Choice extends Component {
   };
 
   render() {
-    console.log('render [Choice.js]');
-    const {language, premium} = this.props;
+    const { language, premium } = this.props;
     const records = this.props.navigation.getParam('records');
     const nbJoueurs = records.names.length;
     let textMods, textIntervals, displayNameNaviga;
@@ -174,7 +173,7 @@ class Choice extends Component {
         <StatusBar hidden={true} />
 
         {/* TOP BAR */}
-        <View style={{backgroundColor: green}}>
+        <View style={{ backgroundColor: green }}>
           <View style={stl.containerHeader}>
             <Text style={stl.headerTitle}>
               {' '}

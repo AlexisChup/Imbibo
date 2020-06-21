@@ -1,11 +1,11 @@
-import React, {Component} from 'react';
-import {StyleSheet, View, Dimensions, AsyncStorage} from 'react-native';
-import {red, blue, green, white} from '../assets/colors';
+import React, { Component } from 'react';
+import { StyleSheet, View, Dimensions, AsyncStorage } from 'react-native';
+import { red, blue, green, white } from '../assets/colors';
 import * as text from '../assets/textInGame/listTextRate';
-import Rate, {AndroidMarket} from 'react-native-rate';
+import Rate, { AndroidMarket } from 'react-native-rate';
 import AwesomeAlert from 'react-native-awesome-alerts';
 
-const {height, width} = Dimensions.get('window');
+const { height, width } = Dimensions.get('window');
 
 export default class AlertRate extends Component {
   constructor(props) {
@@ -16,14 +16,14 @@ export default class AlertRate extends Component {
     };
   }
 
-  async componentDidMount() {}
+  async componentDidMount() { }
 
   async _toggleOnConfirmPressed() {
     // Rate the app !
     setTimeout(() => {
       let options = {
         AppleAppID: '1505766839',
-        GooglePackageName: 'com.DevAle.Imbibo',
+        GooglePackageName: 'com.imbibo',
         preferInApp: true,
         openAppStoreIfInAppFails: true,
       };
@@ -42,7 +42,7 @@ export default class AlertRate extends Component {
   };
 
   render() {
-    const {showAlert, language} = this.props;
+    const { showAlert, language } = this.props;
     let textAlert;
     let textAlertTitle;
     let textConfirm;
@@ -98,10 +98,10 @@ export default class AlertRate extends Component {
           showCancelButton={true}
           confirmButtonColor={green}
           confirmText={textConfirm}
-          confirmButtonTextStyle={{fontFamily: 'montserrat-extra-bold'}}
+          confirmButtonTextStyle={{ fontFamily: 'montserrat-extra-bold' }}
           cancelButtonColor={red}
           cancelText={textCancel}
-          cancelButtonTextStyle={{fontFamily: 'montserrat-extra-bold'}}
+          cancelButtonTextStyle={{ fontFamily: 'montserrat-extra-bold' }}
           onCancelPressed={() => {
             this.hideAlert();
           }}

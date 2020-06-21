@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   Text,
   StyleSheet,
@@ -7,8 +7,8 @@ import {
   Dimensions,
   Animated,
 } from 'react-native';
-import {red, blue, white} from '../assets/colors';
-const {height, width} = Dimensions.get('window');
+import { red, blue, white } from '../assets/colors';
+const { height, width } = Dimensions.get('window');
 export default class Historique extends Component {
   constructor(props) {
     super(props);
@@ -19,7 +19,7 @@ export default class Historique extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    const {index} = this.props;
+    const { index } = this.props;
     if (index == nextProps.index) {
       return false;
     } else {
@@ -42,9 +42,9 @@ export default class Historique extends Component {
   }
 
   render() {
-    const {name, action, hours, minutes, index} = this.props;
+    const { name, action, hours, minutes, index } = this.props;
     const animItemTransform = {
-      transform: [{scale: this.state.showItem}],
+      transform: [{ scale: this.state.showItem }],
     };
     let displayedName = name;
     if (name != null) {
@@ -55,9 +55,7 @@ export default class Historique extends Component {
         <View style={styles.containerText}>
           <View style={styles.containerDesc}>
             <Text style={styles.text}>
-              {' '}
-              {displayedName}
-              {action}{' '}
+              {displayedName}{action}
             </Text>
           </View>
           <View style={styles.containerHours}>
@@ -88,7 +86,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginVertical: 3,
     marginHorizontal: 15,
-    elevation: 12,
+    elevation: 5,
   },
   containerText: {
     flexDirection: 'row',

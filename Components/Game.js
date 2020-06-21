@@ -130,7 +130,7 @@ class Game extends Component {
 				</View>
 				{/* <Button title="Augmentation" onPress={() => this._returnSipsByPlayer()} /> */}
 
-				<View style={[ stl.containerView, { paddingBottom: 0 } ]}>
+				<View style={[stl.containerView, { paddingBottom: 0 }]}>
 					<View style={styles.containerTitle}>
 						<Text style={styles.title}>{time}</Text>
 					</View>
@@ -220,13 +220,13 @@ const styles = StyleSheet.create({
 	containerFlat: {
 		flex: 1,
 		borderRadius: 15,
-		shadowColor: '#000',
+		shadowColor: '#2c3751',
 		shadowOffset: {
-			width: 6,
-			height: 6
+			width: 5,
+			height: 3
 		},
-		shadowOpacity: 0.8,
-		shadowRadius: 6.0
+		shadowOpacity: 1,
+		shadowRadius: 0.1
 	},
 	title: {
 		fontSize: stl.fontSizeMenu,
