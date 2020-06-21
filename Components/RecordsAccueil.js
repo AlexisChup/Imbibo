@@ -28,10 +28,10 @@ class RecordsAccueil extends Component {
 		this.soundsArray = [];
 		this.actionsArray = [];
 		this.records = {
-			names: [ null ],
-			namesName: [ null ],
-			actions: [ null ],
-			actionsName: [ null ]
+			names: [null],
+			namesName: [null],
+			actions: [null],
+			actionsName: [null]
 		};
 		this.joueurName = 1;
 		this.actionName = 1;
@@ -58,7 +58,7 @@ class RecordsAccueil extends Component {
 
 	//to check if user can navigate between scree
 	_returnState() {
-		const stateRecords = [ this.state.isLoading, this.state.isRecording ];
+		const stateRecords = [this.state.isLoading, this.state.isRecording];
 		return stateRecords;
 	}
 
@@ -75,7 +75,7 @@ class RecordsAccueil extends Component {
 		});
 	}
 
-	async componentWillUnmount() {}
+	async componentWillUnmount() { }
 
 	_askForPermissions = async () => {
 		const response = await Permissions.askAsync(Permissions.AUDIO_RECORDING);
@@ -289,7 +289,7 @@ class RecordsAccueil extends Component {
 		// Si le son est trop long on le coupe
 		// console.log(status.durationMillis)
 		if (status.durationMillis >= 20000) {
-				this._toggleModalRecord(origin);
+			this._toggleModalRecord(origin);
 		}
 	};
 
@@ -495,10 +495,10 @@ class RecordsAccueil extends Component {
 
 	render() {
 		const animatedStyleButtonPlayers = {
-			transform: [ { scale: this.state.buttonAnimationPlayers } ]
+			transform: [{ scale: this.state.buttonAnimationPlayers }]
 		};
 		const animatedStyleButtonActions = {
-			transform: [ { scale: this.state.buttonAnimationActions } ]
+			transform: [{ scale: this.state.buttonAnimationActions }]
 		};
 		const flexWidth = this.actionsArray.length > 0 ? 1 : null;
 
@@ -528,7 +528,7 @@ class RecordsAccueil extends Component {
 		}
 
 		return (
-			<SafeAreaView style={[ styles.container, { opacity: 1 } ]}>
+			<SafeAreaView style={[styles.container, { opacity: 1 }]}>
 				<View style={{ flex: 1, paddingHorizontal: 20 }}>
 					<TouchableWithoutFeedback
 						onPressIn={() => this._animateRecordBouton('name')}
@@ -537,9 +537,9 @@ class RecordsAccueil extends Component {
 						disabled={disabledButton}
 					>
 						<Animated.View
-							style={[ styles.addButtons, animatedStyleButtonPlayers, { opacity: opaButton } ]}
+							style={[styles.addButtons, animatedStyleButtonPlayers, { opacity: opaButton }]}
 						>
-							<Text style={[ styles.addText ]}>{displayPlayersButtonRecord}</Text>
+							<Text style={[styles.addText]}>{displayPlayersButtonRecord}</Text>
 							<View style={styles.addButtonIcon}>
 								<Icon
 									name="ios-microphone"
@@ -569,9 +569,9 @@ class RecordsAccueil extends Component {
 						disabled={disabledButton}
 					>
 						<Animated.View
-							style={[ styles.addButtons, animatedStyleButtonActions, { opacity: opaButton } ]}
+							style={[styles.addButtons, animatedStyleButtonActions, { opacity: opaButton }]}
 						>
-							<Text style={[ styles.addText ]}>{displayActionsButtonRecord}</Text>
+							<Text style={[styles.addText]}>{displayActionsButtonRecord}</Text>
 							<View style={styles.addButtonIcon}>{this._displayActionRecord()}</View>
 						</Animated.View>
 					</TouchableWithoutFeedback>
@@ -614,13 +614,13 @@ const styles = StyleSheet.create({
 		alignContent: 'center',
 		alignItems: 'center',
 		alignSelf: 'center',
-		shadowColor: '#000',
+		shadowColor: '#2c3751',
 		shadowOffset: {
-			width: 6,
-			height: 6
+			width: 5,
+			height: 3
 		},
-		shadowOpacity: 0.6,
-		shadowRadius: 6.0,
+		shadowOpacity: 1,
+		shadowRadius: 0.1,
 		elevation: 10
 	},
 	addText: {
