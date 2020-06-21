@@ -13,23 +13,23 @@ import {
   AsyncStorage,
   ScrollView,
 } from 'react-native';
-import {Icon, Button, ThemeConsumer} from 'react-native-elements';
+import { Icon, Button, ThemeConsumer } from 'react-native-elements';
 import Modal from 'react-native-modal';
 import AnimatedOnPress from '../Animations/AnimatedOnPress';
 import * as text from '../assets/textInGame/listTextParams';
 import * as textShare from '../assets/textInGame/listTextSelectLanguage';
-import {white, red, blue, green} from '../assets/colors';
+import { white, red, blue, green } from '../assets/colors';
 import * as stl from '../assets/styles/styles';
-import Rate, {AndroidMarket} from 'react-native-rate';
+import Rate, { AndroidMarket } from 'react-native-rate';
 import AlertRecord from './AlertRecord';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import * as actions from '../Store/actionTypes';
-import {Audio} from 'expo-av';
+import { Audio } from 'expo-av';
 
 var ringBellAudioObect = new Audio.Sound();
 
-import Purchases, {PURCHASE_TYPE} from 'react-native-purchases';
-const {width, height} = Dimensions.get('window');
+import Purchases, { PURCHASE_TYPE } from 'react-native-purchases';
+const { width, height } = Dimensions.get('window');
 class ParamsButton extends React.Component {
   constructor(props) {
     super(props);
@@ -72,7 +72,7 @@ class ParamsButton extends React.Component {
 
   //action for reducer setLanguage
   _setLanguage(type, value) {
-    const action = {type: type, value: value};
+    const action = { type: type, value: value };
     this.props.dispatch(action);
   }
 
@@ -165,7 +165,7 @@ class ParamsButton extends React.Component {
   }
 
   async _toggleSharing() {
-    const {language} = this.props;
+    const { language } = this.props;
     let message;
     if (language == 'FR') {
       if (Platform.OS == 'ios') {
@@ -200,7 +200,7 @@ class ParamsButton extends React.Component {
   toggleModal() {
     if (this.props.permitPopUp()) {
       if (this._timer == null) {
-        this.setState({isModalVisible: !this.state.isModalVisible}, () =>
+        this.setState({ isModalVisible: !this.state.isModalVisible }, () =>
           this._initTimer(),
         );
       }
@@ -298,8 +298,8 @@ class ParamsButton extends React.Component {
 
   // Determine wheter displaying rate section or not
   _displayRate() {
-    const {isAlreadyRate} = this.state;
-    const {language} = this.props;
+    const { isAlreadyRate } = this.state;
+    const { language } = this.props;
     let rate;
     if (language == 'FR') {
       rate = text.rateFR;
@@ -310,12 +310,12 @@ class ParamsButton extends React.Component {
       return (
         <View>
           <View style={[styles.subCat]}>
-            <View style={{flex: 1}}>
+            <View style={{ flex: 1 }}>
               <Text style={styles.popUpSubTitle}>{rate}</Text>
             </View>
-            <View style={[styles.shadow, {alignItems: 'center'}]}>
+            <View style={[styles.shadow, { alignItems: 'center' }]}>
               <AnimatedOnPress toggleOnPress={this._toggleRating}>
-                <View style={[styles.posIcon, {marginBottom: 5}]}>
+                <View style={[styles.posIcon, { marginBottom: 5 }]}>
                   <Icon
                     name="star"
                     type="font-awesome"
@@ -358,35 +358,35 @@ class ParamsButton extends React.Component {
 
     return (
       <View
-        style={[styles.subCat, {flexDirection: 'column', alignItems: null}]}>
+        style={[styles.subCat, { flexDirection: 'column', alignItems: null }]}>
         <View>
-          <Text style={[styles.popUpSubTitle, {textAlign: 'left'}]}>
+          <Text style={[styles.popUpSubTitle, { textAlign: 'left' }]}>
             {titleRingBell}
           </Text>
         </View>
         <View>
           <View style={[styles.itemRingBell]}>
-            <Text style={[styles.itemTextRingBell, {color: arrayColor[0]}]}>
+            <Text style={[styles.itemTextRingBell, { color: arrayColor[0] }]}>
               {noRingBell}
             </Text>
             <AnimatedOnPress
               toggleOnPress={() => this.setRingBell(actions.RINGBELL_NO_SOUND)}
               style={[
                 styles.cross,
-                {width: 38, height: 38, backgroundColor: arrayColor[0]},
+                { width: 38, height: 38, backgroundColor: arrayColor[0] },
               ]}>
               <Icon name="cross" type="entypo" color="#B83B5E" size={25} />
             </AnimatedOnPress>
           </View>
           <View style={[styles.itemRingBell]}>
-            <Text style={[styles.itemTextRingBell, {color: arrayColor[1]}]}>
+            <Text style={[styles.itemTextRingBell, { color: arrayColor[1] }]}>
               {textItemRingBell} 1
             </Text>
             <AnimatedOnPress
               toggleOnPress={() => this.setRingBell(actions.RINGBELL_1)}
               style={[
                 styles.cross,
-                {width: 38, height: 38, backgroundColor: arrayColor[1]},
+                { width: 38, height: 38, backgroundColor: arrayColor[1] },
               ]}>
               <Icon
                 name="music"
@@ -397,14 +397,14 @@ class ParamsButton extends React.Component {
             </AnimatedOnPress>
           </View>
           <View style={[styles.itemRingBell]}>
-            <Text style={[styles.itemTextRingBell, {color: arrayColor[2]}]}>
+            <Text style={[styles.itemTextRingBell, { color: arrayColor[2] }]}>
               {textItemRingBell} 2
             </Text>
             <AnimatedOnPress
               toggleOnPress={() => this.setRingBell(actions.RINGBELL_2)}
               style={[
                 styles.cross,
-                {width: 38, height: 38, backgroundColor: arrayColor[2]},
+                { width: 38, height: 38, backgroundColor: arrayColor[2] },
               ]}>
               <Icon
                 name="music"
@@ -415,14 +415,14 @@ class ParamsButton extends React.Component {
             </AnimatedOnPress>
           </View>
           <View style={[styles.itemRingBell]}>
-            <Text style={[styles.itemTextRingBell, {color: arrayColor[3]}]}>
+            <Text style={[styles.itemTextRingBell, { color: arrayColor[3] }]}>
               {textItemRingBell} 3
             </Text>
             <AnimatedOnPress
               toggleOnPress={() => this.setRingBell(actions.RINGBELL_3)}
               style={[
                 styles.cross,
-                {width: 38, height: 38, backgroundColor: arrayColor[3]},
+                { width: 38, height: 38, backgroundColor: arrayColor[3] },
               ]}>
               <Icon
                 name="music"
@@ -433,14 +433,14 @@ class ParamsButton extends React.Component {
             </AnimatedOnPress>
           </View>
           <View style={[styles.itemRingBell]}>
-            <Text style={[styles.itemTextRingBell, {color: arrayColor[4]}]}>
+            <Text style={[styles.itemTextRingBell, { color: arrayColor[4] }]}>
               {textItemRingBell} 4
             </Text>
             <AnimatedOnPress
               toggleOnPress={() => this.setRingBell(actions.RINGBELL_4)}
               style={[
                 styles.cross,
-                {width: 38, height: 38, backgroundColor: arrayColor[4]},
+                { width: 38, height: 38, backgroundColor: arrayColor[4] },
               ]}>
               <Icon
                 name="music"
@@ -457,7 +457,7 @@ class ParamsButton extends React.Component {
 
   render() {
     //set good languge
-    const {language, permitPopUp} = this.props;
+    const { language, permitPopUp } = this.props;
 
     let title;
     let share;
@@ -479,11 +479,11 @@ class ParamsButton extends React.Component {
     }
 
     const animatedScaleFR = {
-      transform: [{scale: this.state.scaleLogoFR}],
+      transform: [{ scale: this.state.scaleLogoFR }],
     };
 
     const animatedScaleEN = {
-      transform: [{scale: this.state.scaleLogoEN}],
+      transform: [{ scale: this.state.scaleLogoEN }],
     };
 
     return (
@@ -515,7 +515,7 @@ class ParamsButton extends React.Component {
                   marginHorizontal: 15,
                 }}>
                 <View />
-                <View style={[{marginHorizontal: 10, marginVertical: 10}]}>
+                <View style={[{ marginHorizontal: 10, marginVertical: 10 }]}>
                   <AnimatedOnPress
                     toggleOnPress={this.toggleModal}
                     style={[styles.cross, {}]}>
@@ -529,7 +529,7 @@ class ParamsButton extends React.Component {
                   </AnimatedOnPress>
                 </View>
               </View>
-              <View style={{marginTop: -10}}>
+              <View style={{ marginTop: -10 }}>
                 <Text style={styles.popUpTitle}>{title}</Text>
               </View>
             </View>
@@ -557,7 +557,7 @@ class ParamsButton extends React.Component {
 						</View> */}
             <ScrollView style={styles.containerCategories}>
               <View style={[styles.subCat]}>
-                <View style={{flex: 1}}>
+                <View style={{ flex: 1 }}>
                   <Text style={styles.popUpSubTitle}>{share}</Text>
                 </View>
                 <View style={styles.shadow}>
@@ -577,7 +577,7 @@ class ParamsButton extends React.Component {
               <View style={styles.div} />
               <View style={styles.subCat}>
                 <View style={{}}>
-                  <Text style={[styles.popUpSubTitle, {textAlign: 'left'}]}>
+                  <Text style={[styles.popUpSubTitle, { textAlign: 'left' }]}>
                     {flag}
                   </Text>
                 </View>
@@ -590,7 +590,7 @@ class ParamsButton extends React.Component {
                       <View
                         style={[
                           styles.borderFlag,
-                          {backgroundColor: borderColorFR},
+                          { backgroundColor: borderColorFR },
                         ]}>
                         <Image
                           source={require('../assets/flags/france.png')}
@@ -626,8 +626,8 @@ class ParamsButton extends React.Component {
               {this._displayRate()}
               {this._handleDifferentRingBell()}
               <View style={styles.div} />
-              <View style={[styles.subCat, {paddingBottom: 20}]}>
-                <View style={{flex: 1}}>
+              <View style={[styles.subCat, { paddingBottom: 20 }]}>
+                <View style={{ flex: 1 }}>
                   <Text style={styles.popUpSubTitle}>{tuto}</Text>
                 </View>
                 <View style={styles.shadow}>

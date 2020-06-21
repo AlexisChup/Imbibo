@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   StatusBar,
   StyleSheet,
@@ -20,7 +20,7 @@ import HomeTabNaviga from './HomeTabNaviga';
 import AlertRecord from './AlertRecord';
 import checkIfFirstLaunch from '../assets/checkIfFirstLaunch';
 import RecordsAccueil from './RecordsAccueil';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import * as text from '../assets/textInGame/listTextHome';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import SplashScreen from 'react-native-splash-screen';
@@ -119,8 +119,8 @@ const slidesFR = [
   },
 ];
 
-import {green, red, blue, white} from '../assets/colors';
-const {height, width} = Dimensions.get('window');
+import { green, red, blue, white } from '../assets/colors';
+const { height, width } = Dimensions.get('window');
 
 class Home extends Component {
   constructor(props) {
@@ -230,7 +230,7 @@ class Home extends Component {
   }
   //action for reducer setLanguage
   _setLanguage(type, value) {
-    const action = {type: type, value: value};
+    const action = { type: type, value: value };
     this.props.dispatch(action);
   }
 
@@ -322,17 +322,17 @@ class Home extends Component {
     });
 
     //action for reducers
-    const action = {type: 'TOGGLE_PREMIUM', value: val};
+    const action = { type: 'TOGGLE_PREMIUM', value: val };
     this.props.dispatch(action);
   }
 
   // how introSlider's item are rendered
-  _renderItem = ({item}) => {
+  _renderItem = ({ item }) => {
     return (
-      <View style={{flex: 1, backgroundColor: blue}}>
+      <View style={{ flex: 1, backgroundColor: blue }}>
         <Image
           source={item.image}
-          style={{resizeMode: 'contain', width: width, height: height}}
+          style={{ resizeMode: 'contain', width: width, height: height }}
         />
       </View>
     );
@@ -340,11 +340,11 @@ class Home extends Component {
 
   //call at the end of the intro sliders
   _onDone = () => {
-    this.setState({showIntroSliders: false, isFirstLaunch: false});
+    this.setState({ showIntroSliders: false, isFirstLaunch: false });
   };
 
   _triggerIntroSliders() {
-    this.setState({showIntroSliders: true});
+    this.setState({ showIntroSliders: true });
   }
 
   // for trigger popUp Premium when click on action and not premium
@@ -369,7 +369,7 @@ class Home extends Component {
 
   // Dispatch actions to redux
   _becomePremium() {
-    const action = {type: 'TOGGLE_PREMIUM', value: true};
+    const action = { type: 'TOGGLE_PREMIUM', value: true };
     this.props.dispatch(action);
 
     // Show alert
@@ -390,10 +390,10 @@ class Home extends Component {
       isFirstLaunch,
       showIntroSliders,
     } = this.state;
-    const {premium, language} = this.props;
+    const { premium, language } = this.props;
 
     if (!hasCheckedAsyncStorage) {
-      return <View style={{flex: 1, backgroundColor: green}} />;
+      return <View style={{ flex: 1, backgroundColor: green }} />;
     } else {
       if (showIntroSliders || isFirstLaunch) {
         let slides, skipLabel, doneLabel, nextLabel, prevLabel;
@@ -424,14 +424,14 @@ class Home extends Component {
               nextLabel={nextLabel}
               prevLabel={prevLabel}
               paginationStyle={{}}
-              activeDotStyle={{backgroundColor: red}}
+              activeDotStyle={{ backgroundColor: red }}
               buttonStyle={{
                 backgroundColor: green,
                 borderWidth: 5,
                 borderColor: red,
                 borderRadius: 30,
               }}
-              buttonTextStyle={{fontFamily: 'montserrat-bold', color: white}}
+              buttonTextStyle={{ fontFamily: 'montserrat-bold', color: white }}
             />
           </SafeAreaView>
         );
@@ -447,7 +447,7 @@ class Home extends Component {
             <StatusBar hidden={true} />
 
             {/* TOP BAR */}
-            <View style={{backgroundColor: green}}>
+            <View style={{ backgroundColor: green }}>
               <View style={stl.containerHeader}>
                 <Text style={stl.headerTitle}> {displayNameNaviga} </Text>
               </View>
@@ -458,7 +458,7 @@ class Home extends Component {
                 <Animated.View
                   style={[
                     styles.containerLogo,
-                    {height: animLogo, width: animLogo},
+                    { height: animLogo, width: animLogo },
                   ]}>
                   <Image
                     style={[styles.logo]}
