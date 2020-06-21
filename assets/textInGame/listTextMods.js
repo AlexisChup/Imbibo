@@ -22,4 +22,4 @@ export const distributionEN = "I think you'll have some enemies..."
 export const hardcoreTitleFR = "HARDCORE";
 export const hardcoreFR = "Tu vas passer une bonne soirée je peux te l'assurer. \nPas pour les débutants. \nQue pour les vrais IMBIBEURS."
 export const hardcoreTitleEN = "HARDCORE";
-export const hardcoreEN = "Beast mode. \nNot for beginners. \nOnly for reals IMBIBERS."
+export const hardcoreEN = "Beast mode. \nNot for beginners. \nOnly for reals IMBIBEURS."
